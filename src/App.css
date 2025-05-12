@@ -1,0 +1,96 @@
+
+.app {
+  overflow-x: hidden;
+}
+
+/* Custom styling for sections */
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* We're removing the hero-section::before from App.css since it's now in Hero.css */
+
+.about-section {
+  position: relative;
+  background-color: var(--light-color);
+}
+
+.about-section .square-box {
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+.services-section {
+  background-color: var(--secondary-color);
+}
+
+.pricing-section {
+  background-color: var(--light-color);
+}
+
+.book-now-banner {
+  background-color: var(--primary-color);
+  color: var(--light-color);
+  padding: 2rem 0;
+  overflow: hidden;
+}
+
+.work-process-section {
+  background-color: var(--light-color);
+}
+
+.testimonials-section {
+  background-color: var(--secondary-color);
+}
+
+.contact-section {
+  background-color: var(--light-color);
+  position: relative;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s forwards;
+}
+
+.popup-container {
+  background-color: var(--light-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2rem;
+  position: relative;
+  animation: scaleIn 0.3s forwards;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+

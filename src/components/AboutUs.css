@@ -1,0 +1,83 @@
+.slide-in-left {
+    opacity: 1 !important;
+    transform: translateX(0) !important;
+  }
+  .about-us {
+    padding: 5rem 0;
+    background: linear-gradient(to right, #000000, #1e1e1e); /* More black, less blue */
+    color: white;
+  }
+  
+  .about-container {
+    display: flex;
+    flex-direction: column;
+  }
+  @media (min-width: 1024px) {
+    .about-container {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+  
+  .about-content {
+    flex: 1;
+    max-width: 50%; /* Ensures the content doesn't take up too much space */
+  }
+  
+  .about-image {
+    flex: 1;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+  }
+  
+  .about-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .about-image.image-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  @keyframes imageSlideIn {
+    0% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .about-image.image-visible img {
+    animation: imageSlideIn 1s ease-out forwards;
+  }
+  
+  .slide-in-left {
+    opacity: 0;
+    transform: translateX(-50%);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  
+  .slide-in-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  h2.text-4xl {
+    color: white;
+  }
+  
+  button {
+    background-color: #2563eb; /* Blue Button */
+    color: white;
+  }
+  
