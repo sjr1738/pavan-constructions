@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 
 const Pricing = ({ openPopup }) => {
   const [activeFeature, setActiveFeature] = useState({});
+  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
 
@@ -10,6 +11,7 @@ const Pricing = ({ openPopup }) => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            setIsVisible(true);
             entry.target.classList.add('section-visible');
             if (headingRef.current) {
               headingRef.current.classList.add('heading-visible');
@@ -17,7 +19,7 @@ const Pricing = ({ openPopup }) => {
           }
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 } // Reduced threshold for better mobile visibility
     );
 
     if (sectionRef.current) {
@@ -98,11 +100,24 @@ const Pricing = ({ openPopup }) => {
     }));
   };
 
+  // Mock openPopup function if not provided
+  const handleOpenPopup = openPopup || (() => alert('Package selected!'));
+
   return (
     <section id="pricing" className="pricing-section" ref={sectionRef}>
+      {/* Animated Background Elements */}
+      <div className="animated-bg">
+        <div className="floating-shape circle-1"></div>
+        <div className="floating-shape circle-2"></div>
+        <div className="floating-shape circle-3"></div>
+        <div className="floating-shape square-1"></div>
+        <div className="floating-shape square-2"></div>
+        <div className="floating-shape triangle-1"></div>
+      </div>
+
       <div className="container">
         <div className="section-title">
-          <div className="heading-container" ref={headingRef}>
+          <div className={`heading-container ${isVisible ? 'heading-visible' : ''}`} ref={headingRef}>
             <h1 className="main-heading">OUR PRICING</h1>
             <div className="heading-underline"></div>
             <p className="heading-subtitle">Choose the perfect package that suits your needs and budget</p>
@@ -130,23 +145,17 @@ const Pricing = ({ openPopup }) => {
                       onClick={() => toggleFeature(pkg.id, fIndex)}
                     >
                       {feature}
-                      <span className="arrow">
-                        <i className={
-                          activeFeature[pkg.id] === fIndex 
-                            ? "fas fa-chevron-up" 
-                            : "fas fa-chevron-down"
-                        }></i>
+                      <span className={`arrow ${activeFeature[pkg.id] === fIndex ? 'rotated' : ''}`}>
+                        &#8250;
                       </span>
                     </div>
-                    {activeFeature[pkg.id] === fIndex && (
-                      <div className="feature-details">
-                        <p>More details about {feature.toLowerCase()} for the {pkg.name}.</p>
-                      </div>
-                    )}
+                    <div className={`feature-details ${activeFeature[pkg.id] === fIndex ? 'show' : ''}`}>
+                      <p>More details about {feature.toLowerCase()} for the {pkg.name}. This includes premium quality materials and professional installation.</p>
+                    </div>
                   </div>
                 ))}
               </div>
-              <button onClick={openPopup} className="btn btn-pricing">Select Package</button>
+              <button onClick={handleOpenPopup} className="btn btn-pricing">Select Package</button>
             </div>
           ))}
         </div>
@@ -157,6 +166,100 @@ const Pricing = ({ openPopup }) => {
           background-color: #000000;
           color: #ffffff;
           overflow: hidden;
+          position: relative;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .floating-shape {
+          position: absolute;
+          opacity: 0.1;
+        }
+
+        .circle-1 {
+          width: 80px;
+          height: 80px;
+          background: linear-gradient(45deg, #007bff, #00aaff);
+          border-radius: 50%;
+          top: 10%;
+          left: 10%;
+          animation: float 6s ease-in-out infinite;
+        }
+
+        .circle-2 {
+          width: 120px;
+          height: 120px;
+          background: linear-gradient(45deg, #00aaff, #00d4ff);
+          border-radius: 50%;
+          top: 60%;
+          right: 15%;
+          animation: float 8s ease-in-out infinite reverse;
+        }
+
+        .circle-3 {
+          width: 60px;
+          height: 60px;
+          background: linear-gradient(45deg, #007bff, #0056b3);
+          border-radius: 50%;
+          bottom: 20%;
+          left: 20%;
+          animation: float 7s ease-in-out infinite;
+        }
+
+        .square-1 {
+          width: 70px;
+          height: 70px;
+          background: linear-gradient(45deg, #007bff, #00aaff);
+          top: 30%;
+          right: 10%;
+          animation: rotate 10s linear infinite;
+        }
+
+        .square-2 {
+          width: 50px;
+          height: 50px;
+          background: linear-gradient(45deg, #00d4ff, #007bff);
+          bottom: 40%;
+          right: 30%;
+          animation: float 9s ease-in-out infinite, rotate 15s linear infinite reverse;
+        }
+
+        .triangle-1 {
+          width: 0;
+          height: 0;
+          border-left: 40px solid transparent;
+          border-right: 40px solid transparent;
+          border-bottom: 70px solid rgba(0, 123, 255, 0.3);
+          top: 80%;
+          left: 70%;
+          animation: float 5s ease-in-out infinite;
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes rotate {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        .container {
+          position: relative;
+          z-index: 2;
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 20px;
         }
         
         .section-title {
@@ -171,8 +274,8 @@ const Pricing = ({ openPopup }) => {
         }
         
         .heading-visible {
-          opacity: 1;
-          transform: translateY(0);
+          opacity: 1 !important;
+          transform: translateY(0) !important;
         }
         
         .main-heading {
@@ -233,6 +336,8 @@ const Pricing = ({ openPopup }) => {
           opacity: 0;
           transform: translateY(30px);
           animation: cardAppear 0.8s forwards;
+          position: relative;
+          z-index: 3;
         }
         
         .pricing-card:hover {
@@ -285,6 +390,7 @@ const Pricing = ({ openPopup }) => {
         
         .feature {
           margin-bottom: 0.75rem;
+          position: relative;
         }
         
         .feature-name {
@@ -295,6 +401,7 @@ const Pricing = ({ openPopup }) => {
           cursor: pointer;
           color: #ffffff;
           transition: color 0.3s ease;
+          user-select: none;
         }
         
         .feature-name:hover {
@@ -302,17 +409,44 @@ const Pricing = ({ openPopup }) => {
         }
         
         .arrow {
-          font-size: 0.8rem;
-          color: #007bff;
+          color: #ffffff;
+          font-size: 1rem;
+          font-weight: bold;
+          transition: transform 0.3s ease;
+          transform: rotate(90deg);
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          text-align: center;
+          line-height: 16px;
+        }
+        
+        .arrow.rotated {
+          transform: rotate(270deg);
         }
         
         .feature-details {
-          padding: 0.75rem;
-          margin-top: 0.5rem;
+          max-height: 0;
+          overflow: hidden;
+          opacity: 0;
+          padding: 0 0.75rem;
           background-color: rgba(0, 123, 255, 0.1);
           border-radius: 5px;
           font-size: 0.9rem;
           color: rgba(255, 255, 255, 0.8);
+          transition: all 0.3s ease;
+          margin-top: 0.5rem;
+        }
+        
+        .feature-details.show {
+          max-height: 200px;
+          opacity: 1;
+          padding: 0.75rem;
+        }
+        
+        .feature-details p {
+          margin: 0;
+          line-height: 1.5;
         }
         
         .btn-pricing {
@@ -329,6 +463,7 @@ const Pricing = ({ openPopup }) => {
           text-transform: uppercase;
           letter-spacing: 1px;
           align-self: center;
+          font-size: 0.9rem;
         }
         
         .btn-pricing:hover {
@@ -344,6 +479,9 @@ const Pricing = ({ openPopup }) => {
           .main-heading {
             font-size: 2.2rem;
           }
+          .floating-shape {
+            opacity: 0.05;
+          }
         }
         
         @media (max-width: 768px) {
@@ -354,14 +492,42 @@ const Pricing = ({ openPopup }) => {
           .main-heading {
             font-size: 2rem;
           }
+          .heading-container {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          .pricing-section {
+            padding: 3rem 0;
+          }
         }
         
         @media (max-width: 576px) {
           .pricing-card {
             flex-basis: 100%;
+            min-width: unset;
+            margin: 0 10px;
           }
           .main-heading {
             font-size: 1.8rem;
+          }
+          .heading-subtitle {
+            font-size: 1rem;
+          }
+          .container {
+            padding: 0 15px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .main-heading {
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+          }
+          .pricing-card {
+            padding: 1.5rem;
+          }
+          .floating-shape {
+            display: none;
           }
         }
       `}</style>
