@@ -27,7 +27,7 @@ const Hero = ({ openPopup }) => {
         "/assets/52886-471089084_tiny.mp4",
         "./assets/52886-471089084_tiny.mp4",
         "/videos/52886-471089084_tiny.mp4",
-        "/public/images/52886-471089084_tiny.mp4"
+        "/images/52886-471089084_tiny.mp4"
       ]
     },
     {
@@ -39,7 +39,7 @@ const Hero = ({ openPopup }) => {
         "/assets/42926-434300944_tiny.mp4",
         "./assets/42926-434300944_tiny.mp4",
         "/videos/42926-434300944_tiny.mp4",
-        "/public/images/42926-434300944_tiny.mp4"
+        "/images/42926-434300944_tiny.mp4"
       ]
     }
   ];
