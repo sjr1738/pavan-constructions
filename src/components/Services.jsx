@@ -4,6 +4,13 @@ const Services = () => {
   const sectionRef = useRef(null);
   const [visibleCards, setVisibleCards] = useState([]);
   const [titleAnimated, setTitleAnimated] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+  
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -160,19 +167,25 @@ const Services = () => {
     zIndex: 1
   };
 
+  // FIXED: Dynamic container style based on screen size
   const containerInnerStyle = {
-    maxWidth: '1200px',
+    maxWidth: windowWidth <= 900 ? '100%' : '1200px',
     margin: '0 auto',
-    padding: '0 2rem',
+    padding: windowWidth <= 480 ? '0 1rem' : windowWidth <= 768 ? '0 1.5rem' : '0 2rem',
     position: 'relative',
-    zIndex: 2
+    zIndex: 2,
+    display: windowWidth <= 900 ? 'flex' : 'block',
+    flexDirection: windowWidth <= 900 ? 'column' : 'row',
+    alignItems: windowWidth <= 900 ? 'center' : 'flex-start'
   };
 
   const titleContainerStyle = {
     textAlign: 'center',
     marginBottom: '4rem',
     position: 'relative',
-    perspective: '1000px'
+    perspective: '1000px',
+    width: windowWidth <= 900 ? '100%' : 'auto',
+    maxWidth: windowWidth <= 900 ? '400px' : 'none'
   };
 
   const mainTitleStyle = {
@@ -207,30 +220,82 @@ const Services = () => {
     animation: titleAnimated ? 'subtitleReveal 1s ease-out 1.6s forwards' : 'none'
   };
 
-  const gridStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-    gap: '2.5rem',
-    marginTop: '4rem'
+  // FIXED: Responsive grid style
+  const getGridStyle = () => {
+    if (windowWidth <= 480) {
+      return {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '2rem',
+        marginTop: '4rem',
+        width: '100%',
+        maxWidth: '350px',
+        margin: '4rem auto 0'
+      };
+    } else if (windowWidth <= 768) {
+      return {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '2.5rem',
+        marginTop: '4rem',
+        width: '100%',
+        maxWidth: '400px',
+        margin: '4rem auto 0'
+      };
+    } else if (windowWidth <= 900) {
+      return {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '2.5rem',
+        marginTop: '4rem',
+        width: '100%',
+        maxWidth: '450px',
+        margin: '4rem auto 0'
+      };
+    } else {
+      return {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+        gap: '2.5rem',
+        marginTop: '4rem'
+      };
+    }
   };
 
-  const getCardStyle = (index, isVisible) => ({
-    background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 249, 250, 0.95))',
-    borderRadius: '24px',
-    padding: '2.5rem',
-    position: 'relative',
-    overflow: 'hidden',
-    boxShadow: '0 15px 35px rgba(44, 62, 80, 0.08), 0 5px 15px rgba(0, 0, 0, 0.04)',
-    border: '1px solid rgba(183, 156, 92, 0.15)',
-    backdropFilter: 'blur(10px)',
-    transform: isVisible ? 'translateY(0) scale(1) rotateX(0)' : 'translateY(80px) scale(0.85) rotateX(15deg)',
-    opacity: isVisible ? 1 : 0,
-    transition: 'all 1s cubic-bezier(0.23, 1, 0.32, 1)',
-    transitionDelay: `${index * 0.12}s`,
-    cursor: 'pointer',
-    transformStyle: 'preserve-3d',
-    perspective: '1000px'
-  });
+  // FIXED: Responsive card style
+  const getCardStyle = (index, isVisible) => {
+    const baseWidth = windowWidth <= 344 ? '280px' : 
+                     windowWidth <= 375 ? '300px' : 
+                     windowWidth <= 390 ? '310px' : 
+                     windowWidth <= 480 ? '320px' : 
+                     windowWidth <= 768 ? '350px' : 
+                     windowWidth <= 900 ? '380px' : '100%';
+    
+    return {
+      background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 249, 250, 0.95))',
+      borderRadius: '24px',
+      padding: windowWidth <= 480 ? '2rem' : '2.5rem',
+      position: 'relative',
+      overflow: 'hidden',
+      boxShadow: '0 15px 35px rgba(44, 62, 80, 0.08), 0 5px 15px rgba(0, 0, 0, 0.04)',
+      border: '1px solid rgba(183, 156, 92, 0.15)',
+      backdropFilter: 'blur(10px)',
+      transform: isVisible ? 'translateY(0) scale(1) rotateX(0)' : 'translateY(80px) scale(0.85) rotateX(15deg)',
+      opacity: isVisible ? 1 : 0,
+      transition: 'all 1s cubic-bezier(0.23, 1, 0.32, 1)',
+      transitionDelay: `${index * 0.12}s`,
+      cursor: 'pointer',
+      transformStyle: 'preserve-3d',
+      perspective: '1000px',
+      width: windowWidth <= 900 ? baseWidth : '100%',
+      maxWidth: windowWidth <= 900 ? baseWidth : 'none',
+      margin: windowWidth <= 900 ? '0 auto' : '0',
+      flexShrink: windowWidth <= 900 ? 0 : 1
+    };
+  };
 
   const iconContainerStyle = {
     width: '80px',
@@ -246,7 +311,7 @@ const Services = () => {
   };
 
   const cardTitleStyle = {
-    fontSize: '1.6rem',
+    fontSize: windowWidth <= 480 ? '1.4rem' : '1.6rem',
     fontWeight: '700',
     color: '#2c3e50',
     marginBottom: '1.2rem',
@@ -259,7 +324,7 @@ const Services = () => {
   const cardDescriptionStyle = {
     color: '#495057',
     lineHeight: '1.8',
-    fontSize: '1rem',
+    fontSize: windowWidth <= 480 ? '0.9rem' : '1rem',
     position: 'relative',
     zIndex: 3,
     transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
@@ -308,72 +373,76 @@ const Services = () => {
           </p>
         </div>
         
-        <div style={gridStyle}>
+        <div style={getGridStyle()}>
           {services.map((service, index) => (
             <div
               key={index}
               style={getCardStyle(index, visibleCards.includes(index))}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-20px) scale(1.05) rotateX(-5deg) rotateY(5deg)';
-                e.currentTarget.style.boxShadow = '0 35px 60px rgba(44, 62, 80, 0.15), 0 15px 25px rgba(183, 156, 92, 0.1)';
-                
-                const overlay = e.currentTarget.querySelector('.card-overlay');
-                const shimmer = e.currentTarget.querySelector('.shimmer-effect');
-                const title = e.currentTarget.querySelector('.card-title');
-                const description = e.currentTarget.querySelector('.card-description');
-                const icon = e.currentTarget.querySelector('.icon-container');
-                
-                if (overlay) {
-                  overlay.style.opacity = '0.4';
-                  overlay.style.background = service.gradient;
-                }
-                if (shimmer) {
-                  shimmer.style.opacity = '1';
-                  shimmer.style.transform = 'translateX(350px)';
-                }
-                if (title) {
-                  title.style.color = '#ffffff';
-                  title.style.textShadow = '0 2px 4px rgba(0, 0, 0, 0.3)';
-                  title.style.transform = 'translateY(-2px)';
-                }
-                if (description) {
-                  description.style.color = 'rgba(255, 255, 255, 0.9)';
-                  description.style.textShadow = '0 1px 2px rgba(0, 0, 0, 0.2)';
-                }
-                if (icon) {
-                  icon.style.transform = 'scale(1.1) rotateY(180deg)';
-                  icon.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.2)';
+                if (windowWidth > 768) {
+                  e.currentTarget.style.transform = 'translateY(-20px) scale(1.05) rotateX(-5deg) rotateY(5deg)';
+                  e.currentTarget.style.boxShadow = '0 35px 60px rgba(44, 62, 80, 0.15), 0 15px 25px rgba(183, 156, 92, 0.1)';
+                  
+                  const overlay = e.currentTarget.querySelector('.card-overlay');
+                  const shimmer = e.currentTarget.querySelector('.shimmer-effect');
+                  const title = e.currentTarget.querySelector('.card-title');
+                  const description = e.currentTarget.querySelector('.card-description');
+                  const icon = e.currentTarget.querySelector('.icon-container');
+                  
+                  if (overlay) {
+                    overlay.style.opacity = '0.4';
+                    overlay.style.background = service.gradient;
+                  }
+                  if (shimmer) {
+                    shimmer.style.opacity = '1';
+                    shimmer.style.transform = 'translateX(350px)';
+                  }
+                  if (title) {
+                    title.style.color = '#ffffff';
+                    title.style.textShadow = '0 2px 4px rgba(0, 0, 0, 0.3)';
+                    title.style.transform = 'translateY(-2px)';
+                  }
+                  if (description) {
+                    description.style.color = 'rgba(255, 255, 255, 0.9)';
+                    description.style.textShadow = '0 1px 2px rgba(0, 0, 0, 0.2)';
+                  }
+                  if (icon) {
+                    icon.style.transform = 'scale(1.1) rotateY(180deg)';
+                    icon.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.2)';
+                  }
                 }
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1) rotateX(0) rotateY(0)';
-                e.currentTarget.style.boxShadow = '0 15px 35px rgba(44, 62, 80, 0.08), 0 5px 15px rgba(0, 0, 0, 0.04)';
-                
-                const overlay = e.currentTarget.querySelector('.card-overlay');
-                const shimmer = e.currentTarget.querySelector('.shimmer-effect');
-                const title = e.currentTarget.querySelector('.card-title');
-                const description = e.currentTarget.querySelector('.card-description');
-                const icon = e.currentTarget.querySelector('.icon-container');
-                
-                if (overlay) {
-                  overlay.style.opacity = '0';
-                }
-                if (shimmer) {
-                  shimmer.style.opacity = '0';
-                  shimmer.style.transform = 'translateX(-350px)';
-                }
-                if (title) {
-                  title.style.color = '#2c3e50';
-                  title.style.textShadow = 'none';
-                  title.style.transform = 'translateY(0)';
-                }
-                if (description) {
-                  description.style.color = '#495057';
-                  description.style.textShadow = 'none';
-                }
-                if (icon) {
-                  icon.style.transform = 'scale(1) rotateY(0deg)';
-                  icon.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+                if (windowWidth > 768) {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1) rotateX(0) rotateY(0)';
+                  e.currentTarget.style.boxShadow = '0 15px 35px rgba(44, 62, 80, 0.08), 0 5px 15px rgba(0, 0, 0, 0.04)';
+                  
+                  const overlay = e.currentTarget.querySelector('.card-overlay');
+                  const shimmer = e.currentTarget.querySelector('.shimmer-effect');
+                  const title = e.currentTarget.querySelector('.card-title');
+                  const description = e.currentTarget.querySelector('.card-description');
+                  const icon = e.currentTarget.querySelector('.icon-container');
+                  
+                  if (overlay) {
+                    overlay.style.opacity = '0';
+                  }
+                  if (shimmer) {
+                    shimmer.style.opacity = '0';
+                    shimmer.style.transform = 'translateX(-350px)';
+                  }
+                  if (title) {
+                    title.style.color = '#2c3e50';
+                    title.style.textShadow = 'none';
+                    title.style.transform = 'translateY(0)';
+                  }
+                  if (description) {
+                    description.style.color = '#495057';
+                    description.style.textShadow = 'none';
+                  }
+                  if (icon) {
+                    icon.style.transform = 'scale(1) rotateY(0deg)';
+                    icon.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+                  }
                 }
               }}
             >
@@ -422,15 +491,6 @@ const Services = () => {
           ))}
         </div>
       </div>
-      
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .services-grid {
-            grid-template-columns: 1fr;
-            gap: 2rem;
-          }
-        }
-      `}</style>
     </section>
   );
 };

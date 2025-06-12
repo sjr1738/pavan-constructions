@@ -15,6 +15,7 @@ const Hero = ({ openPopup }) => {
   const statsRef = useRef(null);
   const videoRef = useRef(null);
   const seeUsRef = useRef(null);
+  const backgroundVideoRef = useRef(null); // Add ref for background video
   
   // Try multiple path variations for video loading
   const videos = [
@@ -43,6 +44,179 @@ const Hero = ({ openPopup }) => {
       ]
     }
   ];
+
+  // Background video paths for fallback
+  const backgroundVideoPaths = [
+    "/images/2835998-uhd_3840_2160_24fps.mp4",
+    "./images/2835998-uhd_3840_2160_24fps.mp4",
+    "/assets/2835998-uhd_3840_2160_24fps.mp4",
+    "./assets/2835998-uhd_3840_2160_24fps.mp4",
+    "/videos/2835998-uhd_3840_2160_24fps.mp4"
+  ];
+
+  // PDF download with proper validation and fallback
+  const handleDownloadClick = async (e) => {
+    e.preventDefault();
+    
+    const pdfPaths = [
+      "assets/pavan.pdf",
+      "/assets/pavan.pdf", 
+      "./assets/pavan.pdf",
+      "public/assets/pavan.pdf",
+      "/public/assets/pavan.pdf",
+      "images/pavan.pdf",
+      "/images/pavan.pdf",
+      "./images/pavan.pdf",
+      "pavan.pdf",
+      "/pavan.pdf"
+    ];
+    
+    let currentPathIndex = 0;
+    let downloadSuccess = false;
+    
+    const tryDownload = async () => {
+      if (currentPathIndex >= pdfPaths.length) {
+        // If all paths fail, show user-friendly message and create a sample PDF
+        alert('PDF file not found on server. Please contact support or try again later.');
+        createFallbackPDF();
+        return;
+      }
+      
+      const path = pdfPaths[currentPathIndex];
+      console.log(`Trying PDF path ${currentPathIndex + 1}/${pdfPaths.length}:`, path);
+      
+      try {
+        // First, check if file exists and is valid
+        const response = await fetch(path, { 
+          method: 'HEAD',
+          headers: {
+            'Accept': 'application/pdf'
+          }
+        });
+        
+        if (response.ok) {
+          // File exists, now try to download it properly
+          const fullResponse = await fetch(path);
+          
+          if (fullResponse.ok) {
+            const blob = await fullResponse.blob();
+            
+            // Check if it's actually a PDF
+            if (blob.type === 'application/pdf' || blob.type === '' || path.endsWith('.pdf')) {
+              // Create download link with proper PDF blob
+              const url = window.URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }));
+              const link = document.createElement('a');
+              link.href = url;
+              link.download = 'PAVAN_TECHNO_CONSTRUCTIONS_BROCHURE.pdf';
+              link.style.display = 'none';
+              
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              
+              // Clean up the URL object
+              setTimeout(() => window.URL.revokeObjectURL(url), 100);
+              
+              console.log('PDF downloaded successfully from:', path);
+              downloadSuccess = true;
+              return;
+            } else {
+              console.log('File is not a PDF:', path, 'Type:', blob.type);
+            }
+          }
+        }
+      } catch (error) {
+        console.log('Error accessing PDF at:', path, error);
+      }
+      
+      // If we reach here, this path failed
+      currentPathIndex++;
+      setTimeout(tryDownload, 100);
+    };
+    
+    await tryDownload();
+  };
+
+  // Fallback function to create a sample PDF if original not found
+  const createFallbackPDF = () => {
+    // Create a simple text file as fallback
+    const fallbackContent = `
+PAVAN TECHNO CONSTRUCTIONS
+Engineering Excellence
+
+Consult, Design & Execute
+
+Contact Information:
+- Website: Visit our website for more details
+- Services: Construction, Design, Engineering
+- Experience: 15+ Years in the industry
+- Projects: 500+ Completed successfully
+
+Note: This is a temporary file. Please contact us directly for the complete brochure.
+    `;
+    
+    const blob = new Blob([fallbackContent], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'PAVAN_TECHNO_CONSTRUCTIONS_INFO.txt';
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    setTimeout(() => window.URL.revokeObjectURL(url), 100);
+    
+    console.log('Fallback file created and downloaded');
+  };
+
+  // Handle background video loading with fallback
+  const loadBackgroundVideo = () => {
+    if (!backgroundVideoRef.current) return;
+    
+    let currentPathIndex = 0;
+    
+    const tryNextPath = () => {
+      if (currentPathIndex >= backgroundVideoPaths.length) {
+        console.error('All background video paths failed');
+        return;
+      }
+      
+      const path = backgroundVideoPaths[currentPathIndex];
+      console.log(`Trying background video path ${currentPathIndex + 1}/${backgroundVideoPaths.length}:`, path);
+      
+      backgroundVideoRef.current.src = path;
+      backgroundVideoRef.current.load();
+      
+      const handleSuccess = () => {
+        console.log('Background video loaded successfully:', path);
+        backgroundVideoRef.current.play().catch(e => {
+          console.warn('Background video autoplay blocked:', e);
+        });
+        cleanup();
+      };
+      
+      const handleError = () => {
+        console.log('Background video path failed:', path);
+        currentPathIndex++;
+        cleanup();
+        setTimeout(tryNextPath, 100);
+      };
+      
+      const cleanup = () => {
+        backgroundVideoRef.current?.removeEventListener('loadeddata', handleSuccess);
+        backgroundVideoRef.current?.removeEventListener('canplay', handleSuccess);
+        backgroundVideoRef.current?.removeEventListener('error', handleError);
+      };
+      
+      backgroundVideoRef.current.addEventListener('loadeddata', handleSuccess, { once: true });
+      backgroundVideoRef.current.addEventListener('canplay', handleSuccess, { once: true });
+      backgroundVideoRef.current.addEventListener('error', handleError, { once: true });
+    };
+    
+    tryNextPath();
+  };
 
   useEffect(() => {
     // Quick initialization - no loading delays
@@ -215,6 +389,11 @@ const Hero = ({ openPopup }) => {
     // Start particle animation immediately
     animateParticles();
 
+    // Load background video with fallbacks
+    setTimeout(() => {
+      loadBackgroundVideo();
+    }, 500);
+
     return () => {
       observer.disconnect();
       document.removeEventListener('mousemove', handleMouseMove);
@@ -278,7 +457,14 @@ const Hero = ({ openPopup }) => {
       const handleSuccess = () => {
         console.log('Video loaded successfully:', path);
         setVideoLoading(false);
-        videoRef.current.play().catch(console.error);
+        // Add small delay to ensure video is ready
+        setTimeout(() => {
+          if (videoRef.current) {
+            videoRef.current.play().catch(e => {
+              console.warn('Video autoplay blocked:', e);
+            });
+          }
+        }, 100);
         cleanup();
       };
       
@@ -333,14 +519,6 @@ const Hero = ({ openPopup }) => {
       setTimeout(() => {
         loadVideoWithFallback(newIndex);
       }, 100);
-    }
-  };
-
-  const handleVideoLoad = () => {
-    console.log('Video loaded successfully');
-    setVideoLoading(false);
-    if (videoRef.current) {
-      videoRef.current.play().catch(console.error);
     }
   };
 
@@ -441,6 +619,7 @@ const Hero = ({ openPopup }) => {
       {/* Enhanced Video Background with Parallax */}
       <div className="hero-video-container">
         <video
+          ref={backgroundVideoRef}
           autoPlay
           muted
           loop
@@ -450,8 +629,7 @@ const Hero = ({ openPopup }) => {
             transform: `scale(1.1) translate(${mousePosition.x * 15}px, ${mousePosition.y * 15}px)`
           }}
         >
-          <source src="/images/2835998-uhd_3840_2160_24fps.mp4" type="video/mp4" />
-          <source src="./images/2835998-uhd_3840_2160_24fps.mp4" type="video/mp4" />
+          {/* Source elements removed - will be set programmatically */}
         </video>
         <div 
           className="hero-overlay"
@@ -555,15 +733,14 @@ const Hero = ({ openPopup }) => {
 
         {/* Advanced Animated Buttons */}
         <div className="hero-buttons">
-          <a
-            href="/assets/pavan.pdf"
-            download="BROCHURE.pdf"
+          <button
+            onClick={handleDownloadClick}
             className="hero-btn primary"
             onMouseEnter={(e) => handleButtonHover(e, true)}
             onMouseLeave={(e) => handleButtonHover(e, false)}
           >
             <span>📄</span> Download Portfolio
-          </a>
+          </button>
           <button
             onClick={openPopup}
             className="hero-btn secondary"
@@ -607,7 +784,7 @@ const Hero = ({ openPopup }) => {
       <button 
         ref={seeUsRef}
         className="see-us-circle" 
-        onClick={() => openVideoModal(true)} // Manual trigger
+        onClick={() => openVideoModal(true)} 
         onMouseEnter={(e) => {
           e.target.style.transform = 'scale(1.2) rotate(10deg)';
           e.target.style.boxShadow = '0 20px 50px rgba(236, 72, 153, 0.8)';
@@ -667,10 +844,8 @@ const Hero = ({ openPopup }) => {
           <video
             ref={videoRef}
             className="video-modal-video"
-            onLoadedData={handleVideoLoad}
             onError={handleVideoError}
             onCanPlay={() => setVideoLoading(false)}
-            autoPlay
             muted
             loop
             playsInline

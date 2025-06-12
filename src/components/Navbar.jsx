@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome,
@@ -14,17 +15,49 @@ import {
 const Navbar = ({ scrolled = false }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
+  const [logoSrc, setLogoSrc] = useState('logo.png');
+  const location = useLocation();
+
+  const logoPaths = [
+    'logo.png',
+    '/logo.png', 
+    './logo.png',
+    '/public/logo.png',
+    '/images/logo.png',
+    './images/logo.png'
+  ];
 
   useEffect(() => {
     document.body.classList.toggle('no-scroll', menuOpen);
     return () => document.body.classList.remove('no-scroll');
   }, [menuOpen]);
 
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location]);
+
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
 
+  // Manual logo path override for testing - uncomment and modify as needed
+  // useEffect(() => {
+  //   setLogoSrc('YOUR_LOGO_PATH_HERE.png');
+  //   setLogoError(false);
+  // }, []);
+
   const handleLogoError = () => {
-    setLogoError(true);
+    const currentIndex = logoPaths.indexOf(logoSrc);
+    const nextIndex = currentIndex + 1;
+    
+    console.log(`Logo failed to load from: ${logoSrc}`);
+    
+    if (nextIndex < logoPaths.length) {
+      console.log(`Trying next path: ${logoPaths[nextIndex]}`);
+      setLogoSrc(logoPaths[nextIndex]);
+    } else {
+      console.log('All logo paths failed, showing fallback');
+      setLogoError(true);
+    }
   };
 
   return (
@@ -272,6 +305,16 @@ const Navbar = ({ scrolled = false }) => {
           letter-spacing: 0.3px;
         }
 
+        .nav-item.active a {
+          color: white;
+          text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-item.active::before {
+          transform: scale(1) !important;
+          opacity: 1 !important;
+        }
+
         /* Unique hover effects for each nav item */
         .nav-item:nth-child(1)::before {
           content: '';
@@ -446,6 +489,80 @@ const Navbar = ({ scrolled = false }) => {
           transition: all 0.3s ease;
         }
 
+        @media (min-width: 820px) and (max-width: 912px) {
+          .container {
+            padding: 0 1.5rem;
+            max-width: 100%;
+          }
+          
+          .nav-container {
+            height: 85px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+          }
+          
+          .logo-container {
+            padding: 0.6rem 1rem;
+            border-radius: 16px;
+            flex-shrink: 0;
+          }
+          
+          .logo-hex {
+            width: 40px;
+            height: 40px;
+            margin-right: 0.8rem;
+          }
+          
+          .logo-image,
+          .logo-fallback {
+            width: 28px;
+            height: 28px;
+          }
+          
+          .company-name {
+            font-size: 1rem;
+            font-weight: 800;
+            line-height: 1.1;
+          }
+          
+          .company-tagline {
+            font-size: 0.65rem;
+            margin-top: 2px;
+          }
+          
+          .nav-links {
+            padding: 0.4rem;
+            gap: 0.2rem;
+            border-radius: 16px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+          }
+          
+          .nav-item a {
+            padding: 0.5rem 0.8rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            white-space: nowrap;
+          }
+          
+          .nav-item svg {
+            font-size: 0.8rem;
+          }
+          
+          .hamburger {
+            padding: 0.6rem;
+            border-radius: 12px;
+            flex-shrink: 0;
+          }
+          
+          .hamburger svg {
+            font-size: 1.2rem;
+          }
+        }
+
         @media (max-width: 768px) {
           .container {
             padding: 0 1rem;
@@ -569,14 +686,15 @@ const Navbar = ({ scrolled = false }) => {
         <div className="container">
           <nav className="nav-container">
             <div className="logo-section">
-              <a href="#home" className="logo-container">
+              <Link to="/" className="logo-container">
                 <div className="logo-hex">
                   {!logoError ? (
                     <img 
-                      src="./images/logo.png"
+                      src={logoSrc}
                       alt="Pavan Techno Constructions"
                       className="logo-image"
                       onError={handleLogoError}
+                      onLoad={() => console.log(`Logo loaded successfully from: ${logoSrc}`)}
                     />
                   ) : (
                     <div className="logo-fallback">PTC</div>
@@ -587,39 +705,35 @@ const Navbar = ({ scrolled = false }) => {
                   <div className="company-name">PAVAN TECHNO CONSTRUCTIONS</div>
                   <div className="company-tagline">Engineering Excellence</div>
                 </div>
-              </a>
+              </Link>
             </div>
 
             <div className={`nav-links ${menuOpen ? 'active' : ''}`}>
-              <div className="nav-item">
-                <a href="#home" onClick={closeMenu}>
+              <div className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}>
+                <Link to="/" onClick={closeMenu}>
                   <FontAwesomeIcon icon={faHome} /> Home
-                </a>
+                </Link>
               </div>
-              <div className="nav-item">
-                <a href="#about" onClick={closeMenu}>
-                  <FontAwesomeIcon icon={faInfoCircle} /> About
-                </a>
-              </div>
-              <div className="nav-item">
-                <a href="#services" onClick={closeMenu}>
+             
+              <div className={`nav-item ${location.pathname === '/services' ? 'active' : ''}`}>
+                <Link to="/services" onClick={closeMenu}>
                   <FontAwesomeIcon icon={faTools} /> Services
-                </a>
+                </Link>
               </div>
-              <div className="nav-item">
-                <a href="#pricing" onClick={closeMenu}>
+              <div className={`nav-item ${location.pathname === '/pricing' ? 'active' : ''}`}>
+                <Link to="/pricing" onClick={closeMenu}>
                   <FontAwesomeIcon icon={faTags} /> Pricing
-                </a>
+                </Link>
               </div>
-              <div className="nav-item">
-                <a href="#gallery" onClick={closeMenu}>
+              <div className={`nav-item ${location.pathname === '/gallery' ? 'active' : ''}`}>
+                <Link to="/gallery" onClick={closeMenu}>
                   <FontAwesomeIcon icon={faImages} /> Gallery
-                </a>
+                </Link>
               </div>
-              <div className="nav-item">
-                <a href="#contact" onClick={closeMenu}>
+              <div className={`nav-item ${location.pathname === '/contact' ? 'active' : ''}`}>
+                <Link to="/contact" onClick={closeMenu}>
                   <FontAwesomeIcon icon={faEnvelope} /> Contact
-                </a>
+                </Link>
               </div>
             </div>
 

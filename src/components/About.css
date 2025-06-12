@@ -692,6 +692,18 @@
   }
 }
 
+/* Media query for screens smaller than 1000px - Move intro text down */
+@media (max-width: 1000px) {
+  .content-intro {
+    margin-top: 30px;
+    margin-bottom: 50px;
+  }
+  
+  .intro-text {
+    margin-top: 20px;
+  }
+}
+
 @media (max-width: 992px) {
   .split-layout {
     grid-template-columns: 1fr;
@@ -716,6 +728,11 @@
 
   .morph-shape {
     opacity: 0.05;
+  }
+  
+  /* Additional spacing for intro text on smaller screens */
+  .content-intro {
+    margin-top: 40px;
   }
 }
 
@@ -759,6 +776,11 @@
     padding: 15px 40px;
     font-size: 1.1rem;
   }
+  
+  /* More spacing for intro text on tablets */
+  .content-intro {
+    margin-top: 50px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -801,5 +823,10 @@
 
   .morph-shape {
     display: none;
+  }
+  
+  /* Even more spacing for intro text on mobile */
+  .content-intro {
+    margin-top: 60px;
   }
 }

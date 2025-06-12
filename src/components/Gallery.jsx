@@ -4,14 +4,25 @@ const Gallery = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [galleryItems, setGalleryItems] = useState([]);
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [currentImage, setCurrentImage] = useState(null);
+  const [currentProject, setCurrentProject] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [animatedItems, setAnimatedItems] = useState([]);
   const [titleAnimated, setTitleAnimated] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
   const sectionRef = useRef(null);
   
-  // Sample gallery items with working Unsplash images
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Sample gallery items with working Unsplash images and specific image galleries
   const allItems = [
     {
       id: 1,
@@ -20,7 +31,15 @@ const Gallery = () => {
       title: 'Modern Villa Estate',
       description: 'Luxurious modern villa with panoramic views and contemporary design elements featuring premium finishes',
       year: '2024',
-      location: 'Bangalore'
+      location: 'Bangalore',
+      gallery: [
+        'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1566908829077-85d4b623c071?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1560185127-6ed189bf02f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1516455207990-7a41ce80f7ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      ]
     },
     {
       id: 2,
@@ -38,7 +57,18 @@ const Gallery = () => {
       title: 'Heritage Family Home',
       description: 'Spacious family home with elegant design and premium finishes blending tradition with modernity',
       year: '2023',
-      location: 'Chennai'
+      location: 'Chennai',
+      gallery: [
+        'https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1576941089067-2de3c901e126?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1602872030300-ad1ba728799f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      ]
     },
     {
       id: 4,
@@ -100,12 +130,7 @@ const Gallery = () => {
     @keyframes wordReveal {
       0% {
         opacity: 0;
-        transform: translateY(120px) rotateX(90deg) scale(0.3);
-        filter: blur(15px);
-      }
-      50% {
-        opacity: 0.5;
-        transform: translateY(60px) rotateX(45deg) scale(0.6);
+        transform: translateY(50px) rotateX(45deg) scale(0.8);
         filter: blur(8px);
       }
       100% {
@@ -137,12 +162,12 @@ const Gallery = () => {
     @keyframes filterButtonFloat {
       0% {
         opacity: 0;
-        transform: translateY(50px) rotateY(45deg) scale(0.8);
-        filter: blur(10px);
+        transform: translateY(30px) scale(0.9);
+        filter: blur(5px);
       }
       100% {
         opacity: 1;
-        transform: translateY(0) rotateY(0deg) scale(1);
+        transform: translateY(0) scale(1);
         filter: blur(0px);
       }
     }
@@ -150,18 +175,13 @@ const Gallery = () => {
     @keyframes galleryItemMagnetize {
       0% {
         opacity: 0;
-        transform: translateY(80px) rotateX(25deg) scale(0.7);
-        filter: blur(12px) brightness(0.4);
-      }
-      60% {
-        opacity: 0.8;
-        transform: translateY(20px) rotateX(10deg) scale(0.9);
-        filter: blur(6px) brightness(0.7);
+        transform: translateY(40px) scale(0.9);
+        filter: blur(8px);
       }
       100% {
         opacity: 1;
-        transform: translateY(0) rotateX(0deg) scale(1);
-        filter: blur(0px) brightness(1);
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
       }
     }
 
@@ -170,13 +190,13 @@ const Gallery = () => {
         transform: translateY(0) rotate(0deg) scale(1);
       }
       25% {
-        transform: translateY(-20px) rotate(2deg) scale(1.02);
+        transform: translateY(-10px) rotate(1deg) scale(1.01);
       }
       50% {
-        transform: translateY(-30px) rotate(0deg) scale(1.05);
+        transform: translateY(-15px) rotate(0deg) scale(1.02);
       }
       75% {
-        transform: translateY(-15px) rotate(-2deg) scale(1.02);
+        transform: translateY(-8px) rotate(-1deg) scale(1.01);
       }
     }
 
@@ -187,32 +207,27 @@ const Gallery = () => {
       }
       25% {
         border-radius: 30% 60% 70% 40%;
-        transform: rotate(90deg) scale(1.1);
+        transform: rotate(90deg) scale(1.05);
       }
       50% {
         border-radius: 70% 30% 50% 60%;
-        transform: rotate(180deg) scale(0.9);
+        transform: rotate(180deg) scale(0.95);
       }
       75% {
         border-radius: 40% 70% 30% 50%;
-        transform: rotate(270deg) scale(1.05);
+        transform: rotate(270deg) scale(1.02);
       }
     }
 
     @keyframes lightboxEntrance {
       0% {
         opacity: 0;
-        transform: scale(0.2) rotateY(90deg);
-        filter: blur(30px);
-      }
-      50% {
-        opacity: 0.7;
-        transform: scale(0.8) rotateY(45deg);
-        filter: blur(15px);
+        transform: scale(0.5);
+        filter: blur(20px);
       }
       100% {
         opacity: 1;
-        transform: scale(1) rotateY(0deg);
+        transform: scale(1);
         filter: blur(0px);
       }
     }
@@ -222,7 +237,7 @@ const Gallery = () => {
         transform: translateY(0px) translateX(0px);
       }
       50% {
-        transform: translateY(-15px) translateX(5px);
+        transform: translateY(-8px) translateX(2px);
       }
     }
 
@@ -241,7 +256,7 @@ const Gallery = () => {
         box-shadow: 0 15px 35px rgba(44, 62, 80, 0.08);
       }
       100% {
-        transform: translateY(-25px) scale(1.05) rotateX(-8deg);
+        transform: translateY(-15px) scale(1.03) rotateX(-5deg);
         box-shadow: 0 35px 70px rgba(44, 62, 80, 0.15), 0 15px 30px rgba(183, 156, 92, 0.2);
       }
     }
@@ -274,8 +289,8 @@ const Gallery = () => {
     @keyframes subtitleFadeUp {
       0% {
         opacity: 0;
-        transform: translateY(30px) scale(0.9);
-        filter: blur(5px);
+        transform: translateY(20px) scale(0.95);
+        filter: blur(3px);
       }
       100% {
         opacity: 1;
@@ -283,10 +298,37 @@ const Gallery = () => {
         filter: blur(0px);
       }
     }
+
+    /* Mobile-specific simpler animations */
+    @media (max-width: 768px) {
+      @keyframes wordReveal {
+        0% {
+          opacity: 0;
+          transform: translateY(30px) scale(0.9);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @keyframes galleryItemMagnetize {
+        0% {
+          opacity: 0;
+          transform: translateY(20px) scale(0.95);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+    }
   `;
 
-  // Mouse movement tracking for parallax effects
+  // Mouse movement tracking for parallax effects (only on desktop)
   useEffect(() => {
+    if (windowWidth < 768) return;
+    
     const handleMouseMove = (e) => {
       if (sectionRef.current) {
         const rect = sectionRef.current.getBoundingClientRect();
@@ -298,7 +340,7 @@ const Gallery = () => {
 
     document.addEventListener('mousemove', handleMouseMove);
     return () => document.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [windowWidth]);
 
   useEffect(() => {
     const style = document.createElement('style');
@@ -317,15 +359,15 @@ const Gallery = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(true);
-            setTimeout(() => setTitleAnimated(true), 400);
+            setTimeout(() => setTitleAnimated(true), 300);
             setTimeout(() => {
               const itemsToAnimate = activeFilter === 'all' ? allItems : allItems.filter(item => item.category === activeFilter);
               itemsToAnimate.forEach((_, index) => {
                 setTimeout(() => {
                   setAnimatedItems(prev => [...prev, index]);
-                }, index * 150);
+                }, index * 100);
               });
-            }, 2200);
+            }, 1500);
           }
         });
       },
@@ -357,31 +399,38 @@ const Gallery = () => {
   };
   
   const openLightbox = (item) => {
-    setCurrentImage(item);
+    setCurrentProject(item);
+    setCurrentImageIndex(0);
     setLightboxOpen(true);
     document.body.style.overflow = 'hidden';
   };
   
   const closeLightbox = () => {
     setLightboxOpen(false);
+    setCurrentProject(null);
+    setCurrentImageIndex(0);
     document.body.style.overflow = 'unset';
   };
   
-  const navigateLightbox = (direction) => {
-    const currentIndex = galleryItems.findIndex(item => item.id === currentImage.id);
-    let newIndex;
+  const navigateImage = (direction) => {
+    if (!currentProject?.gallery) return;
     
     if (direction === 'next') {
-      newIndex = (currentIndex + 1) % galleryItems.length;
+      setCurrentImageIndex((prev) => (prev + 1) % currentProject.gallery.length);
     } else {
-      newIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+      setCurrentImageIndex((prev) => (prev - 1 + currentProject.gallery.length) % currentProject.gallery.length);
     }
-    
-    setCurrentImage(galleryItems[newIndex]);
+  };
+
+  const getCurrentImage = () => {
+    if (currentProject?.gallery) {
+      return currentProject.gallery[currentImageIndex];
+    }
+    return currentProject?.image;
   };
 
   const sectionStyle = {
-    padding: '8rem 0',
+    padding: windowWidth < 768 ? '4rem 0' : '8rem 0',
     background: `
       radial-gradient(ellipse at top left, rgba(255, 255, 255, 1) 0%, rgba(248, 250, 252, 0.95) 40%),
       radial-gradient(ellipse at bottom right, rgba(241, 245, 249, 0.9) 0%, rgba(226, 232, 240, 0.8) 60%),
@@ -389,11 +438,11 @@ const Gallery = () => {
     `,
     position: 'relative',
     overflow: 'hidden',
-    minHeight: '100vh'
+    minHeight: windowWidth < 768 ? 'auto' : '100vh'
   };
 
-  // Advanced floating elements with parallax
-  const floatingElements = (
+  // Advanced floating elements with parallax (only on desktop)
+  const floatingElements = windowWidth >= 768 ? (
     <>
       {/* Morphing shapes */}
       <div style={{
@@ -433,7 +482,7 @@ const Gallery = () => {
       }} />
 
       {/* Floating particles */}
-      {[...Array(12)].map((_, i) => (
+      {[...Array(6)].map((_, i) => (
         <div
           key={i}
           style={{
@@ -452,25 +501,28 @@ const Gallery = () => {
         />
       ))}
     </>
-  );
+  ) : null;
 
   const containerStyle = {
     maxWidth: '1600px',
     margin: '0 auto',
-    padding: '0 3rem',
+    padding: windowWidth < 768 ? '0 1rem' : '0 3rem',
     position: 'relative',
     zIndex: 2
   };
 
   const titleSectionStyle = {
     textAlign: 'center',
-    marginBottom: '5rem',
+    marginBottom: windowWidth < 768 ? '3rem' : '5rem',
     position: 'relative',
     perspective: '1200px'
   };
 
   const titleStyle = {
-    fontSize: 'clamp(3.5rem, 6vw, 5.5rem)',
+    fontSize: 
+      windowWidth < 480 ? '2rem' : 
+      windowWidth < 768 ? '2.5rem' : 
+      'clamp(3.5rem, 6vw, 5.5rem)',
     fontWeight: '900',
     lineHeight: '1.1',
     margin: '0 0 2rem 0',
@@ -481,15 +533,15 @@ const Gallery = () => {
 
   const titleWordStyle = (wordIndex) => ({
     display: 'inline-block',
-    marginRight: '25px',
+    marginRight: windowWidth < 768 ? '15px' : '25px',
     opacity: titleAnimated ? 1 : 0,
-    transform: titleAnimated ? 'translateY(0) rotateX(0deg) scale(1)' : 'translateY(120px) rotateX(90deg) scale(0.3)',
+    transform: titleAnimated ? 'translateY(0) rotateX(0deg) scale(1)' : 'translateY(50px) rotateX(45deg) scale(0.8)',
     background: 'linear-gradient(135deg, #2c3e50 0%, #34495e 30%, #B79C5C 60%, #3498db 100%)',
     backgroundSize: '400% 400%',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
     backgroundClip: 'text',
-    animation: titleAnimated ? `wordReveal 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards ${1.0 + (wordIndex * 0.25)}s, gradientShift 6s ease-in-out infinite` : 'none',
+    animation: titleAnimated ? `wordReveal 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards ${0.8 + (wordIndex * 0.2)}s, gradientShift 6s ease-in-out infinite` : 'none',
     textShadow: titleAnimated ? '0 10px 30px rgba(44, 62, 80, 0.1)' : 'none'
   });
 
@@ -501,34 +553,35 @@ const Gallery = () => {
     height: '6px',
     background: 'linear-gradient(90deg, transparent, #B79C5C, #3498db, #B79C5C, transparent)',
     borderRadius: '3px',
-    animation: titleAnimated ? 'titleUnderline 1.5s ease-out forwards 2.5s' : 'none',
+    animation: titleAnimated ? 'titleUnderline 1.5s ease-out forwards 2s' : 'none',
     width: '0'
   };
 
   const subtitleStyle = {
-    fontSize: '1.3rem',
+    fontSize: windowWidth < 768 ? '1.1rem' : '1.3rem',
     color: '#64748b',
     fontWeight: '300',
-    letterSpacing: '2px',
+    letterSpacing: windowWidth < 768 ? '1px' : '2px',
     lineHeight: '1.8',
     maxWidth: '700px',
     margin: '0 auto',
+    padding: windowWidth < 768 ? '0 1rem' : '0',
     opacity: titleAnimated ? 1 : 0,
-    animation: titleAnimated ? 'subtitleFadeUp 1s ease-out forwards 2.8s' : 'none'
+    animation: titleAnimated ? 'subtitleFadeUp 1s ease-out forwards 2.3s' : 'none'
   };
 
   const filtersContainerStyle = {
     display: 'flex',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    gap: '1.5rem',
-    marginBottom: '4rem',
+    gap: windowWidth < 768 ? '0.8rem' : '1.5rem',
+    marginBottom: windowWidth < 768 ? '2rem' : '4rem',
     opacity: titleAnimated ? 1 : 0,
-    animation: titleAnimated ? 'filterButtonFloat 1s ease-out forwards 3.2s' : 'none'
+    animation: titleAnimated ? 'filterButtonFloat 1s ease-out forwards 2.6s' : 'none'
   };
 
   const filterButtonStyle = (category, isActive, index) => ({
-    padding: '1rem 2rem',
+    padding: windowWidth < 480 ? '0.6rem 1rem' : windowWidth < 768 ? '0.75rem 1.5rem' : '1rem 2rem',
     background: isActive 
       ? `linear-gradient(135deg, ${category.color}, rgba(44, 62, 80, 0.9))` 
       : 'rgba(255, 255, 255, 0.8)',
@@ -545,11 +598,11 @@ const Gallery = () => {
     overflow: 'hidden',
     textTransform: 'uppercase',
     letterSpacing: '1px',
-    fontSize: '0.9rem',
+    fontSize: windowWidth < 480 ? '0.75rem' : windowWidth < 768 ? '0.8rem' : '0.9rem',
     backdropFilter: 'blur(20px)',
     display: 'flex',
     alignItems: 'center',
-    gap: '8px',
+    gap: windowWidth < 768 ? '4px' : '8px',
     animation: isActive ? 'filterGlow 2s ease-in-out infinite' : 'none',
     transform: `translateY(${isActive ? -3 : 0}px)`,
     animationDelay: `${index * 0.1}s`
@@ -557,25 +610,29 @@ const Gallery = () => {
 
   const gridStyle = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(400px, 1fr))',
-    gap: '3rem',
-    marginTop: '3rem',
+    gridTemplateColumns: 
+      windowWidth < 768 ? '1fr' :
+      windowWidth < 1024 ? 'repeat(2, 1fr)' :
+      windowWidth < 1400 ? 'repeat(3, 1fr)' :
+      'repeat(auto-fill, minmax(380px, 1fr))',
+    gap: windowWidth < 768 ? '2rem' : '3rem',
+    marginTop: windowWidth < 768 ? '2rem' : '3rem',
     perspective: '1200px'
   };
 
   const galleryItemStyle = (index, isAnimated) => ({
     position: 'relative',
-    borderRadius: '24px',
+    borderRadius: windowWidth < 768 ? '20px' : '24px',
     overflow: 'hidden',
     boxShadow: '0 15px 35px rgba(44, 62, 80, 0.08), 0 5px 15px rgba(183, 156, 92, 0.1)',
     cursor: 'pointer',
-    height: '350px',
+    height: windowWidth < 480 ? '280px' : windowWidth < 768 ? '320px' : '350px',
     background: 'rgba(255, 255, 255, 0.9)',
     border: '1px solid rgba(255, 255, 255, 0.2)',
     backdropFilter: 'blur(20px)',
-    transform: isAnimated ? 'translateY(0) rotateX(0deg) scale(1)' : 'translateY(80px) rotateX(25deg) scale(0.7)',
+    transform: isAnimated ? 'translateY(0) scale(1)' : 'translateY(40px) scale(0.9)',
     opacity: isAnimated ? 1 : 0,
-    animation: isAnimated ? `galleryItemMagnetize 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards ${index * 0.15}s` : 'none',
+    animation: isAnimated ? `galleryItemMagnetize 1s cubic-bezier(0.23, 1, 0.32, 1) forwards ${index * 0.1}s` : 'none',
     transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
     transformStyle: 'preserve-3d'
   });
@@ -602,7 +659,7 @@ const Gallery = () => {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '2rem',
+    padding: windowWidth < 768 ? '1rem' : '2rem',
     opacity: 0,
     transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
     color: 'white',
@@ -614,14 +671,14 @@ const Gallery = () => {
     bottom: 0,
     left: 0,
     right: 0,
-    padding: '1.5rem',
+    padding: windowWidth < 768 ? '1rem' : '1.5rem',
     background: 'rgba(255, 255, 255, 0.95)',
     backdropFilter: 'blur(20px)',
     borderTop: '1px solid rgba(183, 156, 92, 0.2)'
   };
 
   const overlayTitleStyle = {
-    fontSize: '1.5rem',
+    fontSize: windowWidth < 768 ? '1.2rem' : '1.5rem',
     fontWeight: '700',
     marginBottom: '0.5rem',
     transform: 'translateY(20px)',
@@ -630,7 +687,7 @@ const Gallery = () => {
   };
 
   const overlayDescStyle = {
-    fontSize: '1rem',
+    fontSize: windowWidth < 768 ? '0.9rem' : '1rem',
     opacity: 0.9,
     transform: 'translateY(20px)',
     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -645,8 +702,46 @@ const Gallery = () => {
     width: '100px',
     height: '100%',
     background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent)',
-    animation: 'shimmerEffect 3s ease-in-out infinite',
+    animation: windowWidth >= 768 ? 'shimmerEffect 3s ease-in-out infinite' : 'none',
     zIndex: 3
+  };
+
+  const handleCardInteraction = (e, index, isEntering) => {
+    const card = e.currentTarget;
+    const img = card.querySelector('img');
+    const overlay = card.querySelector('.overlay');
+    const overlayElements = card.querySelectorAll('.overlay-element');
+    const shimmer = card.querySelector('.shimmer');
+    
+    if (isEntering) {
+      if (windowWidth >= 768) {
+        card.style.animation = 'cardHoverLift 0.6s ease-out forwards';
+        if (img) img.style.transform = 'scale(1.15) rotate(3deg)';
+        if (shimmer) shimmer.style.animation = 'shimmerEffect 1s ease-out';
+      } else {
+        // Simple mobile interaction
+        card.style.transform = 'scale(0.98)';
+      }
+      
+      if (overlay) overlay.style.opacity = '1';
+      overlayElements.forEach(el => {
+        el.style.transform = 'translateY(0)';
+      });
+    } else {
+      if (windowWidth >= 768) {
+        card.style.animation = 'none';
+        card.style.transform = 'translateY(0) scale(1) rotateX(0deg)';
+        card.style.boxShadow = '0 15px 35px rgba(44, 62, 80, 0.08), 0 5px 15px rgba(183, 156, 92, 0.1)';
+        if (img) img.style.transform = 'scale(1) rotate(0deg)';
+      } else {
+        card.style.transform = 'scale(1)';
+      }
+      
+      if (overlay) overlay.style.opacity = '0';
+      overlayElements.forEach(el => {
+        el.style.transform = 'translateY(20px)';
+      });
+    }
   };
 
   return (
@@ -673,8 +768,8 @@ const Gallery = () => {
               style={filterButtonStyle(category, activeFilter === category.id, index)}
               onClick={() => handleFilterClick(category.id)}
               onMouseEnter={(e) => {
-                if (activeFilter !== category.id) {
-                  e.currentTarget.style.transform = 'translateY(-8px) scale(1.05) rotateY(5deg)';
+                if (windowWidth >= 768 && activeFilter !== category.id) {
+                  e.currentTarget.style.transform = 'translateY(-8px) scale(1.05)';
                   e.currentTarget.style.boxShadow = '0 20px 40px rgba(44, 62, 80, 0.15), 0 10px 25px rgba(183, 156, 92, 0.2)';
                   e.currentTarget.style.borderColor = 'rgba(183, 156, 92, 0.5)';
                   e.currentTarget.style.background = 'rgba(255, 255, 255, 0.95)';
@@ -682,8 +777,8 @@ const Gallery = () => {
                 }
               }}
               onMouseLeave={(e) => {
-                if (activeFilter !== category.id) {
-                  e.currentTarget.style.transform = 'translateY(0) scale(1) rotateY(0deg)';
+                if (windowWidth >= 768 && activeFilter !== category.id) {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
                   e.currentTarget.style.boxShadow = '0 8px 25px rgba(44, 62, 80, 0.08)';
                   e.currentTarget.style.borderColor = 'rgba(183, 156, 92, 0.2)';
                   e.currentTarget.style.background = 'rgba(255, 255, 255, 0.8)';
@@ -691,7 +786,7 @@ const Gallery = () => {
                 }
               }}
             >
-              <span style={{ fontSize: '1.1rem' }}>{category.icon}</span>
+              <span style={{ fontSize: windowWidth < 768 ? '1rem' : '1.1rem' }}>{category.icon}</span>
               {category.label}
             </button>
           ))}
@@ -706,42 +801,20 @@ const Gallery = () => {
                 key={item.id} 
                 style={galleryItemStyle(index, isAnimated)}
                 onClick={() => openLightbox(item)}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.animation = 'cardHoverLift 0.6s ease-out forwards';
-                  
-                  const img = e.currentTarget.querySelector('img');
-                  const overlay = e.currentTarget.querySelector('.overlay');
-                  const overlayElements = e.currentTarget.querySelectorAll('.overlay-element');
-                  const shimmer = e.currentTarget.querySelector('.shimmer');
-                  
-                  if (img) img.style.transform = 'scale(1.15) rotate(3deg)';
-                  if (overlay) overlay.style.opacity = '1';
-                  if (shimmer) shimmer.style.animation = 'shimmerEffect 1s ease-out';
-                  overlayElements.forEach(el => {
-                    el.style.transform = 'translateY(0)';
-                  });
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.animation = 'none';
-                  e.currentTarget.style.transform = 'translateY(0) scale(1) rotateX(0deg)';
-                  e.currentTarget.style.boxShadow = '0 15px 35px rgba(44, 62, 80, 0.08), 0 5px 15px rgba(183, 156, 92, 0.1)';
-                  
-                  const img = e.currentTarget.querySelector('img');
-                  const overlay = e.currentTarget.querySelector('.overlay');
-                  const overlayElements = e.currentTarget.querySelectorAll('.overlay-element');
-                  
-                  if (img) img.style.transform = 'scale(1) rotate(0deg)';
-                  if (overlay) overlay.style.opacity = '0';
-                  overlayElements.forEach(el => {
-                    el.style.transform = 'translateY(20px)';
-                  });
-                }}
+                onMouseEnter={(e) => handleCardInteraction(e, index, true)}
+                onMouseLeave={(e) => handleCardInteraction(e, index, false)}
+                onTouchStart={(e) => handleCardInteraction(e, index, true)}
+                onTouchEnd={(e) => handleCardInteraction(e, index, false)}
               >
                 <div style={shimmerStyle} className="shimmer"></div>
                 <img src={item.image} alt={item.title} style={imageStyle} />
                 <div className="overlay" style={overlayStyle}>
-                  <h3 className="overlay-element" style={overlayTitleStyle}>View Project</h3>
-                  <p className="overlay-element" style={overlayDescStyle}>Click to explore details</p>
+                  <h3 className="overlay-element" style={overlayTitleStyle}>
+                    {item.gallery ? `View Gallery (${item.gallery.length} images)` : 'View Project'}
+                  </h3>
+                  <p className="overlay-element" style={overlayDescStyle}>
+                    {item.gallery ? 'Click to explore image gallery' : 'Click to explore details'}
+                  </p>
                 </div>
                 
                 <div style={cardInfoStyle}>
@@ -749,10 +822,12 @@ const Gallery = () => {
                     display: 'flex', 
                     justifyContent: 'space-between', 
                     alignItems: 'flex-start',
-                    marginBottom: '0.5rem'
+                    marginBottom: '0.5rem',
+                    flexDirection: windowWidth < 480 ? 'column' : 'row',
+                    gap: windowWidth < 480 ? '0.5rem' : '0'
                   }}>
                     <h3 style={{
-                      fontSize: '1.3rem',
+                      fontSize: windowWidth < 768 ? '1.1rem' : '1.3rem',
                       fontWeight: '700',
                       color: '#2c3e50',
                       margin: 0,
@@ -767,13 +842,13 @@ const Gallery = () => {
                       background: 'rgba(183, 156, 92, 0.1)',
                       padding: '0.25rem 0.75rem',
                       borderRadius: '12px',
-                      marginLeft: '1rem'
+                      marginLeft: windowWidth < 480 ? '0' : '1rem'
                     }}>
                       {item.year}
                     </span>
                   </div>
                   <p style={{
-                    fontSize: '0.9rem',
+                    fontSize: windowWidth < 768 ? '0.8rem' : '0.9rem',
                     color: '#64748b',
                     lineHeight: '1.4',
                     margin: '0 0 0.5rem 0'
@@ -783,7 +858,9 @@ const Gallery = () => {
                   <div style={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    flexDirection: windowWidth < 480 ? 'column' : 'row',
+                    gap: windowWidth < 480 ? '0.5rem' : '0'
                   }}>
                     <span style={{
                       fontSize: '0.8rem',
@@ -825,39 +902,41 @@ const Gallery = () => {
             justifyContent: 'center',
             alignItems: 'center',
             animation: 'lightboxEntrance 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards',
-            backdropFilter: 'blur(20px)'
+            backdropFilter: 'blur(20px)',
+            padding: windowWidth < 768 ? '1rem' : '2rem'
           }}
           onClick={closeLightbox}
         >
           <div 
             style={{
               position: 'relative',
-              width: '90%',
-              maxWidth: '1200px',
+              width: '100%',
+              maxWidth: windowWidth < 768 ? '100%' : '1200px',
               background: 'rgba(255, 255, 255, 0.95)',
-              borderRadius: '24px',
+              borderRadius: windowWidth < 768 ? '16px' : '24px',
               overflow: 'hidden',
               boxShadow: '0 50px 100px rgba(0, 0, 0, 0.3)',
               backdropFilter: 'blur(30px)',
-              border: '1px solid rgba(255, 255, 255, 0.2)'
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              maxHeight: '90vh'
             }}
             onClick={e => e.stopPropagation()}
           >
             <button 
               style={{
                 position: 'absolute',
-                top: '1.5rem',
-                right: '1.5rem',
+                top: windowWidth < 768 ? '1rem' : '1.5rem',
+                right: windowWidth < 768 ? '1rem' : '1.5rem',
                 background: 'rgba(0, 0, 0, 0.7)',
                 border: 'none',
-                width: '60px',
-                height: '60px',
+                width: windowWidth < 768 ? '50px' : '60px',
+                height: windowWidth < 768 ? '50px' : '60px',
                 borderRadius: '50%',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 color: 'white',
-                fontSize: '1.5rem',
+                fontSize: windowWidth < 768 ? '1.2rem' : '1.5rem',
                 cursor: 'pointer',
                 zIndex: 10,
                 transition: 'all 0.3s ease',
@@ -865,21 +944,29 @@ const Gallery = () => {
               }}
               onClick={closeLightbox}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#B79C5C';
-                e.currentTarget.style.transform = 'scale(1.1) rotate(90deg)';
+                if (windowWidth >= 768) {
+                  e.currentTarget.style.background = '#B79C5C';
+                  e.currentTarget.style.transform = 'scale(1.1) rotate(90deg)';
+                }
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'rgba(0, 0, 0, 0.7)';
-                e.currentTarget.style.transform = 'scale(1) rotate(0deg)';
+                if (windowWidth >= 768) {
+                  e.currentTarget.style.background = 'rgba(0, 0, 0, 0.7)';
+                  e.currentTarget.style.transform = 'scale(1) rotate(0deg)';
+                }
               }}
             >
               ×
             </button>
             
-            <div style={{ width: '100%', height: '70vh' }}>
+            <div style={{ 
+              width: '100%', 
+              height: windowWidth < 768 ? '50vh' : '70vh',
+              maxHeight: '400px'
+            }}>
               <img 
-                src={currentImage?.image} 
-                alt={currentImage?.title} 
+                src={getCurrentImage()} 
+                alt={currentProject?.title} 
                 style={{
                   width: '100%',
                   height: '100%',
@@ -889,49 +976,75 @@ const Gallery = () => {
             </div>
             
             <div style={{ 
-              padding: '3rem', 
+              padding: windowWidth < 768 ? '1.5rem' : '3rem', 
               background: 'rgba(255, 255, 255, 0.95)',
-              backdropFilter: 'blur(20px)'
+              backdropFilter: 'blur(20px)',
+              maxHeight: windowWidth < 768 ? '40vh' : 'auto',
+              overflowY: 'auto'
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+              <div style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'flex-start', 
+                marginBottom: '1rem',
+                flexDirection: windowWidth < 768 ? 'column' : 'row',
+                gap: windowWidth < 768 ? '1rem' : '0'
+              }}>
                 <h3 style={{
                   color: '#2c3e50',
-                  fontSize: '2.2rem',
+                  fontSize: windowWidth < 768 ? '1.5rem' : '2.2rem',
                   fontWeight: '700',
                   margin: 0,
                   flex: 1
                 }}>
-                  {currentImage?.title}
+                  {currentProject?.title}
                 </h3>
-                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                <div style={{ 
+                  display: 'flex', 
+                  gap: '1rem', 
+                  alignItems: 'center',
+                  flexWrap: 'wrap'
+                }}>
+                  {currentProject?.gallery && (
+                    <span style={{
+                      fontSize: windowWidth < 768 ? '0.9rem' : '1rem',
+                      color: '#3498db',
+                      fontWeight: '600',
+                      background: 'rgba(52, 152, 219, 0.1)',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '20px'
+                    }}>
+                      {currentImageIndex + 1} / {currentProject.gallery.length}
+                    </span>
+                  )}
                   <span style={{
-                    fontSize: '1rem',
+                    fontSize: windowWidth < 768 ? '0.9rem' : '1rem',
                     color: '#B79C5C',
                     fontWeight: '600',
                     background: 'rgba(183, 156, 92, 0.1)',
                     padding: '0.5rem 1rem',
                     borderRadius: '20px'
                   }}>
-                    {currentImage?.year}
+                    {currentProject?.year}
                   </span>
                   <span style={{
-                    fontSize: '1rem',
+                    fontSize: windowWidth < 768 ? '0.9rem' : '1rem',
                     color: '#64748b',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.5rem'
                   }}>
-                    📍 {currentImage?.location}
+                    📍 {currentProject?.location}
                   </span>
                 </div>
               </div>
               <p style={{
                 marginBottom: '1.5rem',
                 color: '#64748b',
-                fontSize: '1.2rem',
+                fontSize: windowWidth < 768 ? '1rem' : '1.2rem',
                 lineHeight: '1.7'
               }}>
-                {currentImage?.description}
+                {currentProject?.description}
               </p>
               <div style={{
                 display: 'flex',
@@ -939,150 +1052,105 @@ const Gallery = () => {
                 alignItems: 'center'
               }}>
                 <span style={{
-                  fontSize: '1rem',
-                  color: filterCategories.find(cat => cat.id === currentImage?.category)?.color || '#64748b',
+                  fontSize: windowWidth < 768 ? '0.9rem' : '1rem',
+                  color: filterCategories.find(cat => cat.id === currentProject?.category)?.color || '#64748b',
                   fontWeight: '600',
                   textTransform: 'uppercase',
                   letterSpacing: '1px',
-                  background: `rgba(${filterCategories.find(cat => cat.id === currentImage?.category)?.color.slice(1).match(/.{2}/g).map(hex => parseInt(hex, 16)).join(', ')}, 0.1)` || 'rgba(100, 116, 139, 0.1)',
+                  background: `rgba(${filterCategories.find(cat => cat.id === currentProject?.category)?.color.slice(1).match(/.{2}/g).map(hex => parseInt(hex, 16)).join(', ')}, 0.1)` || 'rgba(100, 116, 139, 0.1)',
                   padding: '0.75rem 1.5rem',
                   borderRadius: '25px'
                 }}>
-                  {filterCategories.find(cat => cat.id === currentImage?.category)?.icon} {currentImage?.category}
+                  {filterCategories.find(cat => cat.id === currentProject?.category)?.icon} {currentProject?.category}
                 </span>
               </div>
             </div>
             
-            <div style={{
-              position: 'absolute',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'space-between',
-              padding: '0 2rem',
-              zIndex: 10,
-              pointerEvents: 'none'
-            }}>
-              <button 
-                style={{
-                  background: 'rgba(0, 0, 0, 0.7)',
-                  border: 'none',
-                  width: '70px',
-                  height: '70px',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  color: 'white',
-                  fontSize: '1.8rem',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  pointerEvents: 'auto',
-                  backdropFilter: 'blur(10px)'
-                }}
-                onClick={() => navigateLightbox('prev')}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#2c3e50';
-                  e.currentTarget.style.transform = 'scale(1.1) rotateZ(-10deg)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(0, 0, 0, 0.7)';
-                  e.currentTarget.style.transform = 'scale(1) rotateZ(0deg)';
-                }}
-              >
-                ‹
-              </button>
-              
-              <button 
-                style={{
-                  background: 'rgba(0, 0, 0, 0.7)',
-                  border: 'none',
-                  width: '70px',
-                  height: '70px',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  color: 'white',
-                  fontSize: '1.8rem',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  pointerEvents: 'auto',
-                  backdropFilter: 'blur(10px)'
-                }}
-                onClick={() => navigateLightbox('next')}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#2c3e50';
-                  e.currentTarget.style.transform = 'scale(1.1) rotateZ(10deg)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(0, 0, 0, 0.7)';
-                  e.currentTarget.style.transform = 'scale(1) rotateZ(0deg)';
-                }}
-              >
-                ›
-              </button>
-            </div>
+            {/* Navigation arrows - only show for projects with galleries */}
+            {currentProject?.gallery && (
+              <div style={{
+                position: 'absolute',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                padding: windowWidth < 768 ? '0 1rem' : '0 2rem',
+                zIndex: 10,
+                pointerEvents: 'none'
+              }}>
+                <button 
+                  style={{
+                    background: 'rgba(0, 0, 0, 0.7)',
+                    border: 'none',
+                    width: windowWidth < 768 ? '50px' : '70px',
+                    height: windowWidth < 768 ? '50px' : '70px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    color: 'white',
+                    fontSize: windowWidth < 768 ? '1.2rem' : '1.8rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    pointerEvents: 'auto',
+                    backdropFilter: 'blur(10px)'
+                  }}
+                  onClick={() => navigateImage('prev')}
+                  onMouseEnter={(e) => {
+                    if (windowWidth >= 768) {
+                      e.currentTarget.style.background = '#2c3e50';
+                      e.currentTarget.style.transform = 'scale(1.1) rotateZ(-10deg)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (windowWidth >= 768) {
+                      e.currentTarget.style.background = 'rgba(0, 0, 0, 0.7)';
+                      e.currentTarget.style.transform = 'scale(1) rotateZ(0deg)';
+                    }
+                  }}
+                >
+                  ‹
+                </button>
+                
+                <button 
+                  style={{
+                    background: 'rgba(0, 0, 0, 0.7)',
+                    border: 'none',
+                    width: windowWidth < 768 ? '50px' : '70px',
+                    height: windowWidth < 768 ? '50px' : '70px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    color: 'white',
+                    fontSize: windowWidth < 768 ? '1.2rem' : '1.8rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    pointerEvents: 'auto',
+                    backdropFilter: 'blur(10px)'
+                  }}
+                  onClick={() => navigateImage('next')}
+                  onMouseEnter={(e) => {
+                    if (windowWidth >= 768) {
+                      e.currentTarget.style.background = '#2c3e50';
+                      e.currentTarget.style.transform = 'scale(1.1) rotateZ(10deg)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (windowWidth >= 768) {
+                      e.currentTarget.style.background = 'rgba(0, 0, 0, 0.7)';
+                      e.currentTarget.style.transform = 'scale(1) rotateZ(0deg)';
+                    }
+                  }}
+                >
+                  ›
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
-      
-      <style jsx>{`
-        @media (max-width: 1200px) {
-          .gallery-grid {
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)) !important;
-            gap: 2rem !important;
-          }
-        }
-        
-        @media (max-width: 768px) {
-          .gallery-grid {
-            grid-template-columns: 1fr !important;
-            gap: 2rem !important;
-          }
-          
-          .gallery-item {
-            height: 300px !important;
-          }
-          
-          .lightbox-image {
-            height: 50vh !important;
-          }
-          
-          h2 {
-            font-size: 2.5rem !important;
-          }
-          
-          .filter-buttons {
-            gap: 1rem !important;
-          }
-          
-          .filter-btn {
-            padding: 0.75rem 1.5rem !important;
-            font-size: 0.8rem !important;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          h2 {
-            font-size: 2rem !important;
-          }
-          
-          .gallery-item {
-            height: 280px !important;
-          }
-          
-          .filter-btn {
-            padding: 0.6rem 1rem !important;
-            font-size: 0.75rem !important;
-          }
-          
-          .lightbox-content {
-            padding: 2rem !important;
-          }
-        }
-      `}</style>  
     </section>
   );
 };
