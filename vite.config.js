@@ -3,10 +3,9 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: './',
+  base: '/pavan-techno-constructions/',
   build: {
     outDir: 'dist',
-    emptyOutDir: true,
-    sourcemap: false
+    emptyOutDir: true
   }
 })
