@@ -268,19 +268,19 @@ const About = () => {
                   </div>
                 </div>
                 <img 
-                  src="/images/whyy.jpg" 
+                  src={`${import.meta.env.BASE_URL}images/logo.png`} 
                   alt="Construction Excellence"
                   onError={(e) => {
                     const fallbackPaths = [
-                      "/assets/whyy.jpg",
-                      "./images/whyy.jpg",
-                      "./assets/whyy.jpg",
-                      "/public/images/whyy.jpg"
+                      `${import.meta.env.BASE_URL}assets/whyy.jpg`,
+                      `${import.meta.env.BASE_URL}images/logo.png`, // Fallback to a known working image
+                      `${import.meta.env.BASE_URL}images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg` // Another working image
                     ];
                     
                     let attempted = false;
                     for (const path of fallbackPaths) {
-                      if (!e.target.src.includes(path.replace('./', '').replace('/public', ''))) {
+                      if (!e.target.src.includes(path.replace(`${import.meta.env.BASE_URL}`, ''))) {
+                        console.log(`Image failed to load, trying: ${path}`);
                         e.target.src = path;
                         attempted = true;
                         break;
@@ -288,11 +288,25 @@ const About = () => {
                     }
                     
                     if (!attempted) {
+                      console.log("All image paths failed, using text placeholder");
                       e.target.style.display = 'none';
-                      e.target.parentElement.innerHTML = `
-                        <div class="image-placeholder">
-                          <div class="placeholder-icon">🏗️</div>
-                          <div class="placeholder-text">Construction Excellence</div>
+                      e.target.parentElement.innerHTML += `
+                        <div class="image-placeholder" style="
+                          background: linear-gradient(135deg, #3b82f6, #1e40af);
+                          color: white;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          height: 100%;
+                          font-size: 1.5rem;
+                          text-align: center;
+                          padding: 2rem;
+                        ">
+                          <div>
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">🏗️</div>
+                            <div>Building Excellence</div>
+                            <div style="margin-top: 1rem; font-size: 2rem;">500+ Projects</div>
+                          </div>
                         </div>
                       `;
                     }
