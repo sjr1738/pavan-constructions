@@ -43,39 +43,39 @@ const Services = () => {
 
   const services = [
     {
-      title: "Building Construction",
-      icon: "🏗️",
-      description: "From start to end, whether its residential or commercial project, we deliver quality construction tailored to your needs, ensuring durability and elegance.",
+      title: "Residential Construction",
+      icon: "🏠",
+      description: "Premium home building with quality materials and expert craftsmanship for comfortable, durable living spaces.",
       gradient: "linear-gradient(135deg, #2c3e50 0%, #34495e 100%)"
     },
     {
-      title: "Architectural Services",
-      icon: "📐",
-      description: "We believe in constantly researching and developing ways to make the entire construction process more efficient and quality driven.",
+      title: "Commercial Projects",
+      icon: "🏢",
+      description: "Efficient construction of offices, retail spaces and industrial buildings with modern design and timely delivery.",
       gradient: "linear-gradient(135deg, #B79C5C 0%, #8B7355 100%)"
     },
     {
-      title: "Renovation",
+      title: "Property Renovation",
       icon: "🔨",
-      description: "We undertake renovation work for all commercial, residential and factory layout. From demolishing to rebuilding with custom redesigns.",
+      description: "Complete property updates from minor repairs to major overhauls for both residential and commercial buildings.",
       gradient: "linear-gradient(135deg, #34495e 0%, #2c3e50 100%)"
     },
     {
-      title: "Layout Development",
-      icon: "📋",
-      description: "Our layout development expertise is designed to transform your project goals into reality. A perfect balance of form and function.",
+      title: "Custom Design",
+      icon: "📝",
+      description: "Tailored architectural designs that perfectly balance aesthetics, functionality and client requirements.",
       gradient: "linear-gradient(135deg, #8B7355 0%, #B79C5C 100%)"
     },
     {
-      title: "Interior Designing",
+      title: "Interior Solutions",
       icon: "🎨",
-      description: "We create stunning interior designs for commercial, residential, and industrial spaces. From concept to completion with expert craftsmanship.",
+      description: "Full-service interior design from concept to installation for beautiful, functional living and working spaces.",
       gradient: "linear-gradient(135deg, #2c3e50 0%, #B79C5C 100%)"
     },
     {
-      title: "Customer Satisfaction",
-      icon: "⭐",
-      description: "Our expert architects help you with creating conceptual designs, developing floor plans and preparing site plans that reflect your expectations.",
+      title: "Project Management",
+      icon: "📊",
+      description: "Comprehensive oversight of all construction phases ensuring quality, timeline adherence and budget management.",
       gradient: "linear-gradient(135deg, #B79C5C 0%, #34495e 100%)"
     }
   ];

@@ -30,90 +30,167 @@ const Gallery = () => {
       image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       title: 'Modern Villa Estate',
       description: 'Luxurious modern villa with panoramic views and contemporary design elements featuring premium finishes',
-      year: '2024',
-      location: 'Bangalore',
+      year: '2023',
+      location: 'Bengaluru',
       gallery: [
-        'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1566908829077-85d4b623c071?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1560185127-6ed189bf02f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1516455207990-7a41ce80f7ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
       ]
     },
     {
       id: 2,
       category: 'commercial',
       image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      title: 'Corporate Hub Complex',
-      description: 'Contemporary office space designed for modern businesses with state-of-the-art facilities',
-      year: '2024',
-      location: 'Hyderabad'
+      title: 'Corporate Office Tower',
+      description: 'State-of-the-art corporate headquarters with sustainable design features and smart building technology',
+      year: '2022',
+      location: 'Hyderabad',
+      gallery: [
+        'https://images.unsplash.com/photo-1497366811353-6870744d04b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      ]
     },
     {
       id: 3,
-      category: 'residential',
-      image: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      title: 'Heritage Family Home',
-      description: 'Spacious family home with elegant design and premium finishes blending tradition with modernity',
+      category: 'interior',
+      image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      title: 'Luxury Apartment Interior',
+      description: 'High-end residential interior design with custom furniture and premium materials throughout the space',
       year: '2023',
       location: 'Chennai',
       gallery: [
-        'https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1576941089067-2de3c901e126?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1602872030300-ad1ba728799f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+        'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1616137466211-f939a420be84?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
       ]
     },
     {
       id: 4,
-      category: 'interior',
-      image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      title: 'Luxury Living Spaces',
-      description: 'Elegant living room with modern aesthetics and luxury furniture showcasing sophisticated design',
-      year: '2024',
-      location: 'Mumbai'
+      category: 'renovation',
+      image: 'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      title: 'Historic Building Renovation',
+      description: 'Careful restoration of a heritage structure with modern amenities while preserving historical elements',
+      year: '2021',
+      location: 'Mangalore',
+      gallery: [
+        'https://images.unsplash.com/photo-1604709177225-055f99402ea3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1581235720704-06d3acfcb36f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1581235707960-5a1d318a2a5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      ]
     },
     {
       id: 5,
-      category: 'renovation',
-      image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      title: 'Gourmet Kitchen Transformation',
-      description: 'Complete kitchen transformation with high-end finishes and premium appliances',
-      year: '2023',
-      location: 'Pune'
+      category: 'layout',
+      image: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      title: 'Urban Planning Project',
+      description: 'Comprehensive urban development plan with mixed-use spaces, green areas and sustainable infrastructure',
+      year: '2022',
+      location: 'Bengaluru',
+      gallery: [
+        'https://images.unsplash.com/photo-1524055988636-436cfa46e59e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1590274853856-f22d5ee3d228?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      ]
     },
     {
       id: 6,
-      category: 'commercial',
-      image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      title: 'Premium Shopping Complex',
-      description: 'Multi-level shopping complex with modern facilities and world-class amenities',
-      year: '2024',
-      location: 'Delhi'
+      category: 'residential',
+      image: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      title: 'Luxury Family Home',
+      description: 'Custom-designed family residence with premium amenities, smart home features and sustainable elements',
+      year: '2023',
+      location: 'Hyderabad',
+      gallery: [
+        'https://images.unsplash.com/photo-1600566752355-35792bedcfea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1600566752447-f5069ffcada1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      ]
     },
     {
       id: 7,
-      category: 'layout',
-      image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      title: 'Smart Community Layout',
-      description: 'Well-planned residential layout with all essential amenities and green spaces',
-      year: '2023',
-      location: 'Kochi'
+      category: 'commercial',
+      image: 'https://images.unsplash.com/photo-1577415124269-fc1140a69e91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      title: 'Retail Complex Development',
+      description: 'Modern shopping center with innovative design, optimized customer flow and integrated digital experiences',
+      year: '2021',
+      location: 'Chennai',
+      gallery: [
+        'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1604014056132-70b975a35d40?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1604014237800-1c9102c219da?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      ]
     },
     {
       id: 8,
       category: 'interior',
-      image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      title: 'Serene Bedroom Sanctuary',
-      description: 'Relaxing bedroom with contemporary design elements and luxury comfort features',
-      year: '2024',
-      location: 'Goa'
+      image: 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      title: 'Corporate Office Interior',
+      description: 'Modern workspace design with ergonomic furniture, collaborative areas and productivity-focused layout',
+      year: '2022',
+      location: 'Mangalore',
+      gallery: [
+        'https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1604328698692-f76ea9498e76?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      ]
+    },
+    {
+      id: 9,
+      category: 'renovation',
+      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      title: 'Residential Remodeling',
+      description: 'Complete home transformation with open concept design, updated systems and contemporary finishes',
+      year: '2023',
+      location: 'Bengaluru',
+      gallery: [
+        'https://images.unsplash.com/photo-1600585154526-990dced4db0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1600566752355-35792bedcfea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1600566752447-f5069ffcada1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      ]
+    },
+    {
+      id: 10,
+      category: 'layout',
+      image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      title: 'Residential Community Planning',
+      description: 'Master-planned residential community with integrated amenities, green spaces and pedestrian-friendly design',
+      year: '2021',
+      location: 'Hyderabad',
+      gallery: [
+        'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      ]
+    },
+    {
+      id: 11,
+      category: 'residential',
+      image: 'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      title: 'Waterfront Residence',
+      description: 'Exclusive waterfront property with panoramic views, custom architectural details and luxury amenities',
+      year: '2022',
+      location: 'Chennai',
+      gallery: [
+        'https://images.unsplash.com/photo-1600566752355-35792bedcfea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1600566752447-f5069ffcada1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      ]
+    },
+    {
+      id: 12,
+      category: 'commercial',
+      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      title: 'Mixed-Use Development',
+      description: 'Integrated commercial and residential complex with shared amenities and efficient space utilization',
+      year: '2023',
+      location: 'Mangalore',
+      gallery: [
+        'https://images.unsplash.com/photo-1497366811353-6870744d04b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      ]
     }
   ];
   
@@ -869,7 +946,7 @@ const Gallery = () => {
                       alignItems: 'center',
                       gap: '0.5rem'
                     }}>
-                      📍 {item.location}
+                     {item.location}
                     </span>
                     <span style={{
                       fontSize: '0.8rem',

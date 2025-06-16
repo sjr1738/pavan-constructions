@@ -20,6 +20,7 @@ import Popup from './components/Popup';
 import ServicesPage from './components/ServicesPage';
 import PricingPage from './components/PricingPage';
 import GalleryPage from './components/GalleryPage';
+import ContactPage from './components/ContactPage'; // NEW: Import the ContactPage component
 
 import './App.css';
 
@@ -114,13 +115,10 @@ function App() {
             </>
           } />
           
-          {/* Contact Page */}
+          {/* Contact Page - UPDATED: Now uses ContactPage component */}
           <Route path="/contact" element={
             <>
-              <div style={{ paddingTop: '70px' }}>
-                <Contact />
-                <BookNowBanner />
-              </div>
+              <ContactPage />
               <Footer />
             </>
           } />

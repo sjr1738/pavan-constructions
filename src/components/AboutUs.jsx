@@ -474,9 +474,13 @@ const AboutUs = ({ openPopup }) => {
               {/* First two paragraphs */}
               <div style={{ position: 'relative' }}>
                 {[
-                  "We at Pavan Techno Construction understand that building your dream home is a major investment. Hence we prioritize a cost-effective construction process with high quality outcomes, whether it's a residential project, commercial project, villa, hospital, or school project.",
+                  "At Pavan Techno Construction, we deliver cost-effective, high-quality construction for residential, commercial, healthcare, and educational projects.",
                   
-                  "We are building a foundation of trust, ethics and shared success. For over 8 years we have been dedicated to exceeding client expectations. We're driven by passion for our work and a commitment to delivering outstanding customer experiences, every time."
+                  "With 8+ years of experience, we've built our reputation on trust, ethics, and exceeding client expectations through passion and commitment.",
+                  
+                  "We specialize in diverse construction projects with meticulous attention to detail. Our work with M.E.S has earned us a strong reputation in the industry.",
+                  
+                  "Every project receives our full dedication, as we understand buildings aren't just structures—they're the foundation for our clients' lives and businesses."
                 ].map((text, index) => (
                   <p 
                     key={index} 
@@ -651,13 +655,13 @@ const AboutUs = ({ openPopup }) => {
                 
                 <div style={{ position: 'relative' }}>
                   {[
-                    "We at Pavan Techno Construction understand that building your dream home is a major investment. Hence we prioritize a cost-effective construction process with high quality outcomes, whether it's a residential project, commercial project, villa, hospital, or school project.",
+                    "At Pavan Techno Construction, we deliver cost-effective, high-quality construction for residential, commercial, healthcare, and educational projects.",
                     
-                    "We are building a foundation of trust, ethics and shared success. For over 8 years we have been dedicated to exceeding client expectations. We're driven by passion for our work and a commitment to delivering outstanding customer experiences, every time.",
+                    "With 8+ years of experience, we've built our reputation on trust, ethics, and exceeding client expectations through passion and commitment.",
                     
-                    "We specialize in a wide range of construction projects, bringing your vision to life through craftsmanship and attention to details. We are also working with the most valuable department in India (M.E.S) with good reputations.",
+                    "We specialize in diverse construction projects with meticulous attention to detail. Our work with M.E.S has earned us a strong reputation in the industry.",
                     
-                    "At Pavan Techno Construction, we promise to approach every project with passion and dedication, recognizing that the buildings we create are not just structures, but the backdrops for our client's lives."
+                    "Every project receives our full dedication, as we understand buildings aren't just structures—they're the foundation for our clients' lives and businesses."
                   ].map((text, index) => (
                     <p 
                       key={index} 

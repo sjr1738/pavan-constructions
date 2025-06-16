@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { FaBuilding, FaCity, FaUsers, FaAward, FaCalendarAlt } from 'react-icons/fa';
 
 const Record = () => {
   const sectionRef = useRef(null);
@@ -8,6 +9,9 @@ const Record = () => {
   const [animatedItems, setAnimatedItems] = useState([]);
   const [titleAnimated, setTitleAnimated] = useState(false);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  // Define iconSize based on window width
+  const iconSize = windowWidth < 480 ? 24 : windowWidth < 768 ? 28 : 36;
 
   useEffect(() => {
     const handleResize = () => {
@@ -173,48 +177,29 @@ const Record = () => {
 
   const records = [
     {
-      icon: (
-        <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: '100%', height: '100%' }}>
-          <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
-        </svg>
-      ),
-      value: 9,
-      label: "YEARS LEGACY",
+      icon: <FaCalendarAlt size={iconSize} color="#B79C5C" />,
+      value: 15,
       suffix: "+",
-      color: "#3498db"
+      label: "YEARS LEGACY"
     },
     {
-      icon: (
-        <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: '100%', height: '100%' }}>
-          <path d="M3 17h18v-2H3v2zm0 3h18v-1H3v1zm0-7h18v-1H3v1zm0-2.5h18v-1H3v1zm0-2.5h18v-1H3v1zM3 5v1h18V5H3z"/>
-        </svg>
-      ),
-      value: 6,
-      label: "LAKHS SQ.FT DELIVERED",
+      icon: <FaBuilding size={iconSize} color="#3498db" />,
+      value: 12,
       suffix: "+",
-      color: "#B79C5C"
+      label: "LAKHS SQ.FT DELIVERED"
     },
     {
-      icon: (
-        <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: '100%', height: '100%' }}>
-          <path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1z"/>
-        </svg>
-      ),
-      value: 30,
-      label: "Projects Delivered",
+      icon: <FaAward size={iconSize} color="#B79C5C" />,
+      value: 60,
       suffix: "+",
-      color: "#2c3e50"
+      label: "PROJECTS DELIVERED"
     },
     {
-      icon: (
-        <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: '100%', height: '100%' }}>
-          <path d="M15 11V5l-3-3-3 3v2H3v14h18V11h-6zm-8 8H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V9h2v2zm4 8H9v-2h2v2zm0-4H9v-2h2v2zm0-4H9V9h2v2zm0-4H9V5h2v2zm4 12h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2z"/>
-        </svg>
-      ),
-      value: 5,
-      label: "Cities",
-      suffix: "+",
-      color: "#3498db"
+      icon: <FaCity size={iconSize} color="#3498db" />,
+      value: 4,
+      suffix: "",
+      label: "CITIES",
+      subtext: "Bangalore, Mangalore, Hyderabad, Chennai"
     }
   ];
 
@@ -533,6 +518,18 @@ const Record = () => {
                     {record.suffix}
                   </h3>
                   <h5 className="record-label" style={labelStyle}>{record.label}</h5>
+                  {record.subtext && (
+                    <p style={{
+                      fontSize: '0.85rem',
+                      color: 'rgba(255, 255, 255, 0.8)',
+                      marginTop: '0.5rem',
+                      textAlign: 'center',
+                      fontWeight: '400',
+                      lineHeight: '1.4'
+                    }}>
+                      {record.subtext}
+                    </p>
+                  )}
                 </div>
               </div>
             );

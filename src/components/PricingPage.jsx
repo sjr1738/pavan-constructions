@@ -41,8 +41,6 @@ const PricingPage = ({ openPopup }) => {
     residential: [
       {
         title: "STANDARD RESIDENTIAL",
-        code: "RES-STD-001",
-        classification: "ECONOMY CLASS",
         baseRate: "₹1,600",
         totalCost: "₹16,00,000",
         area: "1000 sq ft",
@@ -57,15 +55,6 @@ const PricingPage = ({ openPopup }) => {
           "Finishing & Paint": "15%",
           "Fixtures & Fittings": "7%"
         },
-        specifications: [
-          "RCC Frame Structure",
-          "Standard Grade Materials",
-          "Basic Electrical Installation",
-          "Standard Plumbing System",
-          "Vitrified Tile Flooring",
-          "Emulsion Paint Finish",
-          "6 Months Warranty"
-        ],
         included: [
           "Architectural Planning",
           "Structural Design",
@@ -74,13 +63,10 @@ const PricingPage = ({ openPopup }) => {
           "Material Supply",
           "Labor Management"
         ],
-        compliance: ["NBC 2016", "IS Codes", "Local Bylaws"],
         status: "STANDARD"
       },
       {
         title: "PREMIUM RESIDENTIAL",
-        code: "RES-PREM-002",
-        classification: "PREMIUM CLASS",
         baseRate: "₹2,200",
         totalCost: "₹22,00,000",
         area: "1000 sq ft",
@@ -95,15 +81,6 @@ const PricingPage = ({ openPopup }) => {
           "Finishing & Paint": "18%",
           "Fixtures & Fittings": "6%"
         },
-        specifications: [
-          "RCC Frame with Steel",
-          "Premium Grade Materials",
-          "Modern Electrical Systems",
-          "Advanced Plumbing",
-          "Premium Tile Flooring",
-          "Premium Paint Finishes",
-          "12 Months Warranty"
-        ],
         included: [
           "3D Architectural Design",
           "Structural Engineering",
@@ -113,7 +90,6 @@ const PricingPage = ({ openPopup }) => {
           "Skilled Labor Team",
           "Interior Consultation"
         ],
-        compliance: ["NBC 2016", "IS Codes", "Green Building", "Local Bylaws"],
         status: "RECOMMENDED"
       },
       {
@@ -598,9 +574,7 @@ const PricingPage = ({ openPopup }) => {
             <div className="estimates-header">
               <h2>PROJECT ESTIMATES - {selectedCategory.toUpperCase()}</h2>
               <div className="estimates-meta">
-                <span>CURRENCY: INR</span>
-                <span>VALID UNTIL: 30 DAYS</span>
-                <span>ESTIMATES: {currentEstimates.length}</span>
+                {/* Removed CURRENCY, VALID UNTIL, and ESTIMATES information */}
               </div>
             </div>
             
@@ -663,17 +637,7 @@ const PricingPage = ({ openPopup }) => {
                           </div>
                         </div>
                         
-                        <div className="detail-section">
-                          <h4>SPECIFICATIONS</h4>
-                          <div className="specs-list">
-                            {estimate.specifications.map((spec, idx) => (
-                              <div key={idx} className="spec-line">
-                                <span className="spec-bullet">●</span>
-                                {spec}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
+                        {/* Removed specifications section */}
                         
                         <div className="detail-section">
                           <h4>INCLUDED SERVICES</h4>
@@ -688,14 +652,7 @@ const PricingPage = ({ openPopup }) => {
                         </div>
                         
                         <div className="estimate-footer">
-                          <div className="compliance-info">
-                            <span className="compliance-label">COMPLIANCE:</span>
-                            <div className="compliance-tags">
-                              {estimate.compliance.map((code, idx) => (
-                                <span key={idx} className="compliance-tag">{code}</span>
-                              ))}
-                            </div>
-                          </div>
+                          {/* Removed compliance info */}
                           <button className="request-quote-btn" onClick={openPopup}>
                             REQUEST DETAILED QUOTE
                             <span className="btn-arrow">→</span>
@@ -781,7 +738,7 @@ const PricingPage = ({ openPopup }) => {
               <div className="metric-panel">
                 <div className="panel-icon">📋</div>
                 <div className="panel-data">
-                  <span className="metric-value">500+</span>
+                  <span className="metric-value">60+</span>
                   <span className="metric-label">Estimates Delivered</span>
                 </div>
               </div>
@@ -803,7 +760,7 @@ const PricingPage = ({ openPopup }) => {
                 <div className="panel-icon">🛡️</div>
                 <div className="panel-data">
                   <span className="metric-value">100%</span>
-                  <span className="metric-label">Transparent Pricing</span>
+                  <span className="metric-label">Transparency</span>
                 </div>
               </div>
             </div>

@@ -42,115 +42,73 @@ const ServicesPage = ({ openPopup }) => {
     {
       id: 1,
       title: "Building Construction",
-      code: "CONST-001",
-      station: "A",
       icon: "🏗️",
       image: s1Image,
       description: "From start to end, whether it's residential or commercial project, we deliver quality construction tailored to your needs, ensuring durability and elegance.",
       features: ["Residential Projects", "Commercial Buildings", "Quality Materials", "Durable Construction"],
-      specifications: {
-        "Foundation": "RCC & Steel Structure",
-        "Materials": "Premium Grade Cement & Steel",
-        "Standards": "IS Codes Compliant",
-        "Timeline": "6-18 months"
-      },
+      // Removed specifications object
       price: "Starting from ₹1,600/sq ft",
       category: "structural"
     },
     {
       id: 2,
       title: "Architectural Services",
-      code: "ARCH-002",
-      station: "B",
       icon: "📐",
       image: artiImage,
       description: "We believe in constantly researching and developing ways to make the entire construction process more efficient and quality driven.",
       features: ["Conceptual Designs", "Floor Planning", "Site Plans", "Dream Home Consultation"],
-      specifications: {
-        "Software": "AutoCAD, 3D Max, Revit",
-        "Standards": "NBC Compliant",
-        "Delivery": "2D & 3D Drawings",
-        "Revisions": "Up to 3 Free Revisions"
-      },
+      // Removed specifications object
       price: "Starting from ₹25/sq ft",
       category: "design"
     },
     {
       id: 3,
       title: "Renovation",
-      code: "RENO-003",
-      station: "C",
       icon: "🔨",
       image: rsImage,
       description: "We undertake renovation work for all commercial, residential and factory layout. From demolishing to rebuilding with custom redesigns.",
       features: ["Commercial Renovation", "Residential Makeover", "Factory Layout", "Custom Redesigns"],
-      specifications: {
-        "Assessment": "Structural Integrity Check",
-        "Approach": "Phase-wise Execution",
-        "Safety": "Zero Disruption Methods",
-        "Completion": "Turnkey Solutions"
-      },
+      // Removed specifications object
       price: "Starting from ₹600/sq ft",
       category: "renovation"
     },
     {
       id: 4,
       title: "Layout Development",
-      code: "LAY-004",
-      station: "D",
       icon: "📋",
       image: ldImage,
       description: "Our layout development expertise is designed to transform your project goals into reality, which is a perfect balance of form and function.",
       features: ["Project Planning", "Space Optimization", "Functional Design", "Goal-oriented Solutions"],
-      specifications: {
-        "Analysis": "Site Survey & Analysis",
-        "Optimization": "Space Utilization 95%+",
-        "Compliance": "Local Bylaws Adherence",
-        "Documentation": "Detailed Layout Plans"
-      },
+      // Removed specifications object
       price: "Starting from ₹35/sq ft",
       category: "planning"
     },
     {
       id: 5,
       title: "Interior Designing",
-      code: "INT-005",
-      station: "E",
       icon: "🎨",
       image: interiorImage,
       description: "We create stunning interior designs for commercial, residential, and industrial spaces. From concept to completion, we bring your vision to life.",
       features: ["Commercial Interiors", "Residential Design", "Industrial Spaces", "Concept to Completion"],
-      specifications: {
-        "Design": "Contemporary & Traditional",
-        "Materials": "Premium Finishes",
-        "Lighting": "LED & Smart Systems",
-        "Furniture": "Custom & Modular"
-      },
+      // Removed specifications object
       price: "Starting from ₹800/sq ft",
       category: "interiors"
     },
     {
       id: 6,
       title: "Customer Satisfaction",
-      code: "SUPP-006",
-      station: "F",
       icon: "⭐",
       image: cs1Image,
       description: "Our expert architects help you with creating conceptual designs, developing floor plans and preparing site plans, which reflect your dream home expectations.",
       features: ["Expert Consultation", "Dream Home Planning", "Quality Assurance", "Client-focused Approach"],
-      specifications: {
-        "Support": "24/7 Client Support",
-        "Warranty": "5-Year Structural Warranty",
-        "Maintenance": "Annual Maintenance",
-        "Feedback": "Real-time Project Updates"
-      },
+      // Removed specifications object
       price: "Included in all services",
       category: "support"
     }
   ];
 
   const workshopStats = [
-    { icon: "🏆", value: "500+", label: "Projects Completed", detail: "Across all service categories" },
+    { icon: "🏆", value: "60+", label: "Projects Completed", detail: "Across all service categories" },
     { icon: "📅", value: "15+", label: "Years Experience", detail: "Professional expertise" },
     { icon: "😊", value: "100%", label: "Client Satisfaction", detail: "Quality guaranteed" },
     { icon: "🔧", value: "24/7", label: "Support Available", detail: "Round-the-clock assistance" }
@@ -215,9 +173,7 @@ const ServicesPage = ({ openPopup }) => {
               <div className="plan-header">
                 <h2>WORKSHOP FLOOR PLAN</h2>
                 <div className="plan-details">
-                  <span>SCALE: 1:100</span>
-                  <span>LEVEL: GROUND FLOOR</span>
-                  <span>AREA: 6 SERVICE STATIONS</span>
+                  {/* Removed SCALE, LEVEL, and AREA details */}
                 </div>
               </div>
               
@@ -237,7 +193,7 @@ const ServicesPage = ({ openPopup }) => {
                       </div>
                       
                       <div className="station-header">
-                        <div className="station-id">STATION {service.station}</div>
+                        <div className="station-id"> {service.station}</div>
                         <div className="station-code">{service.code}</div>
                       </div>
                       
@@ -252,7 +208,7 @@ const ServicesPage = ({ openPopup }) => {
                         <h3>{service.title}</h3>
                         <div className="station-status">
                           <span className="status-dot"></span>
-                          <span>OPERATIONAL</span>
+                          {/* Removed "OPERATIONAL" text */}
                         </div>
                       </div>
                       
@@ -263,17 +219,7 @@ const ServicesPage = ({ openPopup }) => {
                             <p>{service.description}</p>
                           </div>
                           
-                          <div className="details-section">
-                            <h4>SPECIFICATIONS</h4>
-                            <div className="spec-grid">
-                              {Object.entries(service.specifications).map(([key, value]) => (
-                                <div key={key} className="spec-item">
-                                  <span className="spec-label">{key}:</span>
-                                  <span className="spec-value">{value}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
+                          {/* Removed specifications section */}
                           
                           <div className="details-section">
                             <h4>KEY FEATURES</h4>
@@ -430,7 +376,7 @@ const ServicesPage = ({ openPopup }) => {
             <div className="quality-content">
               <div className="content-header">
                 <h2>QUALITY ASSURANCE PROTOCOL</h2>
-                <div className="protocol-id">QAP-2024</div>
+                {/* Removed the protocol-id div with QAP-2024 */}
               </div>
               
               <div className="assurance-items">
@@ -444,7 +390,8 @@ const ServicesPage = ({ openPopup }) => {
                 <div className="assurance-item">
                   <div className="item-marker">02</div>
                   <div className="item-data">
-                    <h4>500+ Projects Completed</h4>
+                    {/* Changed from 500+ to 60+ Projects Completed */}
+                    <h4>60+ Projects Completed</h4>
                     <p>Successfully delivered projects across residential, commercial, and industrial sectors</p>
                   </div>
                 </div>
@@ -455,39 +402,10 @@ const ServicesPage = ({ openPopup }) => {
                     <p>We use only premium quality materials from trusted suppliers ensuring longevity</p>
                   </div>
                 </div>
-                <div className="assurance-item">
-                  <div className="item-marker">04</div>
-                  <div className="item-data">
-                    <h4>On-Time Delivery</h4>
-                    <p>Committed to delivering projects within agreed timelines without compromising quality</p>
-                  </div>
-                </div>
               </div>
             </div>
             
-            <div className="certification-panel">
-              <div className="cert-header">
-                <h3>CERTIFICATIONS & STANDARDS</h3>
-              </div>
-              <div className="cert-items">
-                <div className="cert-item">
-                  <div className="cert-badge">ISO</div>
-                  <span>ISO 9001:2015 Certified</span>
-                </div>
-                <div className="cert-item">
-                  <div className="cert-badge">BIS</div>
-                  <span>BIS Standards Compliant</span>
-                </div>
-                <div className="cert-item">
-                  <div className="cert-badge">NBC</div>
-                  <span>National Building Code</span>
-                </div>
-                <div className="cert-item">
-                  <div className="cert-badge">IS</div>
-                  <span>Indian Standards Certified</span>
-                </div>
-              </div>
-            </div>
+            {/* Removed the entire certification-panel div */}
           </div>
         </div>
       </div>

@@ -95,12 +95,14 @@ const GalleryPage = () => {
     residential: [
       { src: g4, title: 'Modern Villa', type: 'Custom Home', year: '2024', area: '3,200 sq ft', duration: '8 months' },
       { src: g5, title: 'Urban Townhouse', type: 'Multi-Family', year: '2023', area: '1,800 sq ft', duration: '5 months' },
-      { src: g6, title: 'Luxury Estate', type: 'High-End Residential', year: '2024', area: '6,500 sq ft', duration: '12 months' }
-    ],
-    commercial: [
+      { src: g6, title: 'Luxury Estate', type: 'High-End Residential', year: '2024', area: '6,500 sq ft', duration: '12 months' },
+      // Added commercial projects to residential section
       { src: g8, title: 'Office Building', type: 'Corporate', year: '2023', area: '25,000 sq ft', duration: '24 months' },
       { src: g11, title: 'Retail Center', type: 'Commercial', year: '2024', area: '12,000 sq ft', duration: '10 months' },
       { src: g12, title: 'Industrial Facility', type: 'Manufacturing', year: '2023', area: '40,000 sq ft', duration: '15 months' }
+    ],
+    commercial: [
+      // Removed all items from commercial section
     ],
     process: [
       { src: a1, title: 'Foundation Work', type: 'Process Documentation', year: '2024', area: 'Various', duration: 'Ongoing' },
@@ -420,6 +422,7 @@ const GalleryPage = () => {
           background: #f8f9fa;
           min-height: 100vh;
           color: #2D3748;
+          padding-top: 80px; /* Added padding to prevent navbar overlap */
         }
 
         .container {
@@ -431,9 +434,10 @@ const GalleryPage = () => {
         /* Blueprint Header */
         .blueprint-header {
           background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-          padding: 60px 0;
+          padding: 40px 0; /* Reduced from 60px to 40px */
           border-bottom: 2px solid #B79C5C;
           position: relative;
+          margin-top: 20px; /* Added margin-top for additional spacing */
         }
 
         .blueprint-header::before {

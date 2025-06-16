@@ -16,7 +16,25 @@ const Hero = ({ openPopup }) => {
   const videoRef = useRef(null);
   const seeUsRef = useRef(null);
   const backgroundVideoRef = useRef(null); // Add ref for background video
+  const [logoSrc, setLogoSrc] = useState("/images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg");
+  const [logoError, setLogoError] = useState(false);
   
+  useEffect(() => {
+    // Try to preload the image to check if it exists
+    const img = new Image();
+    img.onload = () => {
+      console.log("Logo preloaded successfully:", img.src);
+      setLogoSrc(img.src);
+      setLogoError(false);
+    };
+    img.onerror = () => {
+      console.log("Logo preload failed, trying alternative path");
+      // Try an alternative path
+      setLogoSrc("./images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg");
+    };
+    img.src = logoSrc;
+  }, []);
+
   // Try multiple path variations for video loading
   const videos = [
     {
@@ -678,27 +696,38 @@ Note: This is a temporary file. Please contact us directly for the complete broc
           {/* Company Logo */}
           <div className="hero-company-logo">
             <img 
-              src="/public/images/logo.png" 
+              src={logoSrc} 
               alt="Pavan Techno Constructions Logo" 
               className="hero-logo-image"
               onError={(e) => {
+                console.log("Logo image failed to load, trying fallback paths");
                 // Fallback paths if main path fails
                 const fallbackPaths = [
-                  "/images/logo.png",
-                  "./images/logo.png",
-                  "/assets/logo.png",
-                  "./assets/logo.png"
+                  "/images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg",
+                  "./images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg",
+                  "../public/images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg",
+                  "/assets/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg",
+                  "./assets/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg",
+                  "/public/images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg",
+                  "./public/images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg",
+                  "/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg",
+                  "./WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg"
                 ];
                 
                 const currentSrc = e.target.src;
                 const currentIndex = fallbackPaths.findIndex(path => currentSrc.includes(path.replace('./', '')));
                 
                 if (currentIndex < fallbackPaths.length - 1) {
+                  console.log(`Trying next path: ${fallbackPaths[currentIndex + 1]}`);
                   e.target.src = fallbackPaths[currentIndex + 1];
                 } else {
+                  console.log("All logo paths failed, hiding logo");
                   // If all paths fail, hide the logo
                   e.target.style.display = 'none';
                 }
+              }}
+              style={{ 
+                filter: 'brightness(1.2) contrast(1.1) saturate(1.1)'
               }}
             />
           </div>
@@ -707,7 +736,12 @@ Note: This is a temporary file. Please contact us directly for the complete broc
           <div className="title-tagline-container">
             {/* Company Title with Character Animation */}
             <div className="company-title">
-              <h1>
+              <h1 style={{ 
+                color: '#333333', 
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
+                position: 'relative',
+                zIndex: 5
+              }}>
                 <span className="title-line">
                   <AnimatedWord className="word-1" delay={0.1}>PAVAN</AnimatedWord>{' '}
                   <AnimatedWord className="word-2" delay={0.3}>TECHNO</AnimatedWord>{' '}
@@ -718,7 +752,14 @@ Note: This is a temporary file. Please contact us directly for the complete broc
 
             {/* Tagline with Typewriter Effect */}
             <div className="tagline">
-              <p className="typewriter">Consult, Design & Execute</p>
+              <p className="typewriter" style={{ 
+                color: '#333333', 
+                textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)',
+                position: 'relative',
+                zIndex: 5
+              }}>
+                Consult, Design & Execute
+              </p>
             </div>
           </div>
         </div>
@@ -758,7 +799,7 @@ Note: This is a temporary file. Please contact us directly for the complete broc
             onMouseEnter={(e) => handleStatHover(e, true)}
             onMouseLeave={(e) => handleStatHover(e, false)}
           >
-            <div className="stat-number" data-target="500">0+</div>
+            <div className="stat-number" data-target="60">0+</div>
             <div className="stat-label">Projects Completed</div>
           </div>
           <div 

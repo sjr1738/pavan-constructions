@@ -1,15 +1,83 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './About.css';
+import { Link } from 'react-router-dom';
 
-const About = ({ openPopup }) => {
-  const sectionRef = useRef(null);
-  const imageRef = useRef(null);
-  const contentRef = useRef(null);
-  const titleRef = useRef(null);
-  const cardsRef = useRef([]);
+// Import client logo images
+import shahiLogo from '../assets/Blog-Covers-Press-Release.png';
+import gokaldasLogo from '../assets/1630570806167.jpeg';
+import mesLogo from '../assets/9nz0z6Ct4l23c27NzViK.png';
+import arkLogo from '../assets/24745175.jpg';
+import taapasiLogo from '../assets/download.png';
+
+const About = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [activeCard, setActiveCard] = useState(null);
+  const sectionRef = useRef(null);
+  const clientLogosRef = useRef(null);
+  const titleRef = useRef(null);
+  const imageRef = useRef(null);
+  const contentRef = useRef(null);
+  const cardsRef = useRef([]);
+
+  const openPopup = () => {
+    // Popup functionality to be implemented
+    console.log('Opening popup...');
+  };
+
+  // Client logos data
+  const clientLogos = [
+    { 
+      name: "SHAHI EXPORTS PVT LTD", 
+      image: shahiLogo,
+      fallbackPaths: [
+        "/assets/Blog-Covers-Press-Release.png",
+        "../assets/Blog-Covers-Press-Release.png",
+        "./assets/Blog-Covers-Press-Release.png",
+        "/src/assets/Blog-Covers-Press-Release.png"
+      ]
+    },
+    { 
+      name: "GOKALDAS EXPORTS LTD", 
+      image: gokaldasLogo,
+      fallbackPaths: [
+        "/assets/1630570806167.jpeg",
+        "../assets/1630570806167.jpeg",
+        "./assets/1630570806167.jpeg",
+        "/src/assets/1630570806167.jpeg"
+      ]
+    },
+    { 
+      name: "MES", 
+      image: mesLogo,
+      fallbackPaths: [
+        "/assets/9nz0z6Ct4l23c27NzViK.png",
+        "../assets/9nz0z6Ct4l23c27NzViK.png",
+        "./assets/9nz0z6Ct4l23c27NzViK.png",
+        "/src/assets/9nz0z6Ct4l23c27NzViK.png"
+      ]
+    },
+    { 
+      name: "ARK BUILDERS", 
+      image: arkLogo,
+      fallbackPaths: [
+        "/assets/24745175.jpg",
+        "../assets/24745175.jpg",
+        "./assets/24745175.jpg",
+        "/src/assets/24745175.jpg"
+      ]
+    },
+    { 
+      name: "TAAPASI PROJECTS", 
+      image: taapasiLogo,
+      fallbackPaths: [
+        "/assets/download.png",
+        "../assets/download.png",
+        "./assets/download.png",
+        "/src/assets/download.png"
+      ]
+    }
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -20,14 +88,15 @@ const About = ({ openPopup }) => {
             entry.target.classList.add('section-visible');
             
             // Trigger sequential animations
-            setTimeout(() => titleRef.current?.classList.add('animate'), 200);
-            setTimeout(() => imageRef.current?.classList.add('animate'), 600);
-            setTimeout(() => contentRef.current?.classList.add('animate'), 1000);
+            setTimeout(() => clientLogosRef.current?.classList.add('animate'), 100);
+            setTimeout(() => titleRef.current?.classList.add('animate'), 400);
+            setTimeout(() => imageRef.current?.classList.add('animate'), 800);
+            setTimeout(() => contentRef.current?.classList.add('animate'), 1200);
             setTimeout(() => {
               cardsRef.current.forEach((card, index) => {
                 setTimeout(() => card?.classList.add('animate'), index * 100);
               });
-            }, 1400);
+            }, 1600);
           }
         });
       },
@@ -119,6 +188,52 @@ const About = ({ openPopup }) => {
             }}
           />
         ))}
+      </div>
+
+      {/* PTC CLIENT LOGOS Section */}
+      <div className="client-logos-section" ref={clientLogosRef}>
+        <div className="container">
+          <div className="client-logos-header">
+            <h2 className="client-logos-title">PTC CLIENT LOGOS</h2>
+            <div className="client-logos-subtitle">Trusted by Industry Leaders</div>
+          </div>
+          
+          <div className="client-logos-grid">
+            {clientLogos.map((client, index) => (
+              <div key={index} className="client-logo-item">
+                <div className="client-logo-container">
+                  <img 
+                    src={client.image} 
+                    alt={client.name}
+                    className="client-logo-image"
+                    onError={(e) => {
+                      const fallbackPaths = client.fallbackPaths;
+                      
+                      let attempted = false;
+                      for (const path of fallbackPaths) {
+                        if (!e.target.src.includes(path.replace('./', '').replace('/public', ''))) {
+                          e.target.src = path;
+                          attempted = true;
+                          break;
+                        }
+                      }
+                      
+                      if (!attempted) {
+                        e.target.style.display = 'none';
+                        e.target.parentElement.innerHTML = `
+                          <div class="logo-placeholder">
+                            <div class="placeholder-text">${client.name}</div>
+                          </div>
+                        `;
+                      }
+                    }}
+                  />
+                </div>
+                <div className="client-name">{client.name}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       <div className="container">
