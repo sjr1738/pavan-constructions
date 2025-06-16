@@ -48,35 +48,27 @@ const Hero = ({ openPopup }) => {
       src: "52886-471089084_tiny.mp4",
       title: "Our Construction Process",
       paths: [
-        "/images/52886-471089084_tiny.mp4",
-        "./images/52886-471089084_tiny.mp4",
-        "/assets/52886-471089084_tiny.mp4",
-        "./assets/52886-471089084_tiny.mp4",
-        "/videos/52886-471089084_tiny.mp4",
-        "/images/52886-471089084_tiny.mp4"
+        `${import.meta.env.BASE_URL}images/52886-471089084_tiny.mp4`,
+        `${import.meta.env.BASE_URL}assets/52886-471089084_tiny.mp4`,
+        `${import.meta.env.BASE_URL}videos/52886-471089084_tiny.mp4`
       ]
     },
     {
       src: "42926-434300944_tiny.mp4", 
       title: "Project Showcase",
       paths: [
-        "/images/42926-434300944_tiny.mp4",
-        "./images/42926-434300944_tiny.mp4",
-        "/assets/42926-434300944_tiny.mp4",
-        "./assets/42926-434300944_tiny.mp4",
-        "/videos/42926-434300944_tiny.mp4",
-        "/images/42926-434300944_tiny.mp4"
+        `${import.meta.env.BASE_URL}images/42926-434300944_tiny.mp4`,
+        `${import.meta.env.BASE_URL}assets/42926-434300944_tiny.mp4`,
+        `${import.meta.env.BASE_URL}videos/42926-434300944_tiny.mp4`
       ]
     }
   ];
 
   // Background video paths for fallback
   const backgroundVideoPaths = [
-    "/images/2835998-uhd_3840_2160_24fps.mp4",
-    "./images/2835998-uhd_3840_2160_24fps.mp4",
-    "/assets/2835998-uhd_3840_2160_24fps.mp4",
-    "./assets/2835998-uhd_3840_2160_24fps.mp4",
-    "/videos/2835998-uhd_3840_2160_24fps.mp4"
+    `${import.meta.env.BASE_URL}images/2835998-uhd_3840_2160_24fps.mp4`,
+    `${import.meta.env.BASE_URL}assets/2835998-uhd_3840_2160_24fps.mp4`,
+    `${import.meta.env.BASE_URL}videos/2835998-uhd_3840_2160_24fps.mp4`
   ];
 
   // PDF download with proper validation and fallback
@@ -84,16 +76,9 @@ const Hero = ({ openPopup }) => {
     e.preventDefault();
     
     const pdfPaths = [
-      "assets/pavan.pdf",
-      "/assets/pavan.pdf", 
-      "./assets/pavan.pdf",
-      "public/assets/pavan.pdf",
-      "/public/assets/pavan.pdf",
-      "images/pavan.pdf",
-      "/images/pavan.pdf",
-      "./images/pavan.pdf",
-      "pavan.pdf",
-      "/pavan.pdf"
+      `${import.meta.env.BASE_URL}assets/pavan.pdf`,
+      `${import.meta.env.BASE_URL}images/pavan.pdf`,
+      `${import.meta.env.BASE_URL}pavan.pdf`
     ];
     
     let currentPathIndex = 0;
@@ -710,19 +695,14 @@ Note: This is a temporary file. Please contact us directly for the complete broc
                 console.log("Logo image failed to load, trying fallback paths");
                 // Fallback paths if main path fails
                 const fallbackPaths = [
-                  "/images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg",
-                  "./images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg",
-                  "../public/images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg",
-                  "/assets/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg",
-                  "./assets/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg",
-                  "/public/images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg",
-                  "./public/images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg",
-                  "/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg",
-                  "./WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg"
+                  `${import.meta.env.BASE_URL}images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg`,
+                  `${import.meta.env.BASE_URL}assets/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg`,
+                  `${import.meta.env.BASE_URL}images/logo.png`,
+                  `${import.meta.env.BASE_URL}logo.png`
                 ];
                 
                 const currentSrc = e.target.src;
-                const currentIndex = fallbackPaths.findIndex(path => currentSrc.includes(path.replace('./', '')));
+                const currentIndex = fallbackPaths.findIndex(path => currentSrc.includes(path.replace(`${import.meta.env.BASE_URL}`, '')));
                 
                 if (currentIndex < fallbackPaths.length - 1) {
                   console.log(`Trying next path: ${fallbackPaths[currentIndex + 1]}`);
