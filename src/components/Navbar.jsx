@@ -16,15 +16,13 @@ import {
 const Navbar = ({ scrolled = false }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
-  const [logoSrc, setLogoSrc] = useState('./images/logo.png'); // Start with working path based on logs
+  const [logoSrc, setLogoSrc] = useState(`${import.meta.env.BASE_URL}images/logo.png`);
   const location = useLocation();
 
   const logoPaths = [
-    './images/logo.png', // Working path first based on logs
-    'logo.png',
-    '/logo.png', 
-    '/public/logo.png',
-    '/images/logo.png'
+    `${import.meta.env.BASE_URL}images/logo.png`,
+    `${import.meta.env.BASE_URL}logo.png`,
+    `${import.meta.env.BASE_URL}assets/logo.png`
   ];
 
   useEffect(() => {

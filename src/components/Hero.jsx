@@ -4,13 +4,13 @@ import { preload } from 'react-dom';
 import './Hero.css';
 
 const Hero = ({ openPopup }) => {
-  // Fix preload with correct 'as' values
-  // React 19 supports: 'audio', 'document', 'embed', 'fetch', 'font', 'image', 'object', 'script', 'style', 'track', 'video', 'worker'
-  preload("./images/logo.png", {as: "image"});
-  preload("./images/2835998-uhd_3840_2160_24fps.mp4", {as: "video"});
+  // Fix preload with correct paths that include the base URL
+  // Use import.meta.env.BASE_URL to get the correct base path in both dev and production
+  preload(`${import.meta.env.BASE_URL}images/logo.png`, {as: "image"});
+  preload(`${import.meta.env.BASE_URL}images/2835998-uhd_3840_2160_24fps.mp4`, {as: "video"});
   
-  // Use the working path for logo that's confirmed in the logs
-  const [logoSrc, setLogoSrc] = useState("./images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg");
+  // Use the base URL for all asset paths
+  const [logoSrc, setLogoSrc] = useState(`${import.meta.env.BASE_URL}images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg`);
   const [logoError, setLogoError] = useState(false);
   
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -51,35 +51,27 @@ const Hero = ({ openPopup }) => {
       src: "52886-471089084_tiny.mp4",
       title: "Our Construction Process",
       paths: [
-        "./images/52886-471089084_tiny.mp4", // Working path first based on logs
-        "/images/52886-471089084_tiny.mp4",
-        "/assets/52886-471089084_tiny.mp4",
-        "./assets/52886-471089084_tiny.mp4",
-        "/videos/52886-471089084_tiny.mp4",
-        "/images/52886-471089084_tiny.mp4"
+        `${import.meta.env.BASE_URL}images/52886-471089084_tiny.mp4`,
+        `${import.meta.env.BASE_URL}assets/52886-471089084_tiny.mp4`,
+        `${import.meta.env.BASE_URL}videos/52886-471089084_tiny.mp4`
       ]
     },
     {
       src: "42926-434300944_tiny.mp4", 
       title: "Project Showcase",
       paths: [
-        "/images/42926-434300944_tiny.mp4",
-        "./images/42926-434300944_tiny.mp4",
-        "/assets/42926-434300944_tiny.mp4",
-        "./assets/42926-434300944_tiny.mp4",
-        "/videos/42926-434300944_tiny.mp4",
-        "/images/42926-434300944_tiny.mp4"
+        `${import.meta.env.BASE_URL}images/42926-434300944_tiny.mp4`,
+        `${import.meta.env.BASE_URL}assets/42926-434300944_tiny.mp4`,
+        `${import.meta.env.BASE_URL}videos/42926-434300944_tiny.mp4`
       ]
     }
   ];
 
   // Background video paths - put the working one first based on logs
   const backgroundVideoPaths = [
-    "./images/2835998-uhd_3840_2160_24fps.mp4", // Working path first
-    "/images/2835998-uhd_3840_2160_24fps.mp4",
-    "/assets/2835998-uhd_3840_2160_24fps.mp4",
-    "./assets/2835998-uhd_3840_2160_24fps.mp4",
-    "/videos/2835998-uhd_3840_2160_24fps.mp4"
+    `${import.meta.env.BASE_URL}images/2835998-uhd_3840_2160_24fps.mp4`,
+    `${import.meta.env.BASE_URL}assets/2835998-uhd_3840_2160_24fps.mp4`,
+    `${import.meta.env.BASE_URL}videos/2835998-uhd_3840_2160_24fps.mp4`
   ];
 
   // PDF download with proper validation and fallback
