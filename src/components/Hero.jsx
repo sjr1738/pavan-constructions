@@ -1,8 +1,18 @@
 // src/components/Hero.jsx - Enhanced with Advanced Animations and Logo
 import React, { useEffect, useState, useRef } from 'react';
+import { preload } from 'react-dom';
 import './Hero.css';
 
 const Hero = ({ openPopup }) => {
+  // Fix preload with correct 'as' values
+  // React 19 supports: 'audio', 'document', 'embed', 'fetch', 'font', 'image', 'object', 'script', 'style', 'track', 'video', 'worker'
+  preload("./images/logo.png", {as: "image"});
+  preload("./images/2835998-uhd_3840_2160_24fps.mp4", {as: "video"});
+  
+  // Use the working path for logo that's confirmed in the logs
+  const [logoSrc, setLogoSrc] = useState("./images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg");
+  const [logoError, setLogoError] = useState(false);
+  
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [statsVisible, setStatsVisible] = useState(false);
   const [videoModalOpen, setVideoModalOpen] = useState(false);
@@ -16,33 +26,33 @@ const Hero = ({ openPopup }) => {
   const videoRef = useRef(null);
   const seeUsRef = useRef(null);
   const backgroundVideoRef = useRef(null); // Add ref for background video
-  const [logoSrc, setLogoSrc] = useState("/images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg");
-  const [logoError, setLogoError] = useState(false);
   
   useEffect(() => {
+    // Use the path that's confirmed working in the logs
+    setLogoSrc("./images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg");
+    
     // Try to preload the image to check if it exists
     const img = new Image();
     img.onload = () => {
       console.log("Logo preloaded successfully:", img.src);
-      setLogoSrc(img.src);
       setLogoError(false);
     };
     img.onerror = () => {
       console.log("Logo preload failed, trying alternative path");
-      // Try an alternative path
-      setLogoSrc("./images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg");
+      // Try an alternative path or show fallback
+      setLogoError(true);
     };
     img.src = logoSrc;
   }, []);
 
-  // Try multiple path variations for video loading
+  // Update video paths to start with the working paths
   const videos = [
     {
       src: "52886-471089084_tiny.mp4",
       title: "Our Construction Process",
       paths: [
+        "./images/52886-471089084_tiny.mp4", // Working path first based on logs
         "/images/52886-471089084_tiny.mp4",
-        "./images/52886-471089084_tiny.mp4",
         "/assets/52886-471089084_tiny.mp4",
         "./assets/52886-471089084_tiny.mp4",
         "/videos/52886-471089084_tiny.mp4",
@@ -63,10 +73,10 @@ const Hero = ({ openPopup }) => {
     }
   ];
 
-  // Background video paths for fallback
+  // Background video paths - put the working one first based on logs
   const backgroundVideoPaths = [
+    "./images/2835998-uhd_3840_2160_24fps.mp4", // Working path first
     "/images/2835998-uhd_3840_2160_24fps.mp4",
-    "./images/2835998-uhd_3840_2160_24fps.mp4",
     "/assets/2835998-uhd_3840_2160_24fps.mp4",
     "./assets/2835998-uhd_3840_2160_24fps.mp4",
     "/videos/2835998-uhd_3840_2160_24fps.mp4"
@@ -738,13 +748,13 @@ Note: This is a temporary file. Please contact us directly for the complete broc
             <div className="company-title">
               <h1 style={{ 
                 color: '#333333', 
-                textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
+                textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
                 position: 'relative',
                 zIndex: 5
               }}>
                 <span className="title-line">
-                  <AnimatedWord className="word-1" delay={0.1}>PAVAN</AnimatedWord>{' '}
-                  <AnimatedWord className="word-2" delay={0.3}>TECHNO</AnimatedWord>{' '}
+                  <AnimatedWord className="word-1" delay={0.1}>PAVAN</AnimatedWord>
+                  <AnimatedWord className="word-2" delay={0.3}>TECHNO</AnimatedWord>
                   <AnimatedWord className="word-3" delay={0.5}>CONSTRUCTIONS</AnimatedWord>
                 </span>
               </h1>

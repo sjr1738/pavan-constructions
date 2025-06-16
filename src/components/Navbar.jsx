@@ -12,19 +12,19 @@ import {
   faTimes
 } from '@fortawesome/free-solid-svg-icons';
 
+// Make sure the component is defined as a const
 const Navbar = ({ scrolled = false }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
-  const [logoSrc, setLogoSrc] = useState('logo.png');
+  const [logoSrc, setLogoSrc] = useState('./images/logo.png'); // Start with working path based on logs
   const location = useLocation();
 
   const logoPaths = [
+    './images/logo.png', // Working path first based on logs
     'logo.png',
     '/logo.png', 
-    './logo.png',
     '/public/logo.png',
-    '/images/logo.png',
-    './images/logo.png'
+    '/images/logo.png'
   ];
 
   useEffect(() => {
@@ -747,4 +747,5 @@ const Navbar = ({ scrolled = false }) => {
   );
 };
 
+// Make sure to use default export
 export default Navbar;
