@@ -268,7 +268,7 @@ const About = () => {
                   </div>
                 </div>
                 <img 
-                  src={`${import.meta.env.BASE_URL}images/logo.png`} 
+                  src={`${import.meta.env.BASE_URL}images/whyy.jpg`} 
                   alt="Construction Excellence"
                   onError={(e) => {
                     const fallbackPaths = [

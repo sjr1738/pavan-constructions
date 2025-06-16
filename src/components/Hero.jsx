@@ -4,15 +4,10 @@ import { preload } from 'react-dom';
 import './Hero.css';
 
 const Hero = ({ openPopup }) => {
-  // Fix preload with correct paths that include the base URL
-  // Use import.meta.env.BASE_URL to get the correct base path in both dev and production
-  preload(`${import.meta.env.BASE_URL}images/logo.png`, {as: "image"});
-  preload(`${import.meta.env.BASE_URL}images/2835998-uhd_3840_2160_24fps.mp4`, {as: "video"});
-  
-  // Use the base URL for all asset paths
-  const [logoSrc, setLogoSrc] = useState(`${import.meta.env.BASE_URL}images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg`);
-  const [logoError, setLogoError] = useState(false);
-  
+  // Preload critical assets
+  preload("./images/logo.png", {as: "image"});
+  preload("./images/2835998-uhd_3840_2160_24fps.mp4", {as: "video"});
+
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [statsVisible, setStatsVisible] = useState(false);
   const [videoModalOpen, setVideoModalOpen] = useState(false);
@@ -26,9 +21,11 @@ const Hero = ({ openPopup }) => {
   const videoRef = useRef(null);
   const seeUsRef = useRef(null);
   const backgroundVideoRef = useRef(null); // Add ref for background video
+  const [logoSrc, setLogoSrc] = useState("./images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg");
+  const [logoError, setLogoError] = useState(false);
   
   useEffect(() => {
-    // Use the path that's confirmed working in the logs
+    // Start with the path that's working based on the console logs
     setLogoSrc("./images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg");
     
     // Try to preload the image to check if it exists
@@ -45,33 +42,41 @@ const Hero = ({ openPopup }) => {
     img.src = logoSrc;
   }, []);
 
-  // Update video paths to start with the working paths
+  // Try multiple path variations for video loading
   const videos = [
     {
       src: "52886-471089084_tiny.mp4",
       title: "Our Construction Process",
       paths: [
-        `${import.meta.env.BASE_URL}images/52886-471089084_tiny.mp4`,
-        `${import.meta.env.BASE_URL}assets/52886-471089084_tiny.mp4`,
-        `${import.meta.env.BASE_URL}videos/52886-471089084_tiny.mp4`
+        "/images/52886-471089084_tiny.mp4",
+        "./images/52886-471089084_tiny.mp4",
+        "/assets/52886-471089084_tiny.mp4",
+        "./assets/52886-471089084_tiny.mp4",
+        "/videos/52886-471089084_tiny.mp4",
+        "/images/52886-471089084_tiny.mp4"
       ]
     },
     {
       src: "42926-434300944_tiny.mp4", 
       title: "Project Showcase",
       paths: [
-        `${import.meta.env.BASE_URL}images/42926-434300944_tiny.mp4`,
-        `${import.meta.env.BASE_URL}assets/42926-434300944_tiny.mp4`,
-        `${import.meta.env.BASE_URL}videos/42926-434300944_tiny.mp4`
+        "/images/42926-434300944_tiny.mp4",
+        "./images/42926-434300944_tiny.mp4",
+        "/assets/42926-434300944_tiny.mp4",
+        "./assets/42926-434300944_tiny.mp4",
+        "/videos/42926-434300944_tiny.mp4",
+        "/images/42926-434300944_tiny.mp4"
       ]
     }
   ];
 
-  // Background video paths - put the working one first based on logs
+  // Background video paths for fallback
   const backgroundVideoPaths = [
-    `${import.meta.env.BASE_URL}images/2835998-uhd_3840_2160_24fps.mp4`,
-    `${import.meta.env.BASE_URL}assets/2835998-uhd_3840_2160_24fps.mp4`,
-    `${import.meta.env.BASE_URL}videos/2835998-uhd_3840_2160_24fps.mp4`
+    "/images/2835998-uhd_3840_2160_24fps.mp4",
+    "./images/2835998-uhd_3840_2160_24fps.mp4",
+    "/assets/2835998-uhd_3840_2160_24fps.mp4",
+    "./assets/2835998-uhd_3840_2160_24fps.mp4",
+    "/videos/2835998-uhd_3840_2160_24fps.mp4"
   ];
 
   // PDF download with proper validation and fallback
