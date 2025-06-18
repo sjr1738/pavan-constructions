@@ -135,111 +135,68 @@ const Navbar = ({ scrolled = false }) => {
           text-decoration: none;
           position: relative;
           padding: 0.5rem 1rem;
-          background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.9) 0%, 
-            rgba(248, 250, 252, 0.9) 100%);
-          border: 1px solid rgba(59, 130, 246, 0.2);
-          border-radius: 18px;
-          backdrop-filter: blur(10px);
-          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-          overflow: hidden;
-        }
-
-        .logo-container::before {
-          content: '';
-          position: absolute;
-          top: -50%;
-          left: -50%;
-          width: 200%;
-          height: 200%;
-          background: conic-gradient(
-            from 0deg,
-            rgba(59, 130, 246, 0.6) 0deg,
-            rgba(37, 99, 235, 0.6) 120deg,
-            rgba(29, 78, 216, 0.6) 240deg,
-            rgba(59, 130, 246, 0.6) 360deg
-          );
-          animation: rotate 6s linear infinite;
-          z-index: -1;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-
-        .logo-container:hover::before {
-          opacity: 0.2;
-        }
-
-        .logo-container::after {
-          content: '';
-          position: absolute;
-          inset: 1px;
-          background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.95) 0%, 
-            rgba(248, 250, 252, 0.95) 100%);
-          border-radius: 17px;
-          z-index: -1;
-        }
-
-        @keyframes rotate {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+          background: white;
+          border-radius: 12px;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+          border: none;
+          overflow: visible;
         }
 
         .logo-container:hover {
-          transform: translateY(-2px) scale(1.02);
-          box-shadow: 0 12px 28px rgba(59, 130, 246, 0.2);
-          border-color: rgba(59, 130, 246, 0.3);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Remove the decorative elements for a cleaner look */
+        .logo-container::before,
+        .logo-container::after {
+          display: none;
         }
 
         .logo-hex {
-          width: 40px;
-          height: 40px;
+          width: 45px;
+          height: 45px;
           position: relative;
           margin-right: 0.8rem;
           display: flex;
           align-items: center;
           justify-content: center;
+          border-radius: 50%;
+          background: white;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+          overflow: hidden;
         }
 
+        /* Remove the hexagon shape for a more professional circular logo */
         .logo-hex::before {
-          content: '';
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-          clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-          transition: all 0.3s ease;
-          border: 2px solid #3b82f6;
-        }
-
-        .logo-container:hover .logo-hex::before {
-          transform: rotate(180deg);
-          background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-          border-color: #2563eb;
+          display: none;
         }
 
         .logo-image {
-          width: 28px;
-          height: 28px;
-          border-radius: 4px;
-          position: relative;
-          z-index: 2;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
           object-fit: cover;
+          transition: transform 0.3s ease;
+        }
+
+        .logo-container:hover .logo-image {
+          transform: scale(1.05);
         }
 
         .logo-fallback {
-          width: 28px;
-          height: 28px;
-          background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-          border-radius: 4px;
+          width: 40px;
+          height: 40px;
+          background: linear-gradient(135deg, #005dc1 0%, #003b7a 100%);
+          border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 0.9rem;
-          font-weight: 900;
+          font-size: 1rem;
+          font-weight: 700;
           color: white;
-          position: relative;
-          z-index: 2;
+          letter-spacing: -0.5px;
         }
 
         .company-info {
@@ -249,22 +206,19 @@ const Navbar = ({ scrolled = false }) => {
         }
 
         .company-name {
-          font-size: 1rem;
-          font-weight: 800;
-          background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          font-size: 0.9rem;
+          font-weight: 700;
+          color: #1e293b;
           line-height: 1.1;
-          letter-spacing: 0.3px;
+          letter-spacing: 0.2px;
+          margin-bottom: 2px;
         }
 
         .company-tagline {
           font-size: 0.6rem;
-          color: rgba(59, 130, 246, 0.7);
+          color: #005dc1;
           font-weight: 500;
-          margin-top: 2px;
-          letter-spacing: 1px;
+          letter-spacing: 0.5px;
           text-transform: uppercase;
         }
 

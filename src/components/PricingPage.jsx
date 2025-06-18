@@ -31,10 +31,10 @@ const PricingPage = ({ openPopup }) => {
   }, []);
 
   const projectCategories = [
-    { id: 'residential', label: 'RESIDENTIAL', code: 'RES', icon: '🏠', color: '#B79C5C' },
-    { id: 'commercial', label: 'COMMERCIAL', code: 'COM', icon: '🏢', color: '#2D3748' },
-    { id: 'interior', label: 'INTERIOR', code: 'INT', icon: '🎨', color: '#B79C5C' },
-    { id: 'renovation', label: 'RENOVATION', code: 'REN', icon: '🔨', color: '#2D3748' }
+    { id: 'residential', label: 'RESIDENTIAL', icon: '🏠', color: '#B79C5C' },
+    { id: 'commercial', label: 'COMMERCIAL', icon: '🏢', color: '#2D3748' },
+    { id: 'interior', label: 'INTERIOR', icon: '🎨', color: '#B79C5C' },
+    { id: 'renovation', label: 'RENOVATION', icon: '🔨', color: '#2D3748' }
   ];
 
   const estimationData = {
@@ -94,7 +94,6 @@ const PricingPage = ({ openPopup }) => {
       },
       {
         title: "LUXURY RESIDENTIAL",
-        code: "RES-LUX-003",
         classification: "LUXURY CLASS",
         baseRate: "₹3,500",
         totalCost: "₹35,00,000",
@@ -371,7 +370,6 @@ const PricingPage = ({ openPopup }) => {
     renovation: [
       {
         title: "BASIC RENOVATION",
-        code: "REN-BAS-001",
         classification: "ESSENTIAL RENOVATION",
         baseRate: "₹600",
         totalCost: "₹6,00,000",
@@ -408,7 +406,6 @@ const PricingPage = ({ openPopup }) => {
       },
       {
         title: "COMPLETE RENOVATION",
-        code: "REN-COMP-002",
         classification: "COMPREHENSIVE RENOVATION",
         baseRate: "₹1,200",
         totalCost: "₹12,00,000",
@@ -446,7 +443,6 @@ const PricingPage = ({ openPopup }) => {
       },
       {
         title: "LUXURY RENOVATION",
-        code: "REN-LUX-003",
         classification: "LUXURY RENOVATION",
         baseRate: "₹2,000",
         totalCost: "₹20,00,000",
@@ -731,7 +727,7 @@ const PricingPage = ({ openPopup }) => {
           <div className="stats-frame">
             <div className="stats-header">
               <h2>ESTIMATION LAB METRICS</h2>
-              <div className="metrics-id">LAB-STAT-2024</div>
+              {/* Removed the metrics-id div with LAB-STAT-2024 */}
             </div>
             
             <div className="metrics-grid">

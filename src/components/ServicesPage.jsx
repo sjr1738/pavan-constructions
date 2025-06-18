@@ -357,7 +357,7 @@ const ServicesPage = ({ openPopup }) => {
                 <div className="panel-frame">
                   <div className="panel-header">
                     <div className="panel-icon">{stat.icon}</div>
-                    <div className="panel-id">METRIC-{String(index + 1).padStart(2, '0')}</div>
+                    {/* Removed the panel-id div with METRIC-XX */}
                   </div>
                   <div className="panel-value">{stat.value}</div>
                   <div className="panel-label">{stat.label}</div>
@@ -1330,7 +1330,7 @@ const ServicesPage = ({ openPopup }) => {
 
         @media (max-width: 480px) {
           .workshop-title {
-            font-size: 2rem;
+            font-size: 1.6rem;
           }
           
           .view-selector {
@@ -1382,43 +1382,6 @@ const ServicesPage = ({ openPopup }) => {
         }
 
         @media (max-width: 480px) {
-          .workshop-title {
-            font-size: 1.6rem;
-            letter-spacing: 0.5px;
-          }
-          
-          .view-selector {
-            flex-direction: column;
-            align-items: center;
-          }
-          
-          .stats-grid {
-            grid-template-columns: 1fr;
-          }
-          
-          .plan-details {
-            flex-direction: column;
-            gap: 10px;
-          }
-          
-          .header-grid {
-            padding: 40px 20px;
-          }
-        }
-
-        @media (max-width: 390px) {
-          .workshop-title {
-            font-size: 1.4rem;
-            letter-spacing: 0px;
-            line-height: 1.2;
-          }
-          
-          .header-grid {
-            padding: 35px 15px;
-          }
-        }
-
-        @media (max-width: 375px) {
           .workshop-title {
             font-size: 1.25rem;
             letter-spacing: 0px;

@@ -149,14 +149,8 @@ const GalleryPage = () => {
                   <span className="label">PROJECT:</span>
                   <span className="value">CONSTRUCTION PORTFOLIO</span>
                 </div>
-                <div className="info-line">
-                  <span className="label">SCALE:</span>
-                  <span className="value">1:1 DIGITAL</span>
-                </div>
-                <div className="info-line">
-                  <span className="label">DATE:</span>
-                  <span className="value">2024</span>
-                </div>
+                {/* Removed SCALE: 1:1 DIGITAL */}
+                {/* Removed DATE: 2024 */}
               </div>
               
               <h1 className="main-title">PROJECT GALLERY</h1>
@@ -173,13 +167,6 @@ const GalleryPage = () => {
                   >
                     <span className="btn-symbol">▦</span>
                     Blueprint
-                  </button>
-                  <button 
-                    className={`mode-btn ${viewMode === 'hexagon' ? 'active' : ''}`}
-                    onClick={() => setViewMode('hexagon')}
-                  >
-                    <span className="btn-symbol">⬡</span>
-                    Hexagon
                   </button>
                   <button 
                     className={`mode-btn ${viewMode === 'timeline' ? 'active' : ''}`}
@@ -200,7 +187,7 @@ const GalleryPage = () => {
         <div className="container">
           <div className="drawing-header">
             <h2>BEFORE & AFTER ANALYSIS</h2>
-            <div className="drawing-number">DWG-001</div>
+            {/* Removed the drawing-number div with DWG-001 */}
           </div>
           
           <div className="blueprint-frame">
@@ -322,33 +309,6 @@ const GalleryPage = () => {
                   </div>
                 </div>
               ))}
-            </div>
-          )}
-
-          {/* Hexagon View */}
-          {viewMode === 'hexagon' && (
-            <div className="hexagon-layout">
-              <div className="hex-grid">
-                {Object.values(projectSections).flat().map((project, index) => (
-                  <div 
-                    key={index}
-                    className="hex-item"
-                    onClick={() => openModal(project.src)}
-                  >
-                    <div className="hexagon">
-                      <div className="hex-inner">
-                        <img src={project.src} alt={project.title} />
-                        <div className="hex-overlay">
-                          <div className="hex-content">
-                            <div className="hex-number">{String(index + 1).padStart(2, '0')}</div>
-                            <div className="hex-title">{project.title}</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
           )}
 
@@ -902,87 +862,16 @@ const GalleryPage = () => {
         }
 
         /* Hexagon Layout */
-        .hexagon-layout {
-          display: flex;
-          justify-content: center;
-        }
-
-        .hex-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 20px;
-          max-width: 900px;
-        }
-
-        .hex-item {
-          display: flex;
-          justify-content: center;
-          cursor: pointer;
-        }
-
-        .hexagon {
-          width: 180px;
-          height: 156px;
-          position: relative;
-        }
-
-        .hex-inner {
-          width: 100%;
-          height: 100%;
-          background: white;
-          border: 3px solid #2D3748;
-          clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-          position: relative;
-          overflow: hidden;
-          transition: all 0.3s ease;
-        }
-
-        .hex-item:hover .hex-inner {
-          border-color: #B79C5C;
-          transform: scale(1.05);
-        }
-
-        .hex-inner img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        .hex-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(45, 55, 72, 0.9);
-          color: white;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-
-        .hex-item:hover .hex-overlay {
-          opacity: 1;
-        }
-
-        .hex-content {
-          text-align: center;
-        }
-
-        .hex-number {
-          font-size: 2rem;
-          font-weight: 800;
-          color: #B79C5C;
-          margin-bottom: 10px;
-        }
-
+        .hexagon-layout,
+        .hex-grid,
+        .hex-item,
+        .hexagon,
+        .hex-inner,
+        .hex-overlay,
+        .hex-content,
+        .hex-number,
         .hex-title {
-          font-size: 12px;
-          font-weight: 600;
-          letter-spacing: 1px;
-          text-transform: uppercase;
+          display: none;
         }
 
         /* Timeline Layout */

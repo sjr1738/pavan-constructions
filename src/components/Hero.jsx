@@ -1,46 +1,59 @@
-// src/components/Hero.jsx - Enhanced with Advanced Animations and Logo
+// src/components/Hero.jsx - Two Section Layout (Left: Enhanced Professional Background, Right: Video with Interactive Elements)
 import React, { useEffect, useState, useRef } from 'react';
-import { preload } from 'react-dom';
 import './Hero.css';
 
 const Hero = ({ openPopup }) => {
-  // Preload critical assets
-  preload("./images/logo.png", {as: "image"});
-  preload("./images/2835998-uhd_3840_2160_24fps.mp4", {as: "video"});
-
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [statsVisible, setStatsVisible] = useState(false);
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [videoLoading, setVideoLoading] = useState(false);
-  const [scrollTriggerActive, setScrollTriggerActive] = useState(false);
-  const [hasScrollTriggered, setHasScrollTriggered] = useState(false); // New state to prevent re-triggering
+  const [hasScrollTriggered, setHasScrollTriggered] = useState(false);
+  const [initialAnimationComplete, setInitialAnimationComplete] = useState(false);
   const heroRef = useRef(null);
   const particlesRef = useRef([]);
   const statsRef = useRef(null);
   const videoRef = useRef(null);
   const seeUsRef = useRef(null);
-  const backgroundVideoRef = useRef(null); // Add ref for background video
+  const backgroundVideoRef = useRef(null);
+  const animationFrameRef = useRef(null);
   const [logoSrc, setLogoSrc] = useState("./images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg");
-  const [logoError, setLogoError] = useState(false);
-  
+
+  // Set initial animation as complete after a delay
   useEffect(() => {
-    // Start with the path that's working based on the console logs
-    setLogoSrc("./images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg");
+    const timer = setTimeout(() => {
+      setInitialAnimationComplete(true);
+    }, 3000); // 3 seconds should be enough for initial animations
     
-    // Try to preload the image to check if it exists
-    const img = new Image();
-    img.onload = () => {
-      console.log("Logo preloaded successfully:", img.src);
-      setLogoError(false);
-    };
-    img.onerror = () => {
-      console.log("Logo preload failed, trying alternative path");
-      // Try an alternative path or show fallback
-      setLogoError(true);
-    };
-    img.src = logoSrc;
+    return () => clearTimeout(timer);
   }, []);
+
+  // Enhanced mouse tracking for parallax - only active after initial animation
+  // COMPLETELY EXCLUDE TITLE ELEMENTS FROM CURSOR EFFECTS
+  const handleMouseMove = (e) => {
+    if (heroRef.current && initialAnimationComplete) {
+      const rect = heroRef.current.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      setMousePosition({ x, y });
+      
+      // COMPLETELY DISABLE cursor effects for ALL title-related elements
+      const titleElements = document.querySelectorAll(
+        '.company-title, .company-title *, .animated-word, .animated-word *, ' +
+        '.title-line, .title-line *, .word-char, .word-blue-1, .word-golden-1, ' +
+        '.word-golden-2, .golden-blue-title, .golden-blue-title *'
+      );
+      
+      titleElements.forEach(element => {
+        if (element) {
+          element.style.transform = 'none';
+          element.style.transition = 'none';
+          element.style.perspective = 'none';
+          element.style.transformStyle = 'flat';
+        }
+      });
+    }
+  };
 
   // Try multiple path variations for video loading
   const videos = [
@@ -71,6 +84,23 @@ const Hero = ({ openPopup }) => {
     `${import.meta.env.BASE_URL}videos/2835998-uhd_3840_2160_24fps.mp4`
   ];
 
+  // Logo loading effect
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => {
+      console.log("Logo preloaded successfully:", img.src);
+    };
+    img.onerror = () => {
+      console.log("Logo preload failed, trying alternative path");
+    };
+    img.src = logoSrc;
+    
+    return () => {
+      img.onload = null;
+      img.onerror = null;
+    };
+  }, [logoSrc]);
+
   // PDF download with proper validation and fallback
   const handleDownloadClick = async (e) => {
     e.preventDefault();
@@ -82,11 +112,9 @@ const Hero = ({ openPopup }) => {
     ];
     
     let currentPathIndex = 0;
-    let downloadSuccess = false;
     
     const tryDownload = async () => {
       if (currentPathIndex >= pdfPaths.length) {
-        // If all paths fail, show user-friendly message and create a sample PDF
         alert('PDF file not found on server. Please contact support or try again later.');
         createFallbackPDF();
         return;
@@ -96,7 +124,6 @@ const Hero = ({ openPopup }) => {
       console.log(`Trying PDF path ${currentPathIndex + 1}/${pdfPaths.length}:`, path);
       
       try {
-        // First, check if file exists and is valid
         const response = await fetch(path, { 
           method: 'HEAD',
           headers: {
@@ -105,15 +132,12 @@ const Hero = ({ openPopup }) => {
         });
         
         if (response.ok) {
-          // File exists, now try to download it properly
           const fullResponse = await fetch(path);
           
           if (fullResponse.ok) {
             const blob = await fullResponse.blob();
             
-            // Check if it's actually a PDF
             if (blob.type === 'application/pdf' || blob.type === '' || path.endsWith('.pdf')) {
-              // Create download link with proper PDF blob
               const url = window.URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }));
               const link = document.createElement('a');
               link.href = url;
@@ -124,14 +148,10 @@ const Hero = ({ openPopup }) => {
               link.click();
               document.body.removeChild(link);
               
-              // Clean up the URL object
               setTimeout(() => window.URL.revokeObjectURL(url), 100);
               
               console.log('PDF downloaded successfully from:', path);
-              downloadSuccess = true;
               return;
-            } else {
-              console.log('File is not a PDF:', path, 'Type:', blob.type);
             }
           }
         }
@@ -139,7 +159,6 @@ const Hero = ({ openPopup }) => {
         console.log('Error accessing PDF at:', path, error);
       }
       
-      // If we reach here, this path failed
       currentPathIndex++;
       setTimeout(tryDownload, 100);
     };
@@ -149,7 +168,6 @@ const Hero = ({ openPopup }) => {
 
   // Fallback function to create a sample PDF if original not found
   const createFallbackPDF = () => {
-    // Create a simple text file as fallback
     const fallbackContent = `
 PAVAN TECHNO CONSTRUCTIONS
 Engineering Excellence
@@ -215,9 +233,11 @@ Note: This is a temporary file. Please contact us directly for the complete broc
       };
       
       const cleanup = () => {
-        backgroundVideoRef.current?.removeEventListener('loadeddata', handleSuccess);
-        backgroundVideoRef.current?.removeEventListener('canplay', handleSuccess);
-        backgroundVideoRef.current?.removeEventListener('error', handleError);
+        if (backgroundVideoRef.current) {
+          backgroundVideoRef.current.removeEventListener('loadeddata', handleSuccess);
+          backgroundVideoRef.current.removeEventListener('canplay', handleSuccess);
+          backgroundVideoRef.current.removeEventListener('error', handleError);
+        }
       };
       
       backgroundVideoRef.current.addEventListener('loadeddata', handleSuccess, { once: true });
@@ -228,10 +248,10 @@ Note: This is a temporary file. Please contact us directly for the complete broc
     tryNextPath();
   };
 
+  // Main initialization useEffect
   useEffect(() => {
-    // Quick initialization - no loading delays
+    // Initialize animations
     const initializeAnimations = () => {
-      // Trigger stats animation when they come into view
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -251,32 +271,19 @@ Note: This is a temporary file. Please contact us directly for the complete broc
       return observer;
     };
 
-    // Enhanced mouse tracking for parallax
-    const handleMouseMove = (e) => {
-      if (heroRef.current) {
-        const rect = heroRef.current.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        setMousePosition({ x, y });
-      }
-    };
-
-    // Enhanced scroll handling for hero section and video modal
+    // Enhanced scroll handling
     const handleScroll = () => {
       const scrolled = window.pageYOffset;
       const heroHeight = window.innerHeight;
       
-      // Check if we're scrolling past the hero section to trigger video modal
-      // Only trigger if it hasn't been triggered by scroll before
       if (scrolled > heroHeight * 0.7 && 
           scrolled < heroHeight * 1.5 && 
           !videoModalOpen && 
           !hasScrollTriggered) {
-        openVideoModal(false); // Trigger via scroll (not manual)
+        openVideoModal(false);
         return;
       }
 
-      // If video modal is open and user scrolls down significantly, go to next section
       if (videoModalOpen && scrolled > heroHeight * 1.8) {
         closeVideoModal();
         setTimeout(() => {
@@ -285,7 +292,6 @@ Note: This is a temporary file. Please contact us directly for the complete broc
         return;
       }
 
-      // Parallax for background elements (only when not in video modal)
       if (!videoModalOpen) {
         const rate = scrolled * -0.3;
         const parallaxElements = document.querySelectorAll('.geometric-shape');
@@ -296,27 +302,24 @@ Note: This is a temporary file. Please contact us directly for the complete broc
       }
     };
 
-    // Video modal specific scroll/wheel handler
+    // Video modal scroll/wheel handler
     const handleVideoModalScroll = (e) => {
       if (videoModalOpen) {
-        // Prevent default scrolling behavior when video modal is open
         e.preventDefault();
         
-        // If scrolling down (positive deltaY), close modal and go to next page
         if (e.deltaY > 0) {
           closeVideoModal();
           setTimeout(() => {
             scrollToNext();
           }, 300);
         }
-        // If scrolling up (negative deltaY), just close modal
         else if (e.deltaY < 0) {
           closeVideoModal();
         }
       }
     };
 
-    // Touch/swipe handler for mobile
+    // Touch handlers for mobile
     let touchStartY = 0;
     const handleTouchStart = (e) => {
       if (videoModalOpen) {
@@ -326,7 +329,7 @@ Note: This is a temporary file. Please contact us directly for the complete broc
 
     const handleTouchMove = (e) => {
       if (videoModalOpen) {
-        e.preventDefault(); // Prevent scrolling when modal is open
+        e.preventDefault();
       }
     };
 
@@ -335,21 +338,19 @@ Note: This is a temporary file. Please contact us directly for the complete broc
         const touchEndY = e.changedTouches[0].clientY;
         const touchDiff = touchStartY - touchEndY;
         
-        // If swiped up (touchDiff > 0), close modal and go to next page
         if (touchDiff > 50) {
           closeVideoModal();
           setTimeout(() => {
             scrollToNext();
           }, 300);
         }
-        // If swiped down (touchDiff < 0), just close modal
         else if (touchDiff < -50) {
           closeVideoModal();
         }
       }
     };
 
-    // Advanced particle animation with performance optimization
+    // Particle animation
     const animateParticles = () => {
       const time = Date.now() * 0.001;
       particlesRef.current.forEach((particle, index) => {
@@ -360,16 +361,16 @@ Note: This is a temporary file. Please contact us directly for the complete broc
           particle.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
         }
       });
-      requestAnimationFrame(animateParticles);
+      animationFrameRef.current = requestAnimationFrame(animateParticles);
     };
 
     // Number counting animation
     const animateNumbers = () => {
       const counters = document.querySelectorAll('.stat-number');
-      counters.forEach((counter, index) => {
+      counters.forEach((counter) => {
         const target = parseInt(counter.getAttribute('data-target'));
-        const duration = 2000; // 2 seconds
-        const increment = target / (duration / 16); // 60fps
+        const duration = 2000;
+        const increment = target / (duration / 16);
         let current = 0;
         
         const timer = setInterval(() => {
@@ -386,34 +387,80 @@ Note: This is a temporary file. Please contact us directly for the complete broc
       });
     };
 
+    // FORCE DISABLE title cursor effects every time mouse moves
+    const forceDisableTitleEffects = () => {
+      const titleElements = document.querySelectorAll(
+        '.company-title, .company-title *, .animated-word, .animated-word *, ' +
+        '.title-line, .title-line *, .word-char, .word-blue-1, .word-golden-1, ' +
+        '.word-golden-2, .golden-blue-title, .golden-blue-title *'
+      );
+      
+      titleElements.forEach(element => {
+        if (element) {
+          element.style.setProperty('transform', 'none', 'important');
+          element.style.setProperty('transition', 'none', 'important');
+          element.style.setProperty('perspective', 'none', 'important');
+          element.style.setProperty('transform-style', 'flat', 'important');
+        }
+      });
+    };
+
+    // Initialize everything
     const observer = initializeAnimations();
-    document.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('scroll', handleScroll);
     
-    // Add video modal specific event listeners
+    // Add event listeners with proper options
+    document.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
     document.addEventListener('wheel', handleVideoModalScroll, { passive: false });
     document.addEventListener('touchstart', handleTouchStart, { passive: false });
     document.addEventListener('touchmove', handleTouchMove, { passive: false });
     document.addEventListener('touchend', handleTouchEnd, { passive: false });
     
-    // Start particle animation immediately
+    // Start particle animation
     animateParticles();
 
-    // Load background video with fallbacks
-    setTimeout(() => {
+    // Load background video after delay
+    const videoTimeout = setTimeout(() => {
       loadBackgroundVideo();
     }, 500);
 
+    // Force disable title effects periodically
+    const titleProtectionInterval = setInterval(forceDisableTitleEffects, 100);
+
+    // Cleanup function
     return () => {
-      observer.disconnect();
+      if (observer) observer.disconnect();
       document.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('wheel', handleVideoModalScroll);
       document.removeEventListener('touchstart', handleTouchStart);
       document.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('touchend', handleTouchEnd);
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+      clearTimeout(videoTimeout);
+      clearInterval(titleProtectionInterval);
     };
-  }, [videoModalOpen, hasScrollTriggered]); // Added hasScrollTriggered to dependencies
+  }, [videoModalOpen, hasScrollTriggered, initialAnimationComplete]);
+
+  // Keyboard event handler
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (videoModalOpen) {
+        if (e.key === 'Escape') {
+          closeVideoModal();
+        } else if (e.key === 'ArrowLeft') {
+          prevVideo();
+        } else if (e.key === 'ArrowRight') {
+          nextVideo();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [videoModalOpen, currentVideoIndex]);
 
   const scrollToNext = () => {
     const nextSection = document.querySelector('#about') ||
@@ -426,19 +473,17 @@ Note: This is a temporary file. Please contact us directly for the complete broc
     }
   };
 
-  // Video modal functions with enhanced loading
+  // Video modal functions
   const openVideoModal = (isManualTrigger = true) => {
     console.log('Opening video modal for video:', videos[currentVideoIndex].title);
     setVideoModalOpen(true);
     setVideoLoading(true);
     document.body.style.overflow = 'hidden';
     
-    // If manually triggered (clicked), don't prevent future scroll triggers
     if (!isManualTrigger) {
       setHasScrollTriggered(true);
     }
     
-    // Try to load video with multiple path attempts
     setTimeout(() => {
       loadVideoWithFallback(currentVideoIndex);
     }, 100);
@@ -463,11 +508,9 @@ Note: This is a temporary file. Please contact us directly for the complete broc
       videoRef.current.src = path;
       videoRef.current.load();
       
-      // Set up one-time event listeners for this attempt
       const handleSuccess = () => {
         console.log('Video loaded successfully:', path);
         setVideoLoading(false);
-        // Add small delay to ensure video is ready
         setTimeout(() => {
           if (videoRef.current) {
             videoRef.current.play().catch(e => {
@@ -486,9 +529,11 @@ Note: This is a temporary file. Please contact us directly for the complete broc
       };
       
       const cleanup = () => {
-        videoRef.current?.removeEventListener('loadeddata', handleSuccess);
-        videoRef.current?.removeEventListener('canplay', handleSuccess);
-        videoRef.current?.removeEventListener('error', handleError);
+        if (videoRef.current) {
+          videoRef.current.removeEventListener('loadeddata', handleSuccess);
+          videoRef.current.removeEventListener('canplay', handleSuccess);
+          videoRef.current.removeEventListener('error', handleError);
+        }
       };
       
       videoRef.current.addEventListener('loadeddata', handleSuccess, { once: true });
@@ -502,7 +547,6 @@ Note: This is a temporary file. Please contact us directly for the complete broc
   const closeVideoModal = () => {
     setVideoModalOpen(false);
     setVideoLoading(false);
-    setScrollTriggerActive(false);
     document.body.style.overflow = 'auto';
     if (videoRef.current) {
       videoRef.current.pause();
@@ -532,61 +576,20 @@ Note: This is a temporary file. Please contact us directly for the complete broc
     }
   };
 
-  // Simple error handler for debugging
   const handleVideoError = (e) => {
-    console.error('Video error event:', e.target.error);
-    // Error handling is now done in loadVideoWithFallback
+    console.error('Video error event:', e.target?.error);
   };
 
-  const handleKeyPress = (e) => {
-    if (videoModalOpen) {
-      if (e.key === 'Escape') {
-        closeVideoModal();
-      } else if (e.key === 'ArrowLeft') {
-        prevVideo();
-      } else if (e.key === 'ArrowRight') {
-        nextVideo();
-      }
-    }
-  };
-
-  // Add keyboard event listener
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyPress);
-    return () => document.removeEventListener('keydown', handleKeyPress);
-  }, [videoModalOpen, currentVideoIndex]);
-
-  // Character-by-character animation component
-  const AnimatedWord = ({ children, className, delay = 0 }) => {
-    const chars = children.split('');
-    
+  // Character-by-character animation component - COMPLETELY STATIC with no animations
+  const AnimatedWord = ({ children, className }) => {
     return (
-      <span className={`animated-word ${className}`}>
-        {chars.map((char, index) => (
-          <span
-            key={index}
-            className="word-char"
-            style={{
-              animationDelay: `${delay + index * 0.05}s`
-            }}
-          >
-            {char === ' ' ? '\u00A0' : char}
-          </span>
-        ))}
-      </span>
-    );
-  };
-
-  // Glitch text component for special effects
-  const GlitchText = ({ children, className }) => {
-    return (
-      <span className={`glitch-effect ${className}`} data-text={children}>
+      <span className={`animated-word ${className} static-word`}>
         {children}
       </span>
     );
   };
 
-  // Particle component with enhanced animation
+  // Particle component
   const Particle = ({ index }) => (
     <div
       ref={el => particlesRef.current[index] = el}
@@ -600,7 +603,7 @@ Note: This is a temporary file. Please contact us directly for the complete broc
     />
   );
 
-  // Advanced button hover effect
+  // Button hover effects
   const handleButtonHover = (e, isEntering) => {
     const btn = e.currentTarget;
     if (isEntering) {
@@ -612,219 +615,266 @@ Note: This is a temporary file. Please contact us directly for the complete broc
     }
   };
 
-  // Enhanced stat hover effect
+  // Stat hover effects
   const handleStatHover = (e, isEntering) => {
     const stat = e.currentTarget;
     if (isEntering) {
       stat.style.transform = 'translateY(-15px) scale(1.08) rotateY(8deg)';
-      stat.style.boxShadow = '0 25px 50px rgba(59, 130, 246, 0.3)';
+      stat.style.boxShadow = '0 25px 50px rgba(255, 215, 0, 0.3)';
     } else {
       stat.style.transform = 'translateY(0) scale(1) rotateY(0deg)';
-      stat.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.1)';
+      stat.style.boxShadow = '0 8px 25px rgba(255, 215, 0, 0.1)';
     }
   };
 
+  // Add this useEffect to handle the sticky Get Quote button visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      const stickyBtn = document.querySelector('.sticky-quote-btn');
+      if (!stickyBtn) return;
+      
+      // Show the button when scrolling down, hide when at the very top
+      if (window.scrollY > 100) {
+        stickyBtn.style.opacity = '1';
+        stickyBtn.style.transform = 'translateY(0)';
+      } else {
+        // Only hide when at the very top of the page
+        stickyBtn.style.opacity = '0.8';
+        stickyBtn.style.transform = 'translateY(20px)';
+      }
+      
+      // Hide button when near the footer
+      const footer = document.querySelector('footer');
+      if (footer) {
+        const footerTop = footer.getBoundingClientRect().top;
+        if (footerTop < window.innerHeight - 100) {
+          stickyBtn.style.opacity = '0';
+          stickyBtn.style.transform = 'translateY(50px)';
+        }
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    // Initial check
+    handleScroll();
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <section className="hero" ref={heroRef}>
-      {/* Enhanced Video Background with Parallax */}
-      <div className="hero-video-container">
-        <video
-          ref={backgroundVideoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="hero-video"
-          style={{
-            transform: `scale(1.1) translate(${mousePosition.x * 15}px, ${mousePosition.y * 15}px)`
-          }}
-        >
-          {/* Source elements removed - will be set programmatically */}
-        </video>
-        <div 
-          className="hero-overlay"
-          style={{
-            background: `radial-gradient(circle at ${(mousePosition.x + 0.5) * 100}% ${(mousePosition.y + 0.5) * 100}%, 
-                        rgba(59, 130, 246, 0.15) 0%, 
-                        rgba(0, 0, 0, 0.6) 40%, 
-                        rgba(0, 0, 0, 0.85) 100%)`
-          }}
-        />
-      </div>
-
-      {/* Enhanced Particles System */}
-      <div className="particles-container">
-        {Array.from({ length: 20 }, (_, i) => (
-          <Particle key={i} index={i} />
-        ))}
-      </div>
-
-      {/* Dynamic Geometric Shapes */}
-      <div className="hero-geometry">
-        <div 
-          className="geometric-shape shape-1"
-          style={{
-            transform: `translate(${mousePosition.x * -40}px, ${mousePosition.y * -30}px) rotate(${Date.now() * 0.01}deg)`
-          }}
-        />
-        <div 
-          className="geometric-shape shape-2"
-          style={{
-            transform: `translate(${mousePosition.x * 25}px, ${mousePosition.y * -20}px) rotate(${Date.now() * -0.008}deg)`
-          }}
-        />
-        <div 
-          className="geometric-shape shape-3"
-          style={{
-            transform: `translate(${mousePosition.x * -20}px, ${mousePosition.y * 30}px) rotate(${Date.now() * 0.012}deg)`
-          }}
-        />
-      </div>
-
-      {/* Main Content with Immediate Loading */}
-      <div className="hero-content">
-        {/* Logo and Title Container */}
-        <div className="hero-logo-title-container">
-          {/* Company Logo */}
-          <div className="hero-company-logo">
-            <img 
-              src={logoSrc} 
-              alt="Pavan Techno Constructions Logo" 
-              className="hero-logo-image"
-              onError={(e) => {
-                console.log("Logo image failed to load, trying fallback paths");
-                // Fallback paths if main path fails
-                const fallbackPaths = [
-                  `${import.meta.env.BASE_URL}images/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg`,
-                  `${import.meta.env.BASE_URL}assets/WhatsApp Image 2025-06-16 at 14.53.39_aa8e7adb.jpg`,
-                  `${import.meta.env.BASE_URL}images/logo.png`,
-                  `${import.meta.env.BASE_URL}logo.png`
-                ];
-                
-                const currentSrc = e.target.src;
-                const currentIndex = fallbackPaths.findIndex(path => currentSrc.includes(path.replace(`${import.meta.env.BASE_URL}`, '')));
-                
-                if (currentIndex < fallbackPaths.length - 1) {
-                  console.log(`Trying next path: ${fallbackPaths[currentIndex + 1]}`);
-                  e.target.src = fallbackPaths[currentIndex + 1];
-                } else {
-                  console.log("All logo paths failed, hiding logo");
-                  // If all paths fail, hide the logo
-                  e.target.style.display = 'none';
-                }
-              }}
-              style={{ 
-                filter: 'brightness(1.2) contrast(1.1) saturate(1.1)'
-              }}
-            />
-          </div>
-
-          {/* Title and Tagline Container */}
-          <div className="title-tagline-container">
-            {/* Company Title with Character Animation */}
-            <div className="company-title">
-              <h1 style={{ 
-                color: '#333333', 
-                textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
-                position: 'relative',
-                zIndex: 5
-              }}>
-                <span className="title-line">
-                  <AnimatedWord className="word-1" delay={0.1}>PAVAN</AnimatedWord>
-                  <AnimatedWord className="word-2" delay={0.3}>TECHNO</AnimatedWord>
-                  <AnimatedWord className="word-3" delay={0.5}>CONSTRUCTIONS</AnimatedWord>
-                </span>
-              </h1>
-            </div>
-
-            {/* Tagline with Typewriter Effect */}
-            <div className="tagline">
-              <p className="typewriter" style={{ 
-                color: '#333333', 
-                textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)',
-                position: 'relative',
-                zIndex: 5
-              }}>
-                Consult, Design & Execute
-              </p>
-            </div>
-          </div>
+      {/* LEFT SECTION - Light Yellow Professional Background with Content - Moved upward */}
+      <div className="hero-left-section" style={{ 
+        background: '#fffbeb',
+        paddingTop: '1.5rem' /* Reduced padding to move content up */
+      }}>
+        {/* Company Title - COMPLETELY STATIC with no animations */}
+        <div className="company-title golden-blue-title static-title" style={{ marginTop: '-15px' }}>
+          <h1>
+            <span className="title-line">
+              <span className="word-golden-1">PAVAN</span>{' '}
+              <span className="word-blue-1">TECHNO</span>
+            </span>
+            <span className="title-line">
+              <span className="word-golden-2">CONSTRUCTIONS</span>
+            </span>
+          </h1>
         </div>
 
-        {/* Enhanced Description */}
-        <div className="description">
-          <p>
-            Transforming architectural dreams into concrete reality with cutting-edge 
-            technology, innovative engineering solutions, and unwavering commitment to excellence.
+        {/* Company Logo - Moved upward */}
+        <div className="hero-company-logo" style={{ marginTop: '-10px' }}>
+          <img
+            src={logoSrc}
+            alt="Pavan Techno Constructions Logo"
+            className="hero-logo-image"
+            onError={(e) => {
+              // Fallback logic for logo
+            }}
+          />
+        </div>
+
+        {/* Professional Tagline - Moved upward */}
+        <div className="tagline enhanced-tagline" style={{ marginTop: '-5px' }}>
+          <p className="typewriter golden-blue-tagline">
+            Consult, Design & Execute
           </p>
         </div>
 
-        {/* Advanced Animated Buttons */}
-        <div className="hero-buttons">
-          <button
-            onClick={handleDownloadClick}
-            className="hero-btn primary"
-            onMouseEnter={(e) => handleButtonHover(e, true)}
-            onMouseLeave={(e) => handleButtonHover(e, false)}
-          >
-            <span>📄</span> Download Portfolio
-          </button>
-          <button
-            onClick={openPopup}
-            className="hero-btn secondary"
-            onMouseEnter={(e) => handleButtonHover(e, true)}
-            onMouseLeave={(e) => handleButtonHover(e, false)}
-          >
-            <span>⚡</span> Start Your Project
-          </button>
-        </div>
-
-        {/* Enhanced Stats with Counting Animation */}
-        <div className="hero-stats" ref={statsRef}>
-          <div 
-            className="stat"
-            onMouseEnter={(e) => handleStatHover(e, true)}
-            onMouseLeave={(e) => handleStatHover(e, false)}
-          >
-            <div className="stat-number" data-target="60">0+</div>
-            <div className="stat-label">Projects Completed</div>
-          </div>
-          <div 
-            className="stat"
-            onMouseEnter={(e) => handleStatHover(e, true)}
-            onMouseLeave={(e) => handleStatHover(e, false)}
-          >
-            <div className="stat-number" data-target="15">0+</div>
-            <div className="stat-label">Years Experience</div>
-          </div>
-          <div 
-            className="stat"
-            onMouseEnter={(e) => handleStatHover(e, true)}
-            onMouseLeave={(e) => handleStatHover(e, false)}
-          >
-            <div className="stat-number" data-target="100">0%</div>
-            <div className="stat-label">Client Satisfaction</div>
-          </div>
+        {/* Enhanced Professional Description */}
+        <div className="description">
+          <p>
+            Transforming <strong>architectural dreams</strong> into concrete reality with <strong>cutting-edge technology</strong>, 
+            innovative engineering solutions, and unwavering commitment to <strong>excellence</strong>. We deliver 
+            sophisticated construction projects that stand the test of time.
+          </p>
         </div>
       </div>
 
-      {/* See Us Circle Button - Now inside Hero Section */}
-      <button 
-        ref={seeUsRef}
-        className="see-us-circle" 
-        onClick={() => openVideoModal(true)} 
-        onMouseEnter={(e) => {
-          e.target.style.transform = 'scale(1.2) rotate(10deg)';
-          e.target.style.boxShadow = '0 20px 50px rgba(236, 72, 153, 0.8)';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.transform = 'scale(1) rotate(0deg)';
-          e.target.style.boxShadow = '0 10px 30px rgba(236, 72, 153, 0.4)';
-        }}
-      >
-        <span>See Us</span>
-        <span className="play-icon">▶</span>
-      </button>
+      {/* RIGHT SECTION - Video Background with Interactive Elements */}
+      <div className="hero-right-section">
+        {/* Video Background */}
+        <div className="hero-video-container">
+          <video
+            ref={backgroundVideoRef}
+            autoPlay={true}
+            muted={true}
+            loop={true}
+            playsInline={true}
+            className="hero-video"
+            style={{
+              transform: `scale(1.1) translate(${mousePosition.x * 15}px, ${mousePosition.y * 15}px)`
+            }}
+          />
+          <div 
+            className="hero-overlay"
+            style={{
+              background: `radial-gradient(circle at ${(mousePosition.x + 0.5) * 100}% ${(mousePosition.y + 0.5) * 100}%, 
+                          rgba(255, 215, 0, 0.15) 0%, 
+                          rgba(0, 0, 0, 0.6) 40%, 
+                          rgba(0, 0, 0, 0.85) 100%)`
+            }}
+          />
+        </div>
+
+        {/* Particles System */}
+        <div className="particles-container">
+          {Array.from({ length: 20 }, (_, i) => (
+            <Particle key={i} index={i} />
+          ))}
+        </div>
+
+        {/* Geometric Shapes */}
+        <div className="hero-geometry">
+          <div 
+            className="geometric-shape shape-1"
+            style={{
+              transform: `translate(${mousePosition.x * -40}px, ${mousePosition.y * -30}px) rotate(${Date.now() * 0.01}deg)`
+            }}
+          />
+          <div 
+            className="geometric-shape shape-2"
+            style={{
+              transform: `translate(${mousePosition.x * 25}px, ${mousePosition.y * -20}px) rotate(${Date.now() * -0.008}deg)`
+            }}
+          />
+          <div 
+            className="geometric-shape shape-3"
+            style={{
+              transform: `translate(${mousePosition.x * -20}px, ${mousePosition.y * 30}px) rotate(${Date.now() * 0.012}deg)`
+            }}
+          />
+        </div>
+
+        {/* Right Section Content */}
+        <div className="hero-right-content">
+          {/* Enhanced Buttons */}
+          <div className="hero-buttons">
+            <button
+              onClick={handleDownloadClick}
+              className="hero-btn primary"
+              onMouseEnter={(e) => handleButtonHover(e, true)}
+              onMouseLeave={(e) => handleButtonHover(e, false)}
+            >
+              <span>📄</span> Download Portfolio
+            </button>
+            <button
+              onClick={openPopup}
+              className="hero-btn secondary"
+              onMouseEnter={(e) => handleButtonHover(e, true)}
+              onMouseLeave={(e) => handleButtonHover(e, false)}
+            >
+              <span>⚡</span> Start Your Project
+            </button>
+          </div>
+
+          {/* Enhanced Stats */}
+          <div className="hero-stats" ref={statsRef}>
+            <div 
+              className="stat"
+              onMouseEnter={(e) => handleStatHover(e, true)}
+              onMouseLeave={(e) => handleStatHover(e, false)}
+            >
+              <div className="stat-number" data-target="60">0+</div>
+              <div className="stat-label">Projects Completed</div>
+            </div>
+            <div 
+              className="stat"
+              onMouseEnter={(e) => handleStatHover(e, true)}
+              onMouseLeave={(e) => handleStatHover(e, false)}
+            >
+              <div className="stat-number" data-target="15">0+</div>
+              <div className="stat-label">Years Experience</div>
+            </div>
+            <div 
+              className="stat"
+              onMouseEnter={(e) => handleStatHover(e, true)}
+              onMouseLeave={(e) => handleStatHover(e, false)}
+            >
+              <div className="stat-number" data-target="100">0%</div>
+              <div className="stat-label">Client Satisfaction</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Enhanced Get Quote Button */}
+        <button 
+          className="floating-contact sticky-quote-btn" 
+          onClick={openPopup}
+          onMouseEnter={(e) => {
+            e.target.style.transform = 'translateY(-10px) scale(1.15) rotate(3deg)';
+            e.target.style.boxShadow = '0 20px 50px rgba(255, 215, 0, 0.7)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'translateY(0) scale(1) rotate(0deg)';
+            e.target.style.boxShadow = '0 8px 25px rgba(255, 215, 0, 0.4)';
+          }}
+          style={{
+            position: 'fixed',
+            bottom: '7rem',
+            right: '2rem',
+            zIndex: 1002,
+            background: 'linear-gradient(135deg, #FFD700, #3b82f6)',
+            padding: '0.9rem 1.6rem',
+            borderRadius: '50px',
+            boxShadow: '0 8px 25px rgba(255, 215, 0, 0.4)',
+            border: 'none',
+            color: 'white',
+            fontWeight: '600',
+            fontSize: '0.9rem',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            transition: 'all 0.3s ease'
+          }}
+        >
+          <span>💬</span> Get Quote
+        </button>
+
+        {/* Enhanced See Us Button */}
+        <button 
+          ref={seeUsRef}
+          className="see-us-circle" 
+          onClick={() => openVideoModal(true)} 
+          onMouseEnter={(e) => {
+            e.target.style.transform = 'scale(1.2) rotate(10deg)';
+            e.target.style.boxShadow = '0 20px 50px rgba(236, 72, 153, 0.8)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'scale(1) rotate(0deg)';
+            e.target.style.boxShadow = '0 10px 30px rgba(236, 72, 153, 0.4)';
+          }}
+          style={{
+            bottom: '6rem'
+          }}
+        >
+          <span>See Us</span>
+          <span className="play-icon">▶</span>
+        </button>
+      </div>
 
       {/* Enhanced Scroll Button */}
       <button 
@@ -843,24 +893,8 @@ Note: This is a temporary file. Please contact us directly for the complete broc
         <div className="arrow">↓</div>
       </button>
 
-      {/* Enhanced Floating Contact */}
-      <button 
-        className="floating-contact" 
-        onClick={openPopup}
-        onMouseEnter={(e) => {
-          e.target.style.transform = 'translateY(-10px) scale(1.15) rotate(3deg)';
-          e.target.style.boxShadow = '0 20px 50px rgba(59, 130, 246, 0.7)';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.transform = 'translateY(0) scale(1) rotate(0deg)';
-          e.target.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.4)';
-        }}
-      >
-        <span>💬</span> Get Quote
-      </button>
-
-      {/* Video Modal - Fixed video loading */}
-      <div className={`video-modal-overlay ${videoModalOpen ? 'active' : ''}`}>
+      {/* Enhanced Video Modal */}
+      <div className={`video-modal-overlay${videoModalOpen ? ' active' : ''}`}>
         <div className="video-modal-container">
           {videoLoading && (
             <div className="video-loading">
@@ -874,13 +908,12 @@ Note: This is a temporary file. Please contact us directly for the complete broc
             className="video-modal-video"
             onError={handleVideoError}
             onCanPlay={() => setVideoLoading(false)}
-            muted
-            loop
-            playsInline
+            muted={true}
+            loop={true}
+            playsInline={true}
             preload="metadata"
             style={{ opacity: videoLoading ? 0 : 1 }}
           >
-            {/* Video source will be set programmatically */}
             <p>Your browser does not support the video tag.</p>
           </video>
 

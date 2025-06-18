@@ -1,4 +1,4 @@
-/* src/components/Hero.css - Professional Color Theme with Hero-Specific Logo */
+/* src/components/Hero.css - Professional Two Section Layout */
 
 /* Reset */
 * {
@@ -7,19 +7,129 @@
   box-sizing: border-box;
 }
 
-/* Hero Section */
+/* Hero Section - Professional Two Column Layout - Improved responsive design */
 .hero {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   overflow: hidden;
-  padding-top: 80px;
 }
 
-/* Video Background */
+/* STRONGEST POSSIBLE CLASS TO COMPLETELY DISABLE CURSOR EFFECTS */
+.hero-left-section,
+.hero-left-section *,
+.no-cursor-effects,
+.no-cursor-effects *,
+.company-title,
+.company-title *,
+.animated-word,
+.animated-word *,
+.title-line,
+.title-line *,
+.word-char,
+.word-blue-1,
+.word-golden-1,
+.word-golden-2,
+.golden-blue-title,
+.golden-blue-title *,
+.tagline,
+.tagline *,
+.description,
+.description *,
+.hero-company-logo,
+.hero-company-logo *,
+.hero-logo-image {
+  transform: none !important;
+  transition: transform 0s !important;
+  perspective: none !important;
+  transform-style: flat !important;
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  -o-transform: none !important;
+  will-change: auto !important;
+  transform-origin: initial !important;
+}
+
+/* Force override any potential transform animations */
+.no-cursor-effects:hover,
+.no-cursor-effects:focus,
+.no-cursor-effects:active,
+.company-title:hover,
+.company-title:focus,
+.company-title:active,
+.company-title *:hover,
+.company-title *:focus,
+.company-title *:active {
+  transform: none !important;
+  transition: none !important;
+  perspective: none !important;
+  transform-style: flat !important;
+}
+
+/* LEFT SECTION - Vibrant Yellow Background with Content - Moved upward */
+.hero-left-section {
+  position: relative;
+  background: #ffe23b; /* Vibrant yellow background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1.5rem 2rem 2rem 2rem;
+  z-index: 20;
+  min-height: 100vh;
+  border-right: 1px solid rgba(255, 235, 59, 0.5);
+  padding-top: 1.5rem; /* Reduced from 3rem to move content up */
+  box-shadow: inset -10px 0 30px rgba(255, 235, 59, 0.2);
+  /* ABSOLUTE STATIC PROTECTION */
+  transform: none !important;
+  transition: transform 0s !important;
+  perspective: none !important;
+  transform-style: flat !important;
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  -o-transform: none !important;
+  will-change: auto !important;
+  transform-origin: initial !important;
+}
+
+/* Professional subtle pattern overlay with yellow tones */
+.hero-left-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(255, 235, 59, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(255, 235, 59, 0.15) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* All content above the pattern */
+.hero-left-section > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* RIGHT SECTION - Video Background with Interactive Elements */
+.hero-right-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* Video Background - ONLY for Right Section */
 .hero-video-container {
   position: absolute;
   top: 0;
@@ -34,7 +144,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transition: transform 0.1s ease-out;
+  transition: none; /* Remove transition that was tied to cursor */
 }
 
 .hero-overlay {
@@ -45,16 +155,15 @@
   height: 100%;
   background: linear-gradient(
     135deg,
-    rgba(0, 0, 0, 0.75) 0%,
-    rgba(0, 0, 0, 0.65) 50%,
-    rgba(0, 0, 0, 0.75) 100%
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.4) 50%,
+    rgba(0, 0, 0, 0.6) 100%
   );
   z-index: 2;
-  transition: background 0.3s ease;
 }
 
-/* Particles Container */
-.particles-container {
+/* Particles Container - ONLY for Right Section */
+.hero-right-section .particles-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -68,7 +177,7 @@
   position: absolute;
   width: 4px;
   height: 4px;
-  background: radial-gradient(circle, rgba(183, 156, 92, 0.6) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, transparent 70%);
   border-radius: 50%;
   animation: particleFloat 8s infinite ease-in-out;
 }
@@ -88,8 +197,8 @@
   }
 }
 
-/* Geometric Shapes */
-.hero-geometry {
+/* Geometric Shapes - ONLY for Right Section */
+.hero-right-section .hero-geometry {
   position: absolute;
   top: 0;
   left: 0;
@@ -102,8 +211,8 @@
 .geometric-shape {
   position: absolute;
   opacity: 0.08;
-  border: 2px solid #B79C5C;
-  transition: all 0.3s ease;
+  border: 2px solid #FFD700;
+  transition: none; /* Remove transition that was tied to cursor */
 }
 
 .shape-1 {
@@ -139,482 +248,613 @@
   to { transform: rotate(360deg) scale(1); }
 }
 
-/* Main Content */
-.hero-content {
-  position: relative;
-  z-index: 10;
-  text-align: center;
-  color: white;
-  max-width: 900px;
-  padding: 0 2rem;
-  width: 100%;
-  margin-top: calc(2rem + 80px);
-}
+/* LEFT SECTION CONTENT STYLING */
 
-/* Hero-Specific Logo and Title Container */
-.hero-logo-title-container {
+/* Enhanced Hero Company Logo - Larger size */
+.hero-company-logo {
+  position: relative;
+  margin: -10px 0 0.5rem 0;
+  padding: 0;
+  width: 240px; /* Increased from 200px */
+  height: 240px; /* Increased from 200px */
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2.5rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-}
-
-/* Hero-Specific Company Logo */
-.hero-company-logo {
-  position: relative;
-  opacity: 0;
-  transform: translateX(-50px) scale(0.8);
-  animation: logoSlideIn 0.8s ease-out 0.2s forwards, logoGlow 3s ease-in-out infinite 1s;
-  /* Removed background, border and box-shadow */
-  padding: 0;
-  border-radius: 0;
-  background: transparent;
+  opacity: 1;
+  overflow: visible;
   border: none;
   box-shadow: none;
 }
 
+/* Remove all logo styling elements */
+.hero-company-logo::before,
+.logo-glow-ring,
+.logo-inner-ring,
+.logo-reflection {
+  display: none;
+}
+
 .hero-logo-image {
-  height: auto;
-  width: auto;
-  max-height: 150px; /* Increased from 100px to 150px */
-  max-width: 150px; /* Increased from 100px to 150px */
-  min-height: 120px; /* Increased from 85px to 120px */
-  min-width: 120px; /* Increased from 85px to 120px */
+  width: 220px; /* Increased from 180px */
+  height: 220px; /* Increased from 180px */
   object-fit: contain;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
-  transition: all 0.3s ease;
+  border-radius: 0;
+  transition: all 0.5s ease;
+  filter: brightness(1.4) contrast(1.3) saturate(1.2);
 }
 
 .hero-logo-image:hover {
   transform: scale(1.05);
-  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.6));
+  filter: brightness(1.5) contrast(1.4) saturate(1.3);
 }
 
 @keyframes logoSlideIn {
   0% {
     opacity: 0;
-    transform: translateX(-50px) scale(0.8) rotateY(-45deg);
+    transform: translateY(-30px) scale(0.8);
   }
   100% {
     opacity: 1;
-    transform: translateX(0) scale(1) rotateY(0deg);
+    transform: translateY(0) scale(1);
   }
 }
 
-@keyframes logoGlow {
-  0%, 100% {
-    box-shadow: 
-      0 0 30px rgba(255, 255, 255, 0.4),
-      0 0 60px rgba(183, 156, 92, 0.3),
-      inset 0 0 20px rgba(255, 255, 255, 0.1);
-  }
-  50% {
-    box-shadow: 
-      0 0 40px rgba(255, 255, 255, 0.6),
-      0 0 80px rgba(183, 156, 92, 0.5),
-      inset 0 0 30px rgba(255, 255, 255, 0.2);
-  }
+/* Static Company Title - Moved upward */
+.static-title {
+  margin-bottom: 0.3rem;
+  text-align: center;
+  opacity: 1;
+  margin-top: -15px; /* Increased negative margin to move up */
+  position: relative;
+  z-index: 10;
+  animation: none;
 }
 
-/* Title and Tagline Container */
-.title-tagline-container {
-  flex: 1;
-  text-align: left;
-  min-width: 300px;
-}
-
-/* Company Title - Immediate Loading */
+/* Professional Company Title with ABSOLUTELY NO cursor animations */
 .company-title {
-  margin-bottom: 0.5rem; /* Reduced margin */
-  perspective: 1000px;
-  background: rgba(255, 255, 255, 0.6);
-  display: inline-block;
-  padding: 1px 8px; /* Smaller padding */
-  border-radius: 6px; /* Smaller radius */
-  backdrop-filter: blur(5px);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); /* Smaller shadow */
+  margin-bottom: 0.3rem;
+  text-align: center;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 0.2s forwards;
+  margin-top: -5px;
+  position: relative;
+  z-index: 10;
+  /* ABSOLUTE OVERRIDE - NO CURSOR EFFECTS EVER */
+  transform: none !important;
+  transition: none !important;
+  perspective: none !important;
+  transform-style: flat !important;
+  pointer-events: none !important;
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  -o-transform: none !important;
+  will-change: auto !important;
 }
 
 .company-title h1 {
-  font-size: clamp(1.8rem, 5vw, 3.8rem); /* Smaller font size */
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -1px;
-  color: #333333;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Smaller shadow */
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  text-transform: uppercase;
   margin: 0;
+  line-height: 1.1;
+  letter-spacing: 1px;
+  font-family: 'Inter', sans-serif !important;
+  text-align: center;
+  color: #1e293b; /* Darker text for better contrast on yellow */
+  /* ABSOLUTE OVERRIDE - NO CURSOR EFFECTS EVER */
+  transform: none !important;
+  transition: none !important;
+  perspective: none !important;
+  transform-style: flat !important;
+  pointer-events: none !important;
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  -o-transform: none !important;
+  will-change: auto !important;
 }
 
 .title-line {
   display: block;
   margin-bottom: 0.2rem;
+  /* ABSOLUTE OVERRIDE - NO CURSOR EFFECTS EVER */
+  transform: none !important;
+  transition: none !important;
+  perspective: none !important;
+  transform-style: flat !important;
+  pointer-events: none !important;
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  -o-transform: none !important;
+  will-change: auto !important;
 }
 
-/* Advanced Word Animations */
+/* Enhanced Word Animations - ONLY initial load, ABSOLUTELY NO cursor effects */
 .animated-word {
   display: inline-block;
+  margin-right: 0.5rem;
+  opacity: 0;
+  animation: wordSlideIn 0.6s ease-out forwards;
   position: relative;
-  overflow: hidden;
+  /* ABSOLUTE OVERRIDE - NO CURSOR EFFECTS EVER */
+  transform: none !important;
+  transition: none !important;
+  perspective: none !important;
+  transform-style: flat !important;
+  pointer-events: none !important;
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  -o-transform: none !important;
+  will-change: auto !important;
+}
+
+/* First word - Blue */
+.word-blue-1 {
+  color: #1e40af; /* Dark blue */
+  font-weight: 700;
+  animation-delay: 0.3s;
+  /* ABSOLUTE OVERRIDE - NO CURSOR EFFECTS EVER */
+  transform: none !important;
+  transition: none !important;
+  perspective: none !important;
+  transform-style: flat !important;
+  pointer-events: none !important;
+}
+
+/* First and third words - Keep CONSTRUCTIONS in gold */
+.word-golden-1 {
+  color: #000000; /* Black for PAVAN */
+  font-weight: 800;
+  animation-delay: 0.1s;
+  /* ABSOLUTE OVERRIDE - NO CURSOR EFFECTS EVER */
+  transform: none !important;
+  transition: none !important;
+  perspective: none !important;
+  transform-style: flat !important;
+  pointer-events: none !important;
+}
+
+.word-golden-2 {
+  background: linear-gradient(135deg, #FFD700 0%, #FFC107 50%, #FFD700 100%); /* Gold gradient */
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  animation-delay: 0.5s;
+  /* ABSOLUTE OVERRIDE - NO CURSOR EFFECTS EVER */
+  transform: none !important;
+  transition: none !important;
+  perspective: none !important;
+  transform-style: flat !important;
+  pointer-events: none !important;
+}
+
+/* Add a shimmer effect to the gold text - one-time animation ONLY */
+.word-golden-2::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.4) 50%, 
+    transparent 100%);
+  animation: shimmer 3s 1; /* Run only once */
+  z-index: 1;
+  /* ABSOLUTE OVERRIDE - NO CURSOR EFFECTS EVER */
+  transform: none !important;
+  transition: none !important;
+  perspective: none !important;
+  transform-style: flat !important;
+  pointer-events: none !important;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+@keyframes wordSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) rotateX(20deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+  }
 }
 
 .word-char {
   display: inline-block;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transform-origin: center bottom;
+  transform-origin: bottom center;
+  /* ABSOLUTE OVERRIDE - NO CURSOR EFFECTS EVER */
+  transform: none !important;
+  transition: none !important;
+  perspective: none !important;
+  transform-style: flat !important;
+  pointer-events: none !important;
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  -o-transform: none !important;
+  will-change: auto !important;
 }
 
-.word-1 .word-char {
-  color: #1a1a1a;
-  text-shadow: 
-    0 0 8px rgba(255, 255, 255, 0.9),
-    1px 1px 3px rgba(255, 255, 255, 0.8);
-  animation: slideInFromLeft 0.6s ease-out forwards;
+/* SUPER STRONG Override for ALL title elements - ABSOLUTELY NO 3D effects EVER */
+.company-title,
+.company-title *,
+.animated-word,
+.animated-word *,
+.title-line,
+.title-line *,
+.word-char,
+.word-blue-1,
+.word-golden-1,
+.word-golden-2,
+.golden-blue-title,
+.golden-blue-title *,
+.no-cursor-effects,
+.no-cursor-effects * {
+  transform: none !important;
+  transition: none !important;
+  perspective: none !important;
+  transform-style: flat !important;
+  pointer-events: none !important;
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  -o-transform: none !important;
+  will-change: auto !important;
+  animation-fill-mode: forwards !important; /* Allow only initial animations */
 }
 
-.word-2 .word-char {
-  color: #8B4513;
-  text-shadow: 
-    0 0 8px rgba(255, 255, 255, 0.9),
-    1px 1px 3px rgba(255, 255, 255, 0.8);
-  animation: slideInFromTop 0.6s ease-out forwards;
+/* Force static on hover and interaction states - COMPLETE LEFT SECTION PROTECTION */
+.hero-left-section:hover,
+.hero-left-section:hover *,
+.hero-left-section:focus,
+.hero-left-section:focus *,
+.hero-left-section:active,
+.hero-left-section:active *,
+.company-title:hover,
+.company-title:hover *,
+.animated-word:hover,
+.animated-word:hover *,
+.title-line:hover,
+.title-line:hover *,
+.word-char:hover,
+.word-blue-1:hover,
+.word-golden-1:hover,
+.word-golden-2:hover,
+.golden-blue-title:hover,
+.golden-blue-title:hover *,
+.no-cursor-effects:hover,
+.no-cursor-effects:hover *,
+.company-title:focus,
+.company-title:focus *,
+.company-title:active,
+.company-title:active *,
+.tagline:hover,
+.tagline:hover *,
+.description:hover,
+.description:hover *,
+.hero-company-logo:hover,
+.hero-company-logo:hover *,
+.hero-logo-image:hover {
+  transform: none !important;
+  transition: transform 0s !important;
+  perspective: none !important;
+  transform-style: flat !important;
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  -o-transform: none !important;
 }
 
-.word-3 .word-char {
-  color: #2D3748;
-  text-shadow: 
-    0 0 8px rgba(255, 255, 255, 0.9),
-    1px 1px 3px rgba(255, 255, 255, 0.8);
-  animation: slideInFromRight 0.6s ease-out forwards;
-}
-
-/* Character Animation Keyframes */
-@keyframes slideInFromLeft {
-  0% {
-    opacity: 0;
-    transform: translateX(-100px) rotateY(-90deg) scale(0.5);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) rotateY(0deg) scale(1);
-  }
-}
-
-@keyframes slideInFromTop {
-  0% {
-    opacity: 0;
-    transform: translateY(-50px) rotateX(90deg) scale(0.5);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) rotateX(0deg) scale(1);
-  }
-}
-
-@keyframes slideInFromRight {
-  0% {
-    opacity: 0;
-    transform: translateX(100px) rotateY(90deg) scale(0.5);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) rotateY(0deg) scale(1);
-  }
-}
-
-/* Hover Effects for Words */
-.animated-word:hover .word-char {
-  animation: charBounce 0.6s ease-in-out infinite alternate;
-}
-
-@keyframes charBounce {
-  0% { transform: translateY(0) scale(1); }
-  100% { transform: translateY(-10px) scale(1.1); }
-}
-
-/* Glitch Effect */
-.glitch-effect {
-  position: relative;
-}
-
-.glitch-effect::before,
-.glitch-effect::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-}
-
-.glitch-effect::before {
-  animation: glitch-1 0.2s ease-in-out infinite alternate;
-  color: #B79C5C;
-  z-index: -1;
-}
-
-.glitch-effect::after {
-  animation: glitch-2 0.2s ease-in-out infinite alternate;
-  color: #4A5568;
-  z-index: -2;
-}
-
-@keyframes glitch-1 {
-  0% { transform: translateX(-2px) translateY(1px); opacity: 0.7; }
-  100% { transform: translateX(2px) translateY(-1px); opacity: 0.7; }
-}
-
-@keyframes glitch-2 {
-  0% { transform: translateX(1px) translateY(-1px); opacity: 0.7; }
-  100% { transform: translateX(-1px) translateY(1px); opacity: 0.7; }
-}
-
-/* Tagline - Quick Load */
+/* Professional Tagline - Moved upward */
 .tagline {
-  margin-bottom: 0.5rem; /* Reduced margin */
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.8s ease-out 0.3s forwards;
-  background: rgba(255, 255, 255, 0.6);
-  display: inline-block;
-  padding: 1px 8px; /* Smaller padding */
-  border-radius: 6px; /* Smaller radius */
-  backdrop-filter: blur(5px);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); /* Smaller shadow */
+  margin-top: -5px; /* Added negative margin to move up */
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #1e293b;
+  font-weight: 500;
+  letter-spacing: 1px;
+  opacity: 1;
 }
 
 .tagline p {
-  font-size: clamp(1.2rem, 3vw, 1.8rem); /* Smaller font size */
+  font-size: clamp(1rem, 2vw, 1.3rem);
   font-weight: 300;
-  letter-spacing: 2px; /* Reduced letter spacing */
+  letter-spacing: 4px;
   text-transform: uppercase;
-  color: #333333;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  opacity: 0.95;
-  position: relative;
+  color: #334155; /* Darker text for better contrast on yellow */
   margin: 0;
+  font-family: 'Inter', sans-serif !important;
+  position: relative;
 }
 
-/* Typewriter Effect */
-.typewriter {
-  overflow: hidden;
-  border-right: 2px solid #8B4513;
-  white-space: nowrap;
-  animation: typing 2s steps(40, end) 0.5s forwards,
-             blink-caret 1s step-end infinite 2.5s;
-  width: 0;
+.tagline p::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #1e40af, transparent); /* Changed from gold to construction blue */
 }
 
-@keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
-}
-
-@keyframes blink-caret {
-  from, to { border-color: transparent; }
-  50% { border-color: #8B4513; }
-}
-
-/* Description - Quick Load */
+/* Enhanced Description with reduced margins */
 .description {
-  margin-bottom: 2rem; /* Reduced margin */
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+  padding: 0 1rem;
   opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.8s ease-out 0.5s forwards;
+  animation: fadeInUp 0.8s ease-out 1.1s forwards;
+  margin-top: 0;
+  margin-bottom: 1rem; /* Added margin-bottom */
 }
 
 .description p {
-  font-size: clamp(1rem, 2.5vw, 1.3rem); /* Smaller font size */
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  max-width: 600px;
-  margin: 0 auto;
-  text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
+  font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+  line-height: 1.7;
+  color: #475569; /* Darker text for better contrast on yellow */
+  text-align: center;
+  font-weight: 400;
+  font-family: 'Inter', sans-serif !important;
 }
 
-/* Buttons - Quick Load with Stagger */
+/* Add a subtle highlight to key words */
+.description p strong {
+  color: #000000;
+  font-weight: 600;
+  background: linear-gradient(135deg, #1e40af, #3b82f6); /* Changed from gold to construction blue */
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* RIGHT SECTION CONTENT */
+.hero-right-content {
+  position: relative;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+}
+
+/* Enhanced Buttons with Construction Blue */
 .hero-buttons {
   display: flex;
-  justify-content: center;
-  gap: 1.5rem; /* Reduced gap */
-  margin-bottom: 2.5rem; /* Reduced margin */
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 2.5rem;
   opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.8s ease-out 0.7s forwards;
+  animation: fadeInUp 0.8s ease-out 1.3s forwards;
+  margin-top: 1rem;
 }
 
 .hero-btn {
-  padding: 0.8rem 1.8rem; /* Smaller padding */
-  font-size: 1rem; /* Smaller font size */
+  padding: 1rem 2rem;
+  font-size: 0.9rem;
   font-weight: 600;
   border-radius: 50px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  min-width: 180px; /* Smaller min-width */
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  min-width: 200px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-.hero-btn:nth-child(1) {
-  animation: buttonSlideIn 0.8s ease-out 0.7s forwards;
-}
-
-.hero-btn:nth-child(2) {
-  animation: buttonSlideIn 0.8s ease-out 0.9s forwards;
-}
-
-@keyframes buttonSlideIn {
-  0% {
-    opacity: 0;
-    transform: translateY(30px) scale(0.9) rotateX(45deg);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1) rotateX(0deg);
-  }
-}
-
-.hero-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-  transition: left 0.5s ease;
-}
-
-.hero-btn:hover::before {
-  left: 100%;
+  font-family: 'Inter', sans-serif !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .hero-btn.primary {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.15);
   color: white;
-  border: 2px solid rgba(255, 255, 255, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(10px);
 }
 
 .hero-btn.secondary {
-  background: linear-gradient(135deg, #B79C5C, #8B7355);
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%); /* Changed from gold to construction blue */
   color: white;
   border: 2px solid transparent;
-}
-
-.hero-btn:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-}
-
-.hero-btn.primary:hover {
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.4);
-}
-
-.hero-btn.secondary:hover {
-  background: linear-gradient(135deg, #C4A96B, #9A7F5F);
-}
-
-/* Stats - Staggered Animation */
-.hero-stats {
-  display: flex;
-  justify-content: center;
-  gap: 3rem;
-}
-
-.stat {
-  text-align: center;
-  padding: 1.5rem 2rem;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 15px;
-  backdrop-filter: blur(10px);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  opacity: 0;
-  transform: translateY(40px) rotateX(45deg);
   position: relative;
   overflow: hidden;
- 
 }
 
-.stat:nth-child(1) { animation: statSlideIn 0.8s ease-out 1.1s forwards; }
-.stat:nth-child(2) { animation: statSlideIn 0.8s ease-out 1.3s forwards; }
-.stat:nth-child(3) { animation: statSlideIn 0.8s ease-out 1.5s forwards; }
-
-@keyframes statSlideIn {
-  0% {
-    opacity: 0;
-    transform: translateY(40px) rotateX(45deg) scale(0.8);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) rotateX(0deg) scale(1);
-  }
-}
-
-.stat::before {
+.hero-btn.secondary::before {
   content: '';
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(183, 156, 92, 0.08), transparent);
-  transition: left 0.6s ease;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s ease;
 }
 
-.stat:hover::before {
+.hero-btn.secondary:hover::before {
   left: 100%;
 }
 
+.hero-btn:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+}
+
+.hero-btn.primary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.hero-btn.secondary:hover {
+  background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 50%, #93c5fd 100%); /* Changed from gold to lighter construction blue */
+  box-shadow: 0 12px 35px rgba(30, 64, 175, 0.4); /* Changed from gold to construction blue */
+}
+
+/* Enhanced Stats with Construction Blue */
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 1.5s forwards;
+}
+
+.stat {
+  text-align: center;
+  padding: 1.2rem 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(15px);
+  transition: all 0.3s ease;
+  min-width: 110px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
 .stat:hover {
-  transform: translateY(-10px) scale(1.05) rotateY(5deg);
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 20px 40px rgba(183, 156, 92, 0.15);
+  transform: translateY(-8px) scale(1.03);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 15px 35px rgba(255, 215, 0, 0.2); /* Restored to original gold color */
 }
 
 .stat-number {
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: 800;
-  color: #B79C5C;
-  margin-bottom: 0.5rem;
-  text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
-  animation: numberCount 2s ease-out forwards;
+  background: linear-gradient(135deg, #FFD700 0%, #FFC107 100%); /* Restored to original gold color */
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.3rem;
+  font-family: 'Inter', sans-serif !important;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); /* Restored to original gold color */
 }
 
 .stat-label {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.9);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 20px;
+  font-family: 'Inter', sans-serif !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-/* Number Counting Animation */
-@keyframes numberCount {
-  from { opacity: 0; transform: scale(0.5); }
-  to { opacity: 1; transform: scale(1); }
+/* See Us Button - Enhanced */
+.see-us-circle {
+  position: absolute;
+  bottom: 6rem;
+  right: 2rem;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #4A5568, #2D3748);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 25px rgba(74, 85, 104, 0.4);
+  transition: all 0.3s ease;
+  z-index: 1001;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 1.7s forwards;
+  font-family: 'Inter', sans-serif !important;
 }
 
-/* Common Fade In Animation */
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.see-us-circle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 12px 35px rgba(74, 85, 104, 0.6);
+}
+
+.see-us-circle span {
+  line-height: 1.2;
+}
+
+.see-us-circle .play-icon {
+  font-size: 1rem;
+  margin-top: 0.2rem;
+}
+
+/* Enhanced Get Quote Button */
+.floating-contact {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #1e293b;
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 1.9s forwards;
+  font-family: 'Inter', sans-serif !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.floating-contact:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 12px 35px rgba(255, 215, 0, 0.6);
+}
+
+/* Enhanced Sticky Quote Button */
+.floating-contact.sticky-quote-btn {
+  position: fixed;
+  bottom: 7rem;
+  right: 2rem;
+  background: linear-gradient(135deg, #FFD700, #3b82f6) !important;
+  color: white;
+  border: none;
+  padding: 0.9rem 1.6rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+  transition: all 0.3s ease;
+  z-index: 1002;
+  opacity: 1;
+  animation: none;
+  font-family: 'Inter', sans-serif !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.floating-contact.sticky-quote-btn:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 12px 35px rgba(255, 215, 0, 0.6);
+  background: linear-gradient(135deg, #3b82f6, #FFD700) !important;
 }
 
 /* Scroll Button */
@@ -633,26 +873,29 @@
   gap: 0.5rem;
   padding: 1rem;
   opacity: 0;
-  animation: fadeInUp 0.8s ease-out 1.7s forwards;
+  animation: fadeInUp 0.8s ease-out 2.1s forwards;
   transition: all 0.3s ease;
+  z-index: 25;
+  font-family: 'Inter', sans-serif !important;
 }
 
 .scroll-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   backdrop-filter: blur(10px);
-  transform: translateX(-50%) scale(1.1);
+  transform: translateX(-50%) scale(1.05);
 }
 
 .scroll-btn span {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .arrow {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   animation: bounce 2s infinite;
 }
 
@@ -661,104 +904,26 @@
     transform: translateY(0);
   }
   40% {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
   }
   60% {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
+  }
+}
+
+/* Common Fade In Animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 /* ===== VIDEO MODAL SYSTEM ===== */
-
-/* See Us Circle Button - Fixed in Hero Section */
-.see-us-circle {
-  position: absolute;
-  bottom: 5.5rem;
-  right: 2rem;
-  width: 90px;
-  height: 90px;
-  background: linear-gradient(135deg, #4A5568, #2D3748);
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 10px 30px rgba(74, 85, 104, 0.3);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 1001;
-  opacity: 0;
-  animation: fadeInUp 0.8s ease-out 2.1s forwards;
-  overflow: hidden;
-}
-
-.see-us-circle::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.2), transparent);
-  animation: rotate 3s linear infinite;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.see-us-circle:hover::before {
-  opacity: 1;
-}
-
-.see-us-circle:hover {
-  transform: scale(1.15) rotate(5deg);
-  box-shadow: 0 15px 40px rgba(74, 85, 104, 0.5);
-}
-
-.see-us-circle span {
-  position: relative;
-  z-index: 2;
-  line-height: 1.2;
-}
-
-.see-us-circle .play-icon {
-  font-size: 1.2rem;
-  margin-top: 0.2rem;
-}
-
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Floating Contact - Repositioned */
-.floating-contact {
-  position: fixed;
-  bottom: 2rem;
-  right: 1.5rem;
-  background: linear-gradient(135deg, #B79C5C, #8B7355);
-  color: white;
-  border: none;
-  padding: 1rem 1.5rem;
-  border-radius: 50px;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 8px 25px rgba(183, 156, 92, 0.3);
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 1000;
-  opacity: 0;
-  animation: fadeInUp 0.8s ease-out 1.9s forwards;
-}
-
-.floating-contact:hover {
-  transform: translateY(-5px) scale(1.1) rotate(2deg);
-  box-shadow: 0 15px 40px rgba(183, 156, 92, 0.5);
-}
 
 /* Video Modal Overlay */
 .video-modal-overlay {
@@ -774,9 +939,8 @@
   justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.5s ease;
   backdrop-filter: blur(10px);
-  overflow: hidden;
 }
 
 .video-modal-overlay.active {
@@ -787,29 +951,27 @@
 .video-modal-container {
   position: relative;
   width: 90%;
-  max-width: 1200px;
-  height: 80%;
-  max-height: 700px;
-  background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,0,0,0.9));
-  border-radius: 20px;
+  max-width: 1000px;
+  height: 70%;
+  max-height: 600px;
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
-  transform: scale(0.8) rotateX(15deg);
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: scale(0.9);
+  transition: all 0.5s ease;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  user-select: none;
 }
 
 .video-modal-overlay.active .video-modal-container {
-  transform: scale(1) rotateX(0deg);
+  transform: scale(1);
 }
 
 .video-modal-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 20px;
-  transition: all 0.3s ease;
+  border-radius: 15px;
 }
 
 /* Video Controls */
@@ -837,22 +999,21 @@
   background: rgba(255, 255, 255, 0.15);
   border: 2px solid rgba(255, 255, 255, 0.25);
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
 }
 
 .video-nav-btn:hover {
-  background: rgba(183, 156, 92, 0.25);
+  background: rgba(255, 215, 0, 0.3);
   transform: scale(1.1);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .video-nav-btn:disabled {
@@ -862,88 +1023,88 @@
 
 .video-close-btn {
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 1rem;
+  right: 1rem;
   background: rgba(255, 255, 255, 0.15);
   border: 2px solid rgba(255, 255, 255, 0.25);
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
 }
 
 .video-close-btn:hover {
-  background: rgba(220, 80, 80, 0.25);
-  transform: scale(1.1) rotate(90deg);
-  box-shadow: 0 10px 20px rgba(220, 80, 80, 0.2);
+  background: rgba(220, 80, 80, 0.3);
+  transform: scale(1.1);
 }
 
 /* Video Info */
 .video-info {
   position: absolute;
-  bottom: 2rem;
-  left: 2rem;
-  right: 2rem;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: rgba(0, 0, 0, 0.7);
-  padding: 1rem 1.5rem;
-  border-radius: 15px;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
   backdrop-filter: blur(10px);
   opacity: 0;
-  transform: translateY(20px);
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .video-modal-container:hover .video-info {
   opacity: 1;
-  transform: translateY(0);
 }
 
 .video-title {
   color: white;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 600;
   margin: 0;
+  font-family: 'Inter', sans-serif !important;
 }
 
 .video-counter {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   background: rgba(255, 255, 255, 0.08);
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
+  padding: 0.4rem 0.8rem;
+  border-radius: 15px;
   border: 1px solid rgba(255, 255, 255, 0.15);
+  font-family: 'Inter', sans-serif !important;
 }
 
-/* Video Loading Animation */
+/* Video Loading */
 .video-loading {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  font-size: 1.2rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   gap: 1rem;
   z-index: 10;
+  font-family: 'Inter', sans-serif !important;
 }
 
 .loading-spinner {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border: 3px solid rgba(255, 255, 255, 0.3);
-  border-top: 3px solid #B79C5C;
+  border-top: 3px solid #FFD700;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -953,3236 +1114,533 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Scroll Progress Indicator */
+/* Scroll Progress */
 .scroll-progress {
   position: absolute;
-  bottom: 1rem;
+  bottom: 0.5rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: 0.5rem;
   color: rgba(255, 255, 255, 0.8);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   background: rgba(0, 0, 0, 0.6);
-  padding: 0.8rem 1.2rem;
-  border-radius: 25px;
+  padding: 0.6rem 1rem;
+  border-radius: 20px;
   backdrop-filter: blur(15px);
   opacity: 0;
-  animation: fadeInUp 0.5s ease-out 2s forwards, pulse 2s ease-in-out infinite 3s;
+  animation: fadeInUp 0.5s ease-out 2s forwards;
   cursor: pointer;
-  transition: all 0.4s ease;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-family: 'Inter', sans-serif !important;
 }
 
 .scroll-progress:hover {
   background: rgba(0, 0, 0, 0.8);
-  color: white;
-  transform: translateX(-50%) scale(1.08);
-  border-color: rgba(183, 156, 92, 0.4);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
-}
-
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(183, 156, 92, 0.4);
-  }
-  50% {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 0 10px rgba(183, 156, 92, 0);
-  }
+  transform: translateX(-50%) scale(1.05);
 }
 
 .scroll-arrow-down {
   animation: bounce 2s infinite;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* RESPONSIVE DESIGN - Updated for single page layout on mobile and specific tablets */
+
+/* Specific tablet portrait dimensions - Single page layout */
+@media (max-width: 1024px) and (max-height: 1400px) and (min-width: 800px),
+       (width: 820px) and (height: 1180px),
+       (width: 1024px) and (height: 1366px),
+       (width: 912px) and (height: 1368px),
+       (width: 853px) and (height: 1280px) {
   .hero {
-    padding-top: 70px;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto; /* Single page layout */
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .hero-left-section {
+    min-height: auto; /* Natural height */
+    border-right: none;
+    border-bottom: 1px solid rgba(253, 224, 71, 0.3);
+    padding: 3rem 2.5rem 2rem 2.5rem;
+    padding-top: 2.5rem;
   }
 
-  .hero-content {
-    padding: 0 1rem;
-    max-width: 600px;
-    margin-top: calc(1rem + 30px);
+  .hero-right-section {
+    min-height: 70vh; /* Reduced height for better fit */
   }
 
-  /* Hero Logo and Title Mobile Layout */
-  .hero-logo-title-container {
-    flex-direction: column;
-    gap: 2rem;
-    text-align: center;
-  }
-
-  .title-tagline-container {
-    text-align: center;
-    min-width: auto;
+  .hero-right-content {
+    padding: 2.5rem 2rem;
   }
 
   .hero-company-logo {
-    padding: 0.5rem;
+    width: 160px;
+    height: 160px;
+    margin: 0.5rem 0 1rem 0;
+  }
+  
+  .hero-logo-image {
+    width: 140px;
+    height: 140px;
   }
 
-  .hero-logo-image {
-    max-height: 85px;
-    max-width: 85px;
-    min-height: 70px;
-    min-width: 70px;
+  .company-title {
+    margin-bottom: 1.2rem;
   }
 
   .company-title h1 {
-    font-size: clamp(1.8rem, 5vw, 3.5rem);
-    letter-spacing: -0.5px;
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .tagline {
+    margin-bottom: 1.2rem;
+  }
+
+  .tagline p {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+  }
+
+  .description {
+    max-width: 500px;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-buttons {
+    margin-bottom: 2rem;
+  }
+  
+  .hero-btn {
+    padding: 0.9rem 1.8rem;
+    font-size: 0.9rem;
+    min-width: 180px;
+  }
+  
+  .hero-stats {
+    gap: 1.2rem;
+  }
+  
+  .floating-contact.sticky-quote-btn {
+    bottom: 3rem;
+    right: 1.5rem;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  
+  .see-us-circle {
+    bottom: 10rem;
+    right: 1.5rem;
+    width: 75px;
+    height: 75px;
+  }
+}
+
+/* General Tablet - Keep two sections as separate pages (for larger tablets) */
+@media (max-width: 1200px) and (min-width: 1025px),
+       (max-width: 1024px) and (min-height: 1400px) {
+  .hero {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(100vh, auto) minmax(100vh, auto);
+    height: auto;
+    min-height: auto;
+  }
+
+  .hero-left-section,
+  .hero-right-section {
+    min-height: 100vh;
+    width: 100%;
+  }
+
+  .hero-left-section {
+    border-right: none;
+    border-bottom: 1px solid rgba(253, 224, 71, 0.3);
+    padding: 4rem 2rem 3rem 2rem;
+    padding-top: 4.5rem;
+  }
+
+  .hero-right-content {
+    padding: 3rem 2rem;
+  }
+
+  .company-title h1 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .tagline p {
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+  }
+
+  .description {
+    max-width: 500px;
+  }
+  
+  .floating-contact.sticky-quote-btn {
+    bottom: 9rem;
+    right: 1.5rem;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  
+  .see-us-circle {
+    bottom: 5.5rem;
+    right: 1.5rem;
+  }
+  
+  .hero-company-logo {
+    width: 180px;
+    height: 180px;
+  }
+  
+  .hero-logo-image {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+/* Mobile - Single page layout with both sections (excluding tablets handled above) */
+@media (max-width: 768px) and not ((width: 820px) and (height: 1180px)) and not ((width: 1024px) and (height: 1366px)) and not ((width: 912px) and (height: 1368px)) and not ((width: 853px) and (height: 1280px)), 
+       (max-width: 799px) {
+  .hero {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto; /* Remove minmax to allow single page layout */
+    height: auto; /* Allow natural height */
+    min-height: 100vh; /* Ensure minimum height */
+  }
+  
+  .hero-left-section {
+    min-height: auto; /* Remove fixed height */
+    border-right: none;
+    border-bottom: 1px solid rgba(253, 224, 71, 0.3);
+    padding: 3rem 1.5rem 2rem 1.5rem;
+    padding-top: 2rem; /* Reduced padding for compact layout */
+  }
+
+  .hero-right-section {
+    min-height: 70vh; /* Reduce height for better fit */
+  }
+
+  .hero-right-content {
+    padding: 2rem 1.5rem;
+  }
+
+  .hero-company-logo {
+    width: 120px; /* Smaller logo for mobile */
+    height: 120px;
+    margin: 0.5rem 0 1rem 0;
+  }
+  
+  .hero-logo-image {
+    width: 100px;
+    height: 100px;
+  }
+
+  .company-title {
+    margin-bottom: 1rem;
+    margin-top: 0;
+  }
+
+  .company-title h1 {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+  }
+
+  .tagline {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  .tagline p {
+    font-size: clamp(0.9rem, 3vw, 1.2rem);
+    letter-spacing: 3px;
+  }
+
+  .description {
+    max-width: 100%;
+    padding: 0 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .description p {
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
   }
 
   .hero-buttons {
-    flex-direction: column;
-    align-items: center;
     gap: 1rem;
+    margin-bottom: 1.5rem;
   }
 
   .hero-btn {
-    width: 100%;
-    max-width: 300px;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.85rem;
+    min-width: 160px;
   }
-
+  
   .hero-stats {
-    flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: 1rem;
+    margin-bottom: 1rem;
   }
-
+  
   .stat {
-    flex: 1;
-    min-width: 120px;
-    padding: 1rem 1.5rem;
+    padding: 1rem 1.2rem;
+    min-width: 90px;
   }
-
-  .geometric-shape {
-    opacity: 0.04;
+  
+  .floating-contact.sticky-quote-btn {
+    bottom: 2rem;
+    right: 1rem;
+    padding: 0.7rem 1rem;
+    font-size: 0.8rem;
   }
-
-  /* Video Modal Mobile */
+  
   .see-us-circle {
+    bottom: 8rem;
+    right: 1rem;
+    width: 70px;
+    height: 70px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Small Mobile - Further compressed single page layout */
+@media (max-width: 480px) {
+  .hero-left-section {
+    padding: 2rem 1rem 1.5rem 1rem;
+    padding-top: 1.5rem;
+  }
+
+  .hero-right-section {
+    min-height: 60vh; /* Further reduce height */
+  }
+
+  .hero-right-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .hero-company-logo {
+    width: 100px;
+    height: 100px;
+    margin: 0.3rem 0 0.8rem 0;
+  }
+  
+  .hero-logo-image {
     width: 80px;
     height: 80px;
-    right: 1.5rem;
-    bottom: 1.5rem;
-    font-size: 0.8rem;
-  }
-
-  .floating-contact {
-    bottom: 1.5rem;
-    right: 10rem;
-    padding: 0.8rem 1.2rem;
-  }
-
-  .video-modal-container {
-    width: 95%;
-    height: 85%;
-    border-radius: 15px;
-    touch-action: none;
-  }
-
-  .video-controls {
-    padding: 1rem;
-  }
-
-  .video-nav-btn {
-    width: 50px;
-    height: 50px;
-    font-size: 1.2rem;
-  }
-
-  .video-close-btn {
-    width: 40px;
-    height: 40px;
-    top: 1rem;
-    right: 1rem;
-    font-size: 1.2rem;
-  }
-
-  .video-info {
-    bottom: 1rem;
-    left: 1rem;
-    right: 1rem;
-    padding: 0.8rem 1rem;
-    flex-direction: column;
-    gap: 0.5rem;
-    text-align: center;
-  }
-
-  .video-title {
-    font-size: 1rem;
-  }
-
-  .scroll-progress {
-    bottom: 0.5rem;
-    font-size: 0.8rem;
-    padding: 0.6rem 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero {
-    padding-top: 60px;
-  }
-
-  .hero-content {
-    padding: 0 0.5rem;
-    max-width: 400px;
-    margin-top: calc(0.5rem + 30px);
-  }
-
-  /* Hero Logo and Title Small Mobile */
-  .hero-logo-title-container {
-    gap: 1.5rem;
-  }
-
-  .hero-company-logo {
-    padding: 0.4rem;
-  }
-
-  .hero-logo-image {
-    max-height: 70px;
-    max-width: 70px;
-    min-height: 60px;
-    min-width: 60px;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.4rem, 4vw, 2.8rem);
-    letter-spacing: 0px;
-  }
-
-  .tagline p {
-    letter-spacing: 2px;
-  }
-
-  .hero-buttons {
-    gap: 0.8rem;
-  }
-
-  .hero-btn {
-    padding: 0.8rem 1.5rem;
-    font-size: 1rem;
-  }
-
-  .hero-stats {
-    gap: 1rem;
-  }
-
-  .stat {
-    padding: 0.8rem 1rem;
-  }
-
-  /* Video Modal Small Mobile */
-  .see-us-circle {
-    width: 70px;
-    height: 70px;
-    right: 1rem;
-    bottom: 1rem;
-    font-size: 0.7rem;
-  }
-
-  .see-us-circle .play-icon {
-    font-size: 1rem;
-  }
-
-  .video-modal-container {
-    width: 98%;
-    height: 90%;
-    border-radius: 10px;
-    touch-action: none;
-  }
-
-  .video-controls {
-    padding: 0.5rem;
-  }
-
-  .video-nav-btn {
-    width: 45px;
-    height: 45px;
-    font-size: 1rem;
-  }
-
-  .video-close-btn {
-    width: 35px;
-    height: 35px;
-    font-size: 1rem;
-  }
-
-  .scroll-progress {
-    bottom: 0.3rem;
-    font-size: 0.7rem;
-    padding: 0.4rem 0.8rem;
-  }
-}
-
-/* Ensure video loads properly */
-@media (max-width: 768px) {
-  .hero-video {
-    object-position: center center;
-  }
-}
-/* ===== SPECIFIC MOBILE BREAKPOINT FIXES ===== */
-
-/* iPhone SE and similar (375x667) */
-@media (max-width: 375px) and (max-height: 667px) {
-  .hero {
-    padding-top: 70px;
-    height: 100vh;
-  }
-
-  .hero-content {
-    padding: 0 1rem;
-    max-width: 350px;
-    margin-top: 1rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1rem;
-  }
-
-  .title-tagline-container {
-    text-align: center;
-  }
-
-  .company-title {
-    margin-bottom: 0.5rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.2rem, 6vw, 2.2rem);
-    line-height: 1;
-    letter-spacing: -0.5px;
-  }
-
-  .tagline {
-    margin-bottom: 0;
-  }
-
-  .tagline p {
-    font-size: clamp(0.8rem, 4vw, 1rem);
-    letter-spacing: 1px;
-  }
-
-  .description {
-    margin-bottom: 1.5rem;
-  }
-
-  .description p {
-    font-size: clamp(0.8rem, 3vw, 0.9rem);
-    line-height: 1.4;
-  }
-
-  .hero-buttons {
-    gap: 0.8rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .hero-btn {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.85rem;
-    min-width: 150px;
-  }
-
-  .hero-stats {
-    gap: 0.8rem;
-  }
-
-  .stat {
-    padding: 0.6rem 0.8rem;
-  }
-
-  .stat-number {
-    font-size: 1.4rem;
-  }
-
-  .stat-label {
-    font-size: 0.7rem;
-    margin-bottom: 10px;
-  }
-
-  .see-us-circle {
-    width: 60px;
-    height: 60px;
-    right: 1rem;
-    bottom: 1rem;
-    font-size: 0.6rem;
-  }
-
-  .floating-contact {
-    bottom: 1rem;
-    right: 4rem;
-    padding: 0.6rem 1rem;
-    font-size: 0.8rem;
-  }
-}
-
-/* Android phones and similar (412x915) */
-@media (min-width: 376px) and (max-width: 412px) and (min-height: 800px) {
-  .hero {
-    padding-top: 75px;
-  }
-
-  .hero-content {
-    padding: 0 1rem;
-    max-width: 380px;
-    margin-top: 1rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.2rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.4rem, 6vw, 2.5rem);
-    line-height: 1.1;
-  }
-
-  .tagline p {
-    font-size: clamp(0.9rem, 4vw, 1.1rem);
-    letter-spacing: 1.5px;
-  }
-
-  .description {
-    margin-bottom: 2rem;
-  }
-
-  .description p {
-    font-size: clamp(0.85rem, 3vw, 1rem);
-  }
-
-  .hero-buttons {
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .hero-btn {
-    padding: 0.7rem 1.3rem;
-    font-size: 0.9rem;
-    min-width: 160px;
-  }
-
-  .hero-stats {
-    gap: 1rem;
-  }
-
-  .stat {
-    padding: 0.8rem 1rem;
-  }
-
-  .stat-number {
-    font-size: 1.6rem;
-  }
-
-  .stat-label {
-    font-size: 0.75rem;
-  }
-
-  .see-us-circle {
-    width: 65px;
-    height: 65px;
-    font-size: 0.65rem;
-  }
-}
-
-/* Larger phones/small tablets (540x720) */
-@media (min-width: 500px) and (max-width: 540px) and (max-height: 720px) {
-  .hero {
-    padding-top: 80px;
-  }
-
-  .hero-content {
-    padding: 0 1.5rem;
-    max-width: 500px;
-    margin-top: 1.5rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.5rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.6rem, 5vw, 2.8rem);
-    line-height: 1.1;
-  }
-
-  .tagline p {
-    font-size: clamp(1rem, 3.5vw, 1.3rem);
-    letter-spacing: 2px;
-  }
-
-  .description {
-    margin-bottom: 2.5rem;
-  }
-
-  .description p {
-    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-  }
-
-  .hero-buttons {
-    gap: 1.2rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-btn {
-    padding: 0.8rem 1.5rem;
-    font-size: 0.95rem;
-    min-width: 180px;
-  }
-
-  .hero-stats {
-    gap: 1.5rem;
-  }
-
-  .stat {
-    padding: 1rem 1.2rem;
-  }
-
-  .stat-number {
-    font-size: 1.8rem;
-  }
-
-  .stat-label {
-    font-size: 0.8rem;
-  }
-
-  .see-us-circle {
-    width: 75px;
-    height: 75px;
-    font-size: 0.75rem;
-  }
-
-  .floating-contact {
-    padding: 0.8rem 1.3rem;
-    font-size: 0.9rem;
-  }
-}
-
-/* Very narrow phones (344x882) */
-@media (max-width: 344px) {
-  .hero {
-    padding-top: 65px;
-  }
-
-  .hero-content {
-    padding: 0 0.8rem;
-    max-width: 320px;
-    margin-top: 0.5rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 0.8rem;
-  }
-
-  .company-title {
-    margin-bottom: 0.3rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1rem, 7vw, 1.8rem);
-    line-height: 0.9;
-    letter-spacing: -1px;
-  }
-
-  .tagline p {
-    font-size: clamp(0.7rem, 4vw, 0.9rem);
-    letter-spacing: 0.5px;
-  }
-
-  .description {
-    margin-bottom: 1.2rem;
-  }
-
-  .description p {
-    font-size: clamp(0.7rem, 3vw, 0.8rem);
-    line-height: 1.3;
-  }
-
-  .hero-buttons {
-    gap: 0.6rem;
-    margin-bottom: 1.2rem;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .hero-btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
-    min-width: 140px;
-    width: 100%;
-    max-width: 200px;
-  }
-
-  .hero-stats {
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .stat {
-    padding: 0.5rem 0.6rem;
-    flex: 1;
-    min-width: 90px;
-  }
-
-  .stat-number {
-    font-size: 1.2rem;
-  }
-
-  .stat-label {
-    font-size: 0.65rem;
-    margin-bottom: 8px;
-  }
-
-  .see-us-circle {
-    width: 55px;
-    height: 55px;
-    right: 0.8rem;
-    bottom: 0.8rem;
-    font-size: 0.55rem;
-  }
-
-  .see-us-circle .play-icon {
-    font-size: 0.8rem;
-  }
-
-  .floating-contact {
-    bottom: 0.8rem;
-    right: 3.5rem;
-    padding: 0.5rem 0.8rem;
-    font-size: 0.7rem;
-  }
-
-  .scroll-btn {
-    bottom: 1.5rem;
-  }
-
-  .scroll-btn span {
-    font-size: 0.7rem;
-  }
-
-  .arrow {
-    font-size: 1.2rem;
-  }
-}
-
-/* Additional fix for very short screens */
-@media (max-height: 600px) and (max-width: 480px) {
-  .hero-content {
-    margin-top: 0;
-  }
-
-  .hero-logo-title-container {
-    margin-bottom: 0.5rem;
-  }
-
-  .description {
-    margin-bottom: 1rem;
-  }
-
-  .hero-buttons {
-    margin-bottom: 1rem;
-  }
-
-  .hero-stats {
-    gap: 0.5rem;
-  }
-
-  .stat {
-    padding: 0.4rem 0.6rem;
-  }
-}
-
-/* Portrait orientation specific fixes */
-@media (orientation: portrait) and (max-width: 480px) {
-  .hero-video {
-    object-position: center center;
-    transform: scale(1.05);
-  }
-
-  .particles-container {
-    opacity: 0.3;
-  }
-
-  .geometric-shape {
-    opacity: 0.02;
-  }
-}
-/* ===== SPECIFIC MOBILE BREAKPOINT FIXES ===== */
-
-/* iPhone SE and similar (375x667) - Simplified Layout */
-@media (max-width: 375px) and (max-height: 667px) {
-  .hero {
-    padding-top: 60px;
-    height: 100vh;
-  }
-
-  .hero-content {
-    padding: 0 0.8rem;
-    max-width: 100%;
-    margin-top: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    text-align: center;
-  }
-
-  /* Remove all containers - just stack elements */
-  .hero-logo-title-container,
-  .title-tagline-container {
-    display: contents;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  /* Direct styling for title */
-  .company-title {
-    margin-bottom: 0.3rem;
-    order: 1;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1rem, 5vw, 1.8rem);
-    line-height: 0.9;
-    letter-spacing: -1px;
-    margin: 0;
-  }
-
-  /* Direct styling for tagline */
-  .tagline {
-    margin-bottom: 0.5rem;
-    order: 2;
-  }
-
-  .tagline p {
-    font-size: clamp(0.6rem, 3vw, 0.8rem);
-    letter-spacing: 0.5px;
-    margin: 0;
-  }
-
-  /* Direct styling for description */
-  .description {
-    margin-bottom: 1rem;
-    order: 3;
-  }
-
-  .description p {
-    font-size: clamp(0.65rem, 2.5vw, 0.75rem);
-    line-height: 1.2;
-    margin: 0;
-  }
-
-  /* Direct styling for buttons */
-  .hero-buttons {
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-    order: 4;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .hero-btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.7rem;
-    min-width: 120px;
-    width: 80%;
-    max-width: 180px;
-  }
-
-  /* Direct styling for stats */
-  .hero-stats {
-    gap: 0.4rem;
-    order: 5;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .stat {
-    padding: 0.4rem 0.5rem;
-    flex: 1;
-    min-width: 80px;
-    max-width: 100px;
-  }
-
-  .stat-number {
-    font-size: 1rem;
-    margin-bottom: 0.2rem;
-  }
-
-  .stat-label {
-    font-size: 0.55rem;
-    margin-bottom: 5px;
-    line-height: 1.1;
-  }
-
-  .see-us-circle {
-    width: 50px;
-    height: 50px;
-    right: 0.8rem;
-    bottom: 0.8rem;
-    font-size: 0.5rem;
-  }
-
-  .see-us-circle .play-icon {
-    font-size: 0.7rem;
-  }
-
-  .floating-contact {
-    bottom: 0.8rem;
-    right: 3rem;
-    padding: 0.4rem 0.8rem;
-    font-size: 0.65rem;
-  }
-
-  .scroll-btn {
-    bottom: 1rem;
-  }
-
-  .scroll-btn span {
-    font-size: 0.6rem;
-  }
-
-  .arrow {
-    font-size: 1rem;
-  }
-}
-
-/* Android phones and similar (412x915) */
-@media (min-width: 376px) and (max-width: 412px) and (min-height: 800px) {
-  .hero {
-    padding-top: 75px;
-  }
-
-  .hero-content {
-    padding: 0 1rem;
-    max-width: 380px;
-    margin-top: 1rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.2rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.4rem, 6vw, 2.5rem);
-    line-height: 1.1;
-  }
-
-  .tagline p {
-    font-size: clamp(0.9rem, 4vw, 1.1rem);
-    letter-spacing: 1.5px;
-  }
-
-  .description {
-    margin-bottom: 2rem;
-  }
-
-  .description p {
-    font-size: clamp(0.85rem, 3vw, 1rem);
-  }
-
-  .hero-buttons {
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .hero-btn {
-    padding: 0.7rem 1.3rem;
-    font-size: 0.9rem;
-    min-width: 160px;
-  }
-
-  .hero-stats {
-    gap: 1rem;
-  }
-
-  .stat {
-    padding: 0.8rem 1rem;
-  }
-
-  .stat-number {
-    font-size: 1.6rem;
-  }
-
-  .stat-label {
-    font-size: 0.75rem;
-  }
-
-  .see-us-circle {
-    width: 65px;
-    height: 65px;
-    font-size: 0.65rem;
-  }
-}
-
-/* Larger phones/small tablets (540x720) */
-@media (min-width: 500px) and (max-width: 540px) and (max-height: 720px) {
-  .hero {
-    padding-top: 80px;
-  }
-
-  .hero-content {
-    padding: 0 1.5rem;
-    max-width: 500px;
-    margin-top: 1.5rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.5rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.6rem, 5vw, 2.8rem);
-    line-height: 1.1;
-  }
-
-  .tagline p {
-    font-size: clamp(1rem, 3.5vw, 1.3rem);
-    letter-spacing: 2px;
-  }
-
-  .description {
-    margin-bottom: 2.5rem;
-  }
-
-  .description p {
-    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-  }
-
-  .hero-buttons {
-    gap: 1.2rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-btn {
-    padding: 0.8rem 1.5rem;
-    font-size: 0.95rem;
-    min-width: 180px;
-  }
-
-  .hero-stats {
-    gap: 1.5rem;
-  }
-
-  .stat {
-    padding: 1rem 1.2rem;
-  }
-
-  .stat-number {
-    font-size: 1.8rem;
-  }
-
-  .stat-label {
-    font-size: 0.8rem;
-  }
-
-  .see-us-circle {
-    width: 75px;
-    height: 75px;
-    font-size: 0.75rem;
-  }
-
-  .floating-contact {
-    padding: 0.8rem 1.3rem;
-    font-size: 0.9rem;
-  }
-}
-
-/* Very narrow phones (344x882) */
-@media (max-width: 344px) {
-  .hero {
-    padding-top: 65px;
-  }
-
-  .hero-content {
-    padding: 0 0.8rem;
-    max-width: 320px;
-    margin-top: 0.5rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 0.8rem;
-  }
-
-  .company-title {
-    margin-bottom: 0.3rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1rem, 7vw, 1.8rem);
-    line-height: 0.9;
-    letter-spacing: -1px;
-  }
-
-  .tagline p {
-    font-size: clamp(0.7rem, 4vw, 0.9rem);
-    letter-spacing: 0.5px;
-  }
-
-  .description {
-    margin-bottom: 1.2rem;
-  }
-
-  .description p {
-    font-size: clamp(0.7rem, 3vw, 0.8rem);
-    line-height: 1.3;
-  }
-
-  .hero-buttons {
-    gap: 0.6rem;
-    margin-bottom: 1.2rem;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .hero-btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
-    min-width: 140px;
-    width: 100%;
-    max-width: 200px;
-  }
-
-  .hero-stats {
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .stat {
-    padding: 0.5rem 0.6rem;
-    flex: 1;
-    min-width: 90px;
-  }
-
-  .stat-number {
-    font-size: 1.2rem;
-  }
-
-  .stat-label {
-    font-size: 0.65rem;
-    margin-bottom: 8px;
-  }
-
-  .see-us-circle {
-    width: 55px;
-    height: 55px;
-    right: 0.8rem;
-    bottom: 0.8rem;
-    font-size: 0.55rem;
-  }
-
-  .see-us-circle .play-icon {
-    font-size: 0.8rem;
-  }
-
-  .floating-contact {
-    bottom: 0.8rem;
-    right: 3.5rem;
-    padding: 0.5rem 0.8rem;
-    font-size: 0.7rem;
-  }
-
-  .scroll-btn {
-    bottom: 1.5rem;
-  }
-
-  .scroll-btn span {
-    font-size: 0.7rem;
-  }
-
-  .arrow {
-    font-size: 1.2rem;
-  }
-}
-
-/* Hero Stats - Quick Load */
-.hero-stats {
-  display: flex;
-  gap: 1.5rem; /* Reduced gap */
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.8s ease-out 0.9s forwards;
-}
-
-.stat {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 12px; /* Smaller radius */
-  padding: 0.8rem 1rem; /* Smaller padding */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  min-width: 120px; /* Smaller min-width */
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-}
-
-.stat:hover {
-  transform: translateY(-5px); /* Smaller hover effect */
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.stat-number {
-  font-size: 1.6rem; /* Smaller font size */
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 0.3rem; /* Smaller margin */
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  font-family: 'Raleway', sans-serif;
-}
-
-.stat-label {
-  font-size: 0.8rem; /* Smaller font size */
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
-  text-transform: uppercase;
-  letter-spacing: 1px; /* Reduced letter spacing */
-  line-height: 1.2;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-/* Additional fix for very short screens */
-@media (max-height: 600px) and (max-width: 480px) {
-  .hero-content {
-    margin-top: 0;
-  }
-
-  .hero-logo-title-container {
-    margin-bottom: 0.5rem;
-  }
-
-  .description {
-    margin-bottom: 1rem;
-  }
-
-  .hero-buttons {
-    margin-bottom: 1rem;
-  }
-
-  .hero-stats {
-    gap: 0.5rem;
-  }
-
-  .stat {
-    padding: 0.4rem 0.6rem;
-  }
-}
-
-/* Portrait orientation specific fixes */
-@media (orientation: portrait) and (max-width: 480px) {
-  .hero-video {
-    object-position: center center;
-    transform: scale(1.05);
-  }
-
-  .particles-container {
-    opacity: 0.3;
-  }
-
-  .geometric-shape {
-    opacity: 0.02;
-  }
-}
-/* ===== SPECIFIC MOBILE BREAKPOINT FIXES ===== */
-
-/* iPhone SE and similar (375x667) */
-@media (max-width: 375px) and (max-height: 667px) {
-  .hero {
-    padding-top: 70px;
-    height: 100vh;
-  }
-
-  .hero-content {
-    padding: 0 1rem;
-    max-width: 350px;
-    margin-top: 1rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1rem;
-  }
-
-  .title-tagline-container {
-    text-align: center;
-  }
-
-  .company-title {
-    margin-bottom: 0.5rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.2rem, 6vw, 2.2rem);
-    line-height: 1;
-    letter-spacing: -0.5px;
-  }
-
-  .tagline {
-    margin-bottom: 0;
-  }
-
-  .tagline p {
-    font-size: clamp(0.8rem, 4vw, 1rem);
-    letter-spacing: 1px;
-  }
-
-  .description {
-    margin-bottom: 1.5rem;
-  }
-
-  .description p {
-    font-size: clamp(0.8rem, 3vw, 0.9rem);
-    line-height: 1.4;
-  }
-
-  .hero-buttons {
-    gap: 0.8rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .hero-btn {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.85rem;
-    min-width: 150px;
-  }
-
-  .hero-stats {
-    gap: 0.8rem;
-  }
-
-  .stat {
-    padding: 0.6rem 0.8rem;
-  }
-
-  .stat-number {
-    font-size: 1.4rem;
-  }
-
-  .stat-label {
-    font-size: 0.7rem;
-    margin-bottom: 10px;
-  }
-
-  .see-us-circle {
-    width: 60px;
-    height: 60px;
-    right: 1rem;
-    bottom: 1rem;
-    font-size: 0.6rem;
-  }
-
-  .floating-contact {
-    bottom: 1rem;
-    right: 4rem;
-    padding: 0.6rem 1rem;
-    font-size: 0.8rem;
-  }
-}
-
-/* Android phones and similar (412x915) */
-@media (min-width: 376px) and (max-width: 412px) and (min-height: 800px) {
-  .hero {
-    padding-top: 75px;
-  }
-
-  .hero-content {
-    padding: 0 1rem;
-    max-width: 380px;
-    margin-top: 1rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.2rem;
-  }
-
-  .description p {
-    font-size: clamp(0.7rem, 3vw, 0.8rem);
-    line-height: 1.3;
-  }
-
-  .hero-buttons {
-    gap: 0.6rem;
-    margin-bottom: 1.2rem;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .hero-btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
-    min-width: 140px;
-    width: 100%;
-    max-width: 200px;
-  }
-
-  .hero-stats {
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .stat {
-    padding: 0.5rem 0.6rem;
-    flex: 1;
-    min-width: 90px;
-  }
-
-  .stat-number {
-    font-size: 1.2rem;
-  }
-
-  .stat-label {
-    font-size: 0.65rem;
-    margin-bottom: 8px;
-  }
-
-  .see-us-circle {
-    width: 55px;
-    height: 55px;
-    right: 0.8rem;
-    bottom: 0.8rem;
-    font-size: 0.55rem;
-  }
-
-  .see-us-circle .play-icon {
-    font-size: 0.8rem;
-  }
-
-  .floating-contact {
-    bottom: 0.8rem;
-    right: 3.5rem;
-    padding: 0.5rem 0.8rem;
-    font-size: 0.7rem;
-  }
-
-  .scroll-btn {
-    bottom: 1.5rem;
-  }
-
-  .scroll-btn span {
-    font-size: 0.7rem;
-  }
-
-  .arrow {
-    font-size: 1.2rem;
-  }
-}
-
-/* Additional fix for very short screens */
-@media (max-height: 600px) and (max-width: 480px) {
-  .hero-content {
-    margin-top: 0;
-  }
-
-  .hero-logo-title-container {
-    margin-bottom: 0.5rem;
-  }
-
-  .description {
-    margin-bottom: 1rem;
-  }
-
-  .hero-buttons {
-    margin-bottom: 1rem;
-  }
-
-  .hero-stats {
-    gap: 0.5rem;
-  }
-
-  .stat {
-    padding: 0.4rem 0.6rem;
-  }
-}
-
-/* Portrait orientation specific fixes */
-@media (orientation: portrait) and (max-width: 480px) {
-  .hero-video {
-    object-position: center center;
-    transform: scale(1.05);
-  }
-
-  .particles-container {
-    opacity: 0.3;
-  }
-
-  .geometric-shape {
-    opacity: 0.02;
-  }
-}
-
-/* iPhone 12 Pro and similar (414x897) */
-@media (min-width: 413px) and (max-width: 414px) and (min-height: 896px) {
-  .hero {
-    padding-top: 75px;
-  }
-
-  .hero-content {
-    padding: 0 1rem;
-    max-width: 385px;
-    margin-top: 5rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 2rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.5rem, 6vw, 2.6rem);
-    line-height: 1.1;
-  }
-
-  .tagline p {
-    font-size: clamp(1rem, 4vw, 1.2rem);
-    letter-spacing: 1.5px;
-  }
-
-  .description {
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-buttons {
-    gap: 1.2rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-btn {
-    padding: 0.8rem 1.4rem;
-    font-size: 0.9rem;
-    min-width: 170px;
-  }
-
-  .see-us-circle {
-    width: 70px;
-    height: 70px;
-    font-size: 0.7rem;
-  }
-}
-
-/* iPhone 14 Pro Max and similar (430x932) */
-@media (min-width: 429px) and (max-width: 430px) and (min-height: 930px) {
-  .hero {
-    padding-top: 80px;
-  }
-
-  .hero-content {
-    padding: 0 1.2rem;
-    max-width: 400px;
-    margin-top: 1.2rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.8rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.6rem, 5.5vw, 2.8rem);
-    line-height: 1.1;
-  }
-
-  .tagline p {
-    font-size: clamp(1.1rem, 3.8vw, 1.3rem);
-    letter-spacing: 2px;
-  }
-
-  .description {
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-buttons {
-    gap: 1.2rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-btn {
-    padding: 0.9rem 1.5rem;
-    font-size: 1rem;
-    min-width: 180px;
-  }
-
-  .see-us-circle {
-    width: 75px;
-    height: 75px;
-    font-size: 0.75rem;
-  }
-
-  .floating-contact {
-    padding: 0.9rem 1.4rem;
-    font-size: 0.95rem;
-  }
-}
-/* ===== SPECIFIC MOBILE BREAKPOINT FIXES ===== */
-
-/* AGGRESSIVE FIX - iPhone SE and small phones (375x667 and 360x740) */
-@media screen and (max-width: 380px) {
-  .hero {
-    padding-top: 20px !important;
-    height: 100vh !important;
-  }
-
-  .hero-content {
-    padding: 0 0.5rem !important;
-    max-width: 100% !important;
-    margin-top: 12rem !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: flex-start !important;
-    align-items: center !important;
-    text-align: center !important;
-  }
-
-  /* NUCLEAR STATS REMOVAL - ALL POSSIBLE SELECTORS */
-  .hero-stats,
-  .hero-stats *,
-  .stat,
-  .stat *,
-  .stat-number,
-  .stat-label,
-  div[class*="stat"],
-  section .stat,
-  .hero .stat,
-  .hero-content .stat,
-  *[class*="stat"] {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    height: 0 !important;
-    width: 0 !important;
-    max-height: 0 !important;
-    max-width: 0 !important;
-    min-height: 0 !important;
-    min-width: 0 !important;
-    overflow: hidden !important;
-    position: absolute !important;
-    left: -99999px !important;
-    top: -99999px !important;
-    z-index: -9999 !important;
-    pointer-events: none !important;
-    user-select: none !important;
-    content: none !important;
-  }
-
-  /* Remove containers */
-  .hero-logo-title-container,
-  .title-tagline-container {
-    display: contents !important;
-  }
-
-  /* Hide logo */
-  .hero-company-logo {
-    display: none !important;
-  }
-
-  /* Title */
-  .company-title {
-    margin-bottom: 2rem !important;
-    order: 1 !important;
-  }
-
-  .company-title h1 {
-    font-size: 1.6rem !important;
-    line-height: 1.1 !important;
-    letter-spacing: -1px !important;
-    margin: 0 !important;
-  }
-
-  /* Tagline */
-  .tagline {
-    margin-bottom: 2rem !important;
-    order: 2 !important;
-  }
-
-  .tagline p {
-    font-size: 1rem !important;
-    letter-spacing: 1px !important;
-    margin: 0 !important;
-  }
-
-  /* Description */
-  .description {
-    margin-bottom: 3rem !important;
-    order: 3 !important;
-  }
-
-  .description p {
-    font-size: 0.9rem !important;
-    line-height: 1.4 !important;
-    margin: 0 !important;
-  }
-
-  /* Buttons */
-  .hero-buttons {
-    gap: 1.5rem !important;
-    margin-bottom: 0 !important;
-    order: 4 !important;
-    flex-direction: column !important;
-    width: 100% !important;
-  }
-
-  .hero-btn {
-    padding: 1rem 1.5rem !important;
-    font-size: 0.9rem !important;
-    min-width: 180px !important;
-    width: 100% !important;
-    max-width: 250px !important;
-  }
-
-  .see-us-circle {
-    width: 65px !important;
-    height: 65px !important;
-    right: 0.5rem !important;
-    bottom: 0.5rem !important;
-    font-size: 0.65rem !important;
-  }
-
-  .floating-contact {
-    bottom: 0.5rem !important;
-    right: 4.5rem !important;
-    padding: 0.7rem 1rem !important;
-    font-size: 0.8rem !important;
-  }
-
-  .scroll-btn {
-    bottom: 3rem !important;
-  }
-}
-
-/* Android phones and similar (412x915) */
-@media (min-width: 376px) and (max-width: 412px) and (min-height: 800px) {
-  .hero {
-    padding-top: 75px;
-  }
-
-  .hero-content {
-    padding: 0 1rem;
-    max-width: 380px;
-    margin-top: 1rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.2rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.4rem, 6vw, 2.5rem);
-    line-height: 1.1;
-  }
-
-  .tagline p {
-    font-size: clamp(0.9rem, 4vw, 1.1rem);
-    letter-spacing: 1.5px;
-  }
-
-  .description {
-    margin-bottom: 2rem;
-  }
-
-  .description p {
-    font-size: clamp(0.85rem, 3vw, 1rem);
-  }
-
-  .hero-buttons {
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .hero-btn {
-    padding: 0.7rem 1.3rem;
-    font-size: 0.9rem;
-    min-width: 160px;
-  }
-
-  .hero-stats {
-    gap: 1rem;
-  }
-
-  .stat {
-    padding: 0.8rem 1rem;
-  }
-
-  .stat-number {
-    font-size: 1.6rem;
-  }
-
-  .stat-label {
-    font-size: 0.75rem;
-  }
-
-  .see-us-circle {
-    width: 65px;
-    height: 65px;
-    font-size: 0.65rem;
-  }
-}
-
-/* Larger phones/small tablets (540x720) */
-@media (min-width: 500px) and (max-width: 540px) and (max-height: 720px) {
-  .hero {
-    padding-top: 80px;
-  }
-
-  .hero-content {
-    padding: 0 1.5rem;
-    max-width: 500px;
-    margin-top: 1.5rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.5rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.6rem, 5vw, 2.8rem);
-    line-height: 1.1;
-  }
-
-  .tagline p {
-    font-size: clamp(1rem, 3.5vw, 1.3rem);
-    letter-spacing: 2px;
-  }
-
-  .description {
-    margin-bottom: 2.5rem;
-  }
-
-  .description p {
-    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-  }
-
-  .hero-buttons {
-    gap: 1.2rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-btn {
-    padding: 0.8rem 1.5rem;
-    font-size: 0.95rem;
-    min-width: 180px;
-  }
-
-  .hero-stats {
-    gap: 1.5rem;
-  }
-
-  .stat {
-    padding: 1rem 1.2rem;
-  }
-
-  .stat-number {
-    font-size: 1.8rem;
-  }
-
-  .stat-label {
-    font-size: 0.8rem;
-  }
-
-  .see-us-circle {
-    width: 75px;
-    height: 75px;
-    font-size: 0.75rem;
-  }
-
-  .floating-contact {
-    padding: 0.8rem 1.3rem;
-    font-size: 0.9rem;
-  }
-}
-
-/* Very narrow phones (344x882) */
-@media (max-width: 344px) {
-  .hero {
-    padding-top: 65px;
-  }
-
-  .hero-content {
-    padding: 0 0.8rem;
-    max-width: 320px;
-    margin-top: 0.5rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 0.8rem;
-  }
-
-  .company-title {
-    margin-bottom: 0.3rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1rem, 7vw, 1.8rem);
-    line-height: 0.9;
-    letter-spacing: -1px;
-  }
-
-  .tagline p {
-    font-size: clamp(0.7rem, 4vw, 0.9rem);
-    letter-spacing: 0.5px;
-  }
-
-  .description {
-    margin-bottom: 1.2rem;
-  }
-
-  .description p {
-    font-size: clamp(0.7rem, 3vw, 0.8rem);
-    line-height: 1.3;
-  }
-
-  .hero-buttons {
-    gap: 0.6rem;
-    margin-bottom: 1.2rem;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .hero-btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
-    min-width: 140px;
-    width: 100%;
-    max-width: 200px;
-  }
-
-  .hero-stats {
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .stat {
-    padding: 0.5rem 0.6rem;
-    flex: 1;
-    min-width: 90px;
-  }
-
-  .stat-number {
-    font-size: 1.2rem;
-  }
-
-  .stat-label {
-    font-size: 0.65rem;
-    margin-bottom: 8px;
-  }
-
-  .see-us-circle {
-    width: 55px;
-    height: 55px;
-    right: 0.8rem;
-    bottom: 0.8rem;
-    font-size: 0.55rem;
-  }
-
-  .see-us-circle .play-icon {
-    font-size: 0.8rem;
-  }
-
-  .floating-contact {
-    bottom: 0.8rem;
-    right: 3.5rem;
-    padding: 0.5rem 0.8rem;
-    font-size: 0.7rem;
-  }
-
-  .scroll-btn {
-    bottom: 1.5rem;
-  }
-
-  .scroll-btn span {
-    font-size: 0.7rem;
-  }
-
-  .arrow {
-    font-size: 1.2rem;
-  }
-}
-
-/* Additional fix for very short screens */
-@media (max-height: 600px) and (max-width: 480px) {
-  .hero-content {
-    margin-top: 0;
-  }
-
-  .hero-logo-title-container {
-    margin-bottom: 0.5rem;
-  }
-
-  .description {
-    margin-bottom: 1rem;
-  }
-
-  .hero-buttons {
-    margin-bottom: 1rem;
-  }
-
-  .hero-stats {
-    gap: 0.5rem;
-  }
-
-  .stat {
-    padding: 0.4rem 0.6rem;
-  }
-}
-
-/* Portrait orientation specific fixes */
-@media (orientation: portrait) and (max-width: 480px) {
-  .hero-video {
-    object-position: center center;
-    transform: scale(1.05);
-  }
-
-  .particles-container {
-    opacity: 0.3;
-  }
-
-  .geometric-shape {
-    opacity: 0.02;
-  }
-}
-/* ===== SPECIFIC MOBILE BREAKPOINT FIXES ===== */
-
-/* iPhone SE and similar (375x667) - Simplified Layout */
-@media (max-width: 375px) and (max-height: 667px) {
-  .hero {
-    padding-top: 60px;
-    height: 100vh;
-  }
-
-  .hero-content {
-    padding: 0 0.8rem;
-    max-width: 100%;
-    margin-top: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    text-align: center;
-  }
-
-  /* Remove all containers - just stack elements */
-  .hero-logo-title-container,
-  .title-tagline-container {
-    display: contents;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  /* Direct styling for title */
-  .company-title {
-    margin-bottom: 0.3rem;
-    order: 1;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1rem, 5vw, 1.8rem);
-    line-height: 0.9;
-    letter-spacing: -1px;
-    margin: 0;
-  }
-
-  /* Direct styling for tagline */
-  .tagline {
-    margin-bottom: 0.5rem;
-    order: 2;
-  }
-
-  .tagline p {
-    font-size: clamp(0.6rem, 3vw, 0.8rem);
-    letter-spacing: 0.5px;
-    margin: 0;
-  }
-
-  /* Direct styling for description */
-  .description {
-    margin-bottom: 1rem;
-    order: 3;
-  }
-
-  .description p {
-    font-size: clamp(0.65rem, 2.5vw, 0.75rem);
-    line-height: 1.2;
-    margin: 0;
-  }
-
-  /* Direct styling for buttons */
-  .hero-buttons {
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-    order: 4;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .hero-btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.7rem;
-    min-width: 120px;
-    width: 80%;
-    max-width: 180px;
-  }
-
-  /* Direct styling for stats */
-  .hero-stats {
-    gap: 0.4rem;
-    order: 5;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .stat {
-    padding: 0.4rem 0.5rem;
-    flex: 1;
-    min-width: 80px;
-    max-width: 100px;
-  }
-
-  .stat-number {
-    font-size: 1rem;
-    margin-bottom: 0.2rem;
-  }
-
-  .stat-label {
-    font-size: 0.55rem;
-    margin-bottom: 5px;
-    line-height: 1.1;
-  }
-
-  .see-us-circle {
-    width: 50px;
-    height: 50px;
-    right: 0.8rem;
-    bottom: 0.8rem;
-    font-size: 0.5rem;
-  }
-
-  .see-us-circle .play-icon {
-    font-size: 0.7rem;
-  }
-
-  .floating-contact {
-    bottom: 0.8rem;
-    right: 3rem;
-    padding: 0.4rem 0.8rem;
-    font-size: 0.65rem;
-  }
-
-  .scroll-btn {
-    bottom: 1rem;
-  }
-
-  .scroll-btn span {
-    font-size: 0.6rem;
-  }
-
-  .arrow {
-    font-size: 1rem;
-  }
-}
-
-/* Android phones and similar (412x915) */
-@media (min-width: 376px) and (max-width: 412px) and (min-height: 800px) {
-  .hero {
-    padding-top: 75px;
-  }
-
-  .hero-content {
-    padding: 0 1rem;
-    max-width: 380px;
-    margin-top: 1rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.2rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.4rem, 6vw, 2.5rem);
-    line-height: 1.1;
-  }
-
-  .tagline p {
-    font-size: clamp(0.9rem, 4vw, 1.1rem);
-    letter-spacing: 1.5px;
-  }
-
-  .description {
-    margin-bottom: 2rem;
-  }
-
-  .description p {
-    font-size: clamp(0.85rem, 3vw, 1rem);
-  }
-
-  .hero-buttons {
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .hero-btn {
-    padding: 0.7rem 1.3rem;
-    font-size: 0.9rem;
-    min-width: 160px;
-  }
-
-  .hero-stats {
-    gap: 1rem;
-  }
-
-  .stat {
-    padding: 0.8rem 1rem;
-  }
-
-  .stat-number {
-    font-size: 1.6rem;
-  }
-
-  .stat-label {
-    font-size: 0.75rem;
-  }
-
-  .see-us-circle {
-    width: 65px;
-    height: 65px;
-    font-size: 0.65rem;
-  }
-}
-
-/* Larger phones/small tablets (540x720) */
-@media (min-width: 500px) and (max-width: 540px) and (max-height: 720px) {
-  .hero {
-    padding-top: 80px;
-  }
-
-  .hero-content {
-    padding: 0 1.5rem;
-    max-width: 500px;
-    margin-top: 1.5rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.5rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.6rem, 5vw, 2.8rem);
-    line-height: 1.1;
-  }
-
-  .tagline p {
-    font-size: clamp(1rem, 3.5vw, 1.3rem);
-    letter-spacing: 2px;
-  }
-
-  .description {
-    margin-bottom: 2.5rem;
-  }
-
-  .description p {
-    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-  }
-
-  .hero-buttons {
-    gap: 1.2rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-btn {
-    padding: 0.8rem 1.5rem;
-    font-size: 0.95rem;
-    min-width: 180px;
-  }
-
-  .hero-stats {
-    gap: 1.5rem;
-  }
-
-  .stat {
-    padding: 1rem 1.2rem;
-  }
-
-  .stat-number {
-    font-size: 1.8rem;
-  }
-
-  .stat-label {
-    font-size: 0.8rem;
-  }
-
-  .see-us-circle {
-    width: 75px;
-    height: 75px;
-    font-size: 0.75rem;
-  }
-
-  .floating-contact {
-    padding: 0.8rem 1.3rem;
-    font-size: 0.9rem;
-  }
-}
-
-/* Very narrow phones (344x882) */
-@media (max-width: 344px) {
-  .hero {
-    padding-top: 65px;
-  }
-
-  .hero-content {
-    padding: 0 0.8rem;
-    max-width: 320px;
-    margin-top: 0.5rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 0.8rem;
-  }
-
-  .company-title {
-    margin-bottom: 0.3rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1rem, 7vw, 1.8rem);
-    line-height: 0.9;
-    letter-spacing: -1px;
-  }
-
-  .tagline p {
-    font-size: clamp(0.7rem, 4vw, 0.9rem);
-    letter-spacing: 0.5px;
-  }
-
-  .description {
-    margin-bottom: 1.2rem;
-  }
-
-  .description p {
-    font-size: clamp(0.7rem, 3vw, 0.8rem);
-    line-height: 1.3;
-  }
-
-  .hero-buttons {
-    gap: 0.6rem;
-    margin-bottom: 1.2rem;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .hero-btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
-    min-width: 140px;
-    width: 100%;
-    max-width: 200px;
-  }
-
-  .hero-stats {
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .stat {
-    padding: 0.5rem 0.6rem;
-    flex: 1;
-    min-width: 90px;
-  }
-
-  .stat-number {
-    font-size: 1.2rem;
-  }
-
-  .stat-label {
-    font-size: 0.65rem;
-    margin-bottom: 8px;
-  }
-
-  .see-us-circle {
-    width: 55px;
-    height: 55px;
-    right: 0.8rem;
-    bottom: 0.8rem;
-    font-size: 0.55rem;
-  }
-
-  .see-us-circle .play-icon {
-    font-size: 0.8rem;
-  }
-
-  .floating-contact {
-    bottom: 0.8rem;
-    right: 3.5rem;
-    padding: 0.5rem 0.8rem;
-    font-size: 0.7rem;
-  }
-
-  .scroll-btn {
-    bottom: 1.5rem;
-  }
-
-  .scroll-btn span {
-    font-size: 0.7rem;
-  }
-
-  .arrow {
-    font-size: 1.2rem;
-  }
-}
-
-/* Additional fix for very short screens */
-@media (max-height: 600px) and (max-width: 480px) {
-  .hero-content {
-    margin-top: 0;
-  }
-
-  .hero-logo-title-container {
-    margin-bottom: 0.5rem;
-  }
-
-  .description {
-    margin-bottom: 1rem;
-  }
-
-  .hero-buttons {
-    margin-bottom: 1rem;
-  }
-
-  .hero-stats {
-    gap: 0.5rem;
-  }
-
-  .stat {
-    padding: 0.4rem 0.6rem;
-  }
-}
-
-/* Portrait orientation specific fixes */
-@media (orientation: portrait) and (max-width: 480px) {
-  .hero-video {
-    object-position: center center;
-    transform: scale(1.05);
-  }
-
-  .particles-container {
-    opacity: 0.3;
-  }
-
-  .geometric-shape {
-    opacity: 0.02;
-  }
-}
-
-/* iPhone 12 Pro and similar (414x897) */
-@media (min-width: 413px) and (max-width: 414px) and (min-height: 896px) {
-  .hero {
-    padding-top: 75px;
-  }
-
-  .hero-content {
-    padding: 0 1rem;
-    max-width: 385px;
-    margin-top: 1rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.5rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.5rem, 6vw, 2.6rem);
-    line-height: 1.1;
-  }
-
-  .tagline p {
-    font-size: clamp(1rem, 4vw, 1.2rem);
-    letter-spacing: 1.5px;
-  }
-
-  .description {
-    margin-bottom: 2rem;
-  }
-
-  .hero-buttons {
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .hero-btn {
-    padding: 0.8rem 1.4rem;
-    font-size: 0.9rem;
-    min-width: 170px;
-  }
-
-  .see-us-circle {
-    width: 70px;
-    height: 70px;
-    font-size: 0.7rem;
-  }
-}
-
-/* iPhone 14 Pro Max and similar (430x932) */
-@media (min-width: 429px) and (max-width: 430px) and (min-height: 930px) {
-  .hero {
-    padding-top: 80px;
-  }
-
-  .hero-content {
-    padding: 0 1.2rem;
-    max-width: 400px;
-    margin-top: 1.2rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.8rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.6rem, 5.5vw, 2.8rem);
-    line-height: 1.1;
-  }
-
-  .tagline p {
-    font-size: clamp(1.1rem, 3.8vw, 1.3rem);
-    letter-spacing: 2px;
-  }
-
-  .description {
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-buttons {
-    gap: 1.2rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-btn {
-    padding: 0.9rem 1.5rem;
-    font-size: 1rem;
-    min-width: 180px;
-  }
-
-  .see-us-circle {
-    width: 75px;
-    height: 75px;
-    font-size: 0.75rem;
-  }
-
-  .floating-contact {
-    padding: 0.9rem 1.4rem;
-    font-size: 0.95rem;
-  }
-}
-/* ===== SPECIFIC MOBILE BREAKPOINT FIXES ===== */
-
-/* iPhone SE and similar (375x667) - Simplified Layout */
-@media (max-width: 375px) and (max-height: 667px) {
-  .hero {
-    padding-top: 50px;
-    height: 100vh;
-  }
-
-  .hero-content {
-    padding: 0 0.8rem;
-    max-width: 100%;
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    text-align: center;
-  }
-
-  /* Remove all containers - just stack elements */
-  .hero-logo-title-container,
-  .title-tagline-container {
-    display: contents;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  /* Hide stats completely for this screen size */
-  .hero-stats {
-    display: none !important;
-  }
-
-  /* Direct styling for title */
-  .company-title {
-    margin-bottom: 0.8rem;
-    order: 1;
   }
 
   .company-title h1 {
     font-size: clamp(1.2rem, 6vw, 2rem);
-    line-height: 1;
-    letter-spacing: -1px;
-    margin: 0;
-  }
-
-  /* Direct styling for tagline */
-  .tagline {
-    margin-bottom: 1rem;
-    order: 2;
   }
 
   .tagline p {
-    font-size: clamp(0.7rem, 4vw, 0.9rem);
-    letter-spacing: 1px;
-    margin: 0;
-  }
-
-  /* Direct styling for description */
-  .description {
-    margin-bottom: 1.5rem;
-    order: 3;
-  }
-
-  .description p {
-    font-size: clamp(0.75rem, 3vw, 0.85rem);
-    line-height: 1.3;
-    margin: 0;
-  }
-
-  /* Direct styling for buttons */
-  .hero-buttons {
-    gap: 0.8rem;
-    margin-bottom: 0;
-    order: 4;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .hero-btn {
-    padding: 0.7rem 1.2rem;
-    font-size: 0.8rem;
-    min-width: 140px;
-    width: 85%;
-    max-width: 200px;
-  }
-
-  .see-us-circle {
-    width: 55px;
-    height: 55px;
-    right: 0.8rem;
-    bottom: 0.8rem;
-    font-size: 0.55rem;
-  }
-
-  .see-us-circle .play-icon {
-    font-size: 0.8rem;
-  }
-
-  .floating-contact {
-    bottom: 0.8rem;
-    right: 3.5rem;
-    padding: 0.5rem 0.9rem;
-    font-size: 0.7rem;
-  }
-
-  .scroll-btn {
-    bottom: 1.2rem;
-  }
-
-  .scroll-btn span {
-    font-size: 0.65rem;
-  }
-
-  .arrow {
-    font-size: 1.1rem;
-  }
-}
-
-/* Android phones and similar (412x915) */
-@media (min-width: 376px) and (max-width: 412px) and (min-height: 800px) {
-  .hero {
-    padding-top: 75px;
-  }
-
-  .hero-content {
-    padding: 0 1rem;
-    max-width: 380px;
-    margin-top: 1rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.2rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.4rem, 6vw, 2.5rem);
-    line-height: 1.1;
-  }
-
-  .tagline p {
-    font-size: clamp(0.9rem, 4vw, 1.1rem);
-    letter-spacing: 1.5px;
-  }
-
-  .description {
-    margin-bottom: 2rem;
-  }
-
-  .description p {
-    font-size: clamp(0.85rem, 3vw, 1rem);
-  }
-
-  .hero-buttons {
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .hero-btn {
-    padding: 0.7rem 1.3rem;
-    font-size: 0.9rem;
-    min-width: 160px;
-  }
-
-  .hero-stats {
-    gap: 1rem;
-  }
-
-  .stat {
-    padding: 0.8rem 1rem;
-  }
-
-  .stat-number {
-    font-size: 1.6rem;
-  }
-
-  .stat-label {
-    font-size: 0.75rem;
-  }
-
-  .see-us-circle {
-    width: 65px;
-    height: 65px;
-    font-size: 0.65rem;
-  }
-}
-
-/* Larger phones/small tablets (540x720) */
-@media (min-width: 500px) and (max-width: 540px) and (max-height: 720px) {
-  .hero {
-    padding-top: 80px;
-  }
-
-  .hero-content {
-    padding: 0 1.5rem;
-    max-width: 500px;
-    margin-top: 1.5rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.5rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.6rem, 5vw, 2.8rem);
-    line-height: 1.1;
-  }
-
-  .tagline p {
-    font-size: clamp(1rem, 3.5vw, 1.3rem);
+    font-size: clamp(0.8rem, 4vw, 1rem);
     letter-spacing: 2px;
   }
 
-  .description {
-    margin-bottom: 2.5rem;
-  }
-
   .description p {
-    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    font-size: clamp(0.7rem, 3vw, 0.9rem);
   }
 
-  .hero-buttons {
-    gap: 1.2rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-btn {
-    padding: 0.8rem 1.5rem;
-    font-size: 0.95rem;
-    min-width: 180px;
-  }
-
-  .hero-stats {
-    gap: 1.5rem;
-  }
-
-  .stat {
-    padding: 1rem 1.2rem;
-  }
-
-  .stat-number {
-    font-size: 1.8rem;
-  }
-
-  .stat-label {
-    font-size: 0.8rem;
-  }
-
-  .see-us-circle {
-    width: 75px;
-    height: 75px;
-    font-size: 0.75rem;
-  }
-
-  .floating-contact {
-    padding: 0.8rem 1.3rem;
-    font-size: 0.9rem;
-  }
-}
-
-/* Very narrow phones (344x882) */
-@media (max-width: 344px) {
-  .hero {
-    padding-top: 65px;
-  }
-
-  .hero-content {
-    padding: 0 0.8rem;
-    max-width: 320px;
-    margin-top: 0.5rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
+  .description {
+    padding: 0 0.2rem;
     margin-bottom: 0.8rem;
   }
 
-  .company-title {
-    margin-bottom: 0.3rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1rem, 7vw, 1.8rem);
-    line-height: 0.9;
-    letter-spacing: -1px;
-  }
-
-  .tagline p {
-    font-size: clamp(0.7rem, 4vw, 0.9rem);
-    letter-spacing: 0.5px;
-  }
-
-  .description {
-    margin-bottom: 1.2rem;
-  }
-
-  .description p {
-    font-size: clamp(0.7rem, 3vw, 0.8rem);
-    line-height: 1.3;
-  }
-
-  .hero-buttons {
-    gap: 0.6rem;
-    margin-bottom: 1.2rem;
-    flex-direction: column;
-    align-items: center;
-  }
-
   .hero-btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
-    min-width: 140px;
-    width: 100%;
-    max-width: 200px;
-  }
-
-  .hero-stats {
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .stat {
-    padding: 0.5rem 0.6rem;
-    flex: 1;
-    min-width: 90px;
-  }
-
-  .stat-number {
-    font-size: 1.2rem;
-  }
-
-  .stat-label {
-    font-size: 0.65rem;
-    margin-bottom: 8px;
-  }
-
-  .see-us-circle {
-    width: 55px;
-    height: 55px;
-    right: 0.8rem;
-    bottom: 0.8rem;
-    font-size: 0.55rem;
-  }
-
-  .see-us-circle .play-icon {
+    padding: 0.7rem 1.3rem;
     font-size: 0.8rem;
+    min-width: 140px;
   }
+  
+  .hero-buttons {
+    margin-bottom: 1rem;
+  }
+  
+  .hero-stats {
+    gap: 0.8rem;
+  }
+  
+  .stat {
+    padding: 0.8rem 1rem;
+    min-width: 80px;
+  }
+  
+  .floating-contact.sticky-quote-btn {
+    bottom: 1.5rem;
+    right: 0.8rem;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.75rem;
+  }
+  
+  .see-us-circle {
+    bottom: 6rem;
+    right: 0.8rem;
+    width: 60px;
+    height: 60px;
+    font-size: 0.7rem;
+  }
+}
 
-  .floating-contact {
-    bottom: 0.8rem;
-    right: 3.5rem;
+/* Very Small Mobile - Ultra compact single page layout */
+@media (max-width: 360px) {
+  .hero-left-section {
+    padding: 1.5rem 0.8rem 1rem 0.8rem;
+    padding-top: 1rem;
+  }
+  
+  .hero-right-section {
+    min-height: 50vh; /* Minimal height for very small screens */
+  }
+  
+  .hero-company-logo {
+    width: 80px;
+    height: 80px;
+    margin: 0.2rem 0 0.5rem 0;
+  }
+  
+  .hero-logo-image {
+    width: 65px;
+    height: 65px;
+  }
+  
+  .company-title {
+    margin-bottom: 0.8rem;
+  }
+  
+  .company-title h1 {
+    font-size: clamp(1.1rem, 5vw, 1.8rem);
+  }
+  
+  .tagline {
+    margin-bottom: 0.8rem;
+  }
+  
+  .tagline p {
+    font-size: clamp(0.7rem, 3.5vw, 0.9rem);
+    letter-spacing: 1.5px;
+  }
+  
+  .description {
+    margin-bottom: 0.5rem;
+  }
+  
+  .description p {
+    font-size: clamp(0.65rem, 2.8vw, 0.85rem);
+  }
+  
+  .hero-btn {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.75rem;
+    min-width: 130px;
+  }
+  
+  .hero-buttons {
+    margin-bottom: 0.8rem;
+  }
+  
+  .stat {
+    padding: 0.7rem 0.8rem;
+    min-width: 75px;
+  }
+  
+  .floating-contact.sticky-quote-btn {
+    bottom: 1rem;
+    right: 0.7rem;
     padding: 0.5rem 0.8rem;
     font-size: 0.7rem;
   }
-
-  .scroll-btn {
-    bottom: 1.5rem;
-  }
-
-  .scroll-btn span {
-    font-size: 0.7rem;
-  }
-
-  .arrow {
-    font-size: 1.2rem;
-  }
-}
-
-/* Additional fix for very short screens */
-@media (max-height: 600px) and (max-width: 480px) {
-  .hero-content {
-    margin-top: 0;
-  }
-
-  .hero-logo-title-container {
-    margin-bottom: 0.5rem;
-  }
-
-  .description {
-    margin-bottom: 1rem;
-  }
-
-  .hero-buttons {
-    margin-bottom: 1rem;
-  }
-
-  .hero-stats {
-    gap: 0.5rem;
-  }
-
-  .stat {
-    padding: 0.4rem 0.6rem;
-  }
-}
-
-/* Portrait orientation specific fixes */
-@media (orientation: portrait) and (max-width: 480px) {
-  .hero-video {
-    object-position: center center;
-    transform: scale(1.05);
-  }
-
-  .particles-container {
-    opacity: 0.3;
-  }
-
-  .geometric-shape {
-    opacity: 0.02;
-  }
-}
-
-/* iPhone 12 Pro and similar (414x897) */
-@media (min-width: 413px) and (max-width: 414px) and (min-height: 896px) {
-  .hero {
-    padding-top: 75px;
-  }
-
-  .hero-content {
-    padding: 0 1rem;
-    max-width: 385px;
-    margin-top: 1rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.5rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.5rem, 6vw, 2.6rem);
-    line-height: 1.1;
-  }
-
-  .tagline p {
-    font-size: clamp(1rem, 4vw, 1.2rem);
-    letter-spacing: 1.5px;
-  }
-
-  .description {
-    margin-bottom: 2rem;
-  }
-
-  .hero-buttons {
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .hero-btn {
-    padding: 0.8rem 1.4rem;
-    font-size: 0.9rem;
-    min-width: 170px;
-  }
-
+  
   .see-us-circle {
-    width: 70px;
-    height: 70px;
-    font-size: 0.7rem;
-  }
-}
-
-/* iPhone 14 Pro Max and similar (430x932) */
-@media (min-width: 429px) and (max-width: 430px) and (min-height: 930px) {
-  .hero {
-    padding-top: 80px;
-  }
-
-  .hero-content {
-    padding: 0 1.2rem;
-    max-width: 400px;
-    margin-top: 1.2rem;
-  }
-
-  /* Hide logo completely */
-  .hero-company-logo {
-    display: none;
-  }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.8rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.6rem, 5.5vw, 2.8rem);
-    line-height: 1.1;
-  }
-
-  .tagline p {
-    font-size: clamp(1.1rem, 3.8vw, 1.3rem);
-    letter-spacing: 2px;
-  }
-
-  .description {
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-buttons {
-    gap: 1.2rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-btn {
-    padding: 0.9rem 1.5rem;
-    font-size: 1rem;
-    min-width: 180px;
-  }
-
-  .see-us-circle {
-    width: 75px;
-    height: 75px;
-    font-size: 0.75rem;
-  }
-
-  .floating-contact {
-    padding: 0.9rem 1.4rem;
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.2rem;
-  }
-
-  .company-title h1 {
-    font-size: clamp(1.4rem, 6vw, 2.5rem);
-    line-height: 1.1;
-  }
-
-  .tagline p {
-    font-size: clamp(0.9rem, 4vw, 1.1rem);
-    letter-spacing: 1.5px;
-  }
-
-  .description {
-    margin-bottom: 2rem;
-  }
-
-  .description p {
-    font-size: clamp(0.85rem, 3vw, 1rem);
-  }
-
-  .hero-buttons {
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .hero-btn {
-    padding: 0.7rem 1.3rem;
-    font-size: 0.9rem;
-    min-width: 160px;
-  }
-
-  .hero-stats {
-    gap: 1rem;
-  }
-
-  .stat {
-    padding: 0.8rem 1rem;
-  }
-
-  .stat-number {
-    font-size: 1.6rem;
-  }
-
-  .stat-label {
-    font-size: 0.75rem;
-  }
-
-  .see-us-circle {
-    width: 65px;
-    height: 65px;
+    bottom: 5rem;
+    right: 0.7rem;
+    width: 55px;
+    height: 55px;
     font-size: 0.65rem;
   }
 }
 
-/* Larger phones/small tablets (540x720) */
-@media (min-width: 500px) and (max-width: 540px) and (max-height: 720px) {
+/* Landscape Mobile - Maintain dual column for landscape orientation */
+@media (max-width: 768px) and (orientation: landscape) and (max-height: 500px) {
   .hero {
-    padding-top: 80px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    height: auto;
+    min-height: 500px;
   }
 
-  .hero-content {
-    padding: 0 1.5rem;
-    max-width: 500px;
-    margin-top: 1.5rem;
+  .hero-left-section,
+  .hero-right-section {
+    min-height: 500px;
+    height: 100vh;
   }
 
-  /* Hide logo completely */
+  .hero-left-section {
+    border-right: 1px solid rgba(253, 224, 71, 0.3);
+    border-bottom: none;
+    padding: 2rem 1rem 1rem 1rem;
+    padding-top: 2rem;
+    justify-content: center;
+  }
+
+  .hero-right-content {
+    padding: 1rem;
+  }
+  
   .hero-company-logo {
-    display: none;
+    width: 80px;
+    height: 80px;
+    margin: 0.3rem 0 0.5rem 0;
   }
-
-  .hero-logo-title-container {
-    gap: 0;
-    margin-bottom: 1.5rem;
+  
+  .hero-logo-image {
+    width: 65px;
+    height: 65px;
   }
 
   .company-title h1 {
-    font-size: clamp(1.6rem, 5vw, 2.8rem);
-    line-height: 1.1;
+    font-size: clamp(1.2rem, 4vw, 2rem);
   }
 
   .tagline p {
-    font-size: clamp(1rem, 3.5vw, 1.3rem);
-    letter-spacing: 2px;
-  }
-
-  .description {
-    margin-bottom: 2.5rem;
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
+    margin-bottom: 0.5rem;
   }
 
   .description p {
-    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    font-size: clamp(0.7rem, 2vw, 0.9rem);
   }
 
+  .description {
+    max-width: 450px;
+    padding: 0 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
   .hero-buttons {
-    gap: 1.2rem;
-    margin-bottom: 2.5rem;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
   }
-
+  
   .hero-btn {
-    padding: 0.8rem 1.5rem;
-    font-size: 0.95rem;
-    min-width: 180px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.75rem;
+    min-width: 130px;
   }
-
-  .hero-stats {
-    gap: 1.5rem;
-  }
-
-  .stat {
-    padding: 1rem 1.2rem;
-  }
-
-  .stat-number {
-    font-size: 1.8rem;
-  }
-
-  .stat-label {
-    font-size: 0.8rem;
-  }
-
-  .see-us-circle {
-    width: 75px;
-    height: 75px;
+  
+  .floating-contact.sticky-quote-btn {
+    bottom: 6rem;
+    right: 1rem;
+    padding: 0.6rem 0.9rem;
     font-size: 0.75rem;
   }
-
-  .floating-contact {
-    padding: 0.8rem 1.3rem;
-    font-size: 0.9rem;
+  
+  .see-us-circle {
+    bottom: 3.5rem;
+    right: 1rem;
+    width: 60px;
+    height: 60px;
+    font-size: 0.7rem;
   }
 }
-
-/* Very narrow phones (344x882) */
-@media (max-width: 344px) {
-  .hero {
-    padding-top: 65px;
-  }
-
-  .hero-content {
-    padding: 0 0.8rem;
-    max-width

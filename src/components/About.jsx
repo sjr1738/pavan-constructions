@@ -151,6 +151,31 @@ const About = () => {
     { icon: "🔄", title: "Complete Service", desc: "End-to-end solutions", color: "#F7DC6F" }
   ];
 
+  // Add useEffect for client logos animation with left-to-right movement
+  useEffect(() => {
+    // Ensure the client logos section is visible and animating
+    if (clientLogosRef.current) {
+      // Force a reflow to ensure the animation starts correctly
+      clientLogosRef.current.classList.add('animate');
+      
+      // Get the scroll container
+      const scrollContainer = clientLogosRef.current.querySelector('.client-logos-scroll-container');
+      if (scrollContainer) {
+        // Ensure the scroll container is visible
+        scrollContainer.style.overflow = 'hidden';
+        
+        // Get the scroll element
+        const scrollElement = scrollContainer.querySelector('.client-logos-scroll');
+        if (scrollElement) {
+          // Reset the animation to ensure it starts from the beginning
+          scrollElement.style.animation = 'none';
+          scrollElement.offsetHeight; // Force reflow
+          scrollElement.style.animation = 'scrollLogosRightToLeft 40s linear infinite';
+        }
+      }
+    }
+  }, [isVisible]);
+
   return (
     <section id="about" className="about-section" ref={sectionRef}>
       {/* Dynamic Background with Morphing Shapes */}
@@ -190,7 +215,7 @@ const About = () => {
         ))}
       </div>
 
-      {/* PTC CLIENT LOGOS Section */}
+      {/* PTC CLIENT LOGOS Section - With larger logos, more spacing, and left-to-right movement */}
       <div className="client-logos-section" ref={clientLogosRef}>
         <div className="container">
           <div className="client-logos-header">
@@ -198,40 +223,118 @@ const About = () => {
             <div className="client-logos-subtitle">Trusted by Industry Leaders</div>
           </div>
           
-          <div className="client-logos-grid">
-            {clientLogos.map((client, index) => (
-              <div key={index} className="client-logo-item">
-                <div className="client-logo-container">
-                  <img 
-                    src={client.image} 
-                    alt={client.name}
-                    className="client-logo-image"
-                    onError={(e) => {
-                      const fallbackPaths = client.fallbackPaths;
-                      
-                      let attempted = false;
-                      for (const path of fallbackPaths) {
-                        if (!e.target.src.includes(path.replace('./', '').replace('/public', ''))) {
-                          e.target.src = path;
-                          attempted = true;
-                          break;
+          <div className="client-logos-scroll-container">
+            <div className="client-logos-scroll">
+              {/* First set of logos for seamless loop */}
+              {clientLogos.map((client, index) => (
+                <div key={`first-${index}`} className="client-box">
+                  <div className="client-logo-container" style={{ 
+                    width: '220px',
+                    height: '220px',
+                    margin: '0 30px'
+                  }}>
+                    <img 
+                      src={client.image} 
+                      alt={client.name}
+                      className="client-logo-image"
+                      style={{
+                        maxWidth: '160px',
+                        maxHeight: '160px'
+                      }}
+                      onError={(e) => {
+                        const fallbackPaths = client.fallbackPaths;
+                        
+                        let attempted = false;
+                        for (const path of fallbackPaths) {
+                          if (!e.target.src.includes(path.replace('./', '').replace('/public', ''))) {
+                            e.target.src = path;
+                            attempted = true;
+                            break;
+                          }
                         }
-                      }
-                      
-                      if (!attempted) {
-                        e.target.style.display = 'none';
-                        e.target.parentElement.innerHTML = `
-                          <div class="logo-placeholder">
-                            <div class="placeholder-text">${client.name}</div>
-                          </div>
-                        `;
-                      }
+                        
+                        if (!attempted) {
+                          e.target.style.display = 'none';
+                          e.target.parentElement.innerHTML = `
+                            <div class="logo-placeholder" style="height: 160px; width: 160px;">
+                              <div class="placeholder-text">${client.name}</div>
+                            </div>
+                          `;
+                        }
+                      }}
+                    />
+                  </div>
+                  <div 
+                    className="client-name"
+                    style={{
+                      fontSize: '1.1rem',
+                      fontWeight: '600',
+                      color: '#1e293b',
+                      textAlign: 'center',
+                      marginTop: '15px',
+                      transition: 'all 0.3s ease'
                     }}
-                  />
+                  >
+                    {client.name}
+                  </div>
                 </div>
-                <div className="client-name">{client.name}</div>
-              </div>
-            ))}
+              ))}
+              
+              {/* Duplicate set of logos for seamless infinite scroll */}
+              {clientLogos.map((client, index) => (
+                <div key={`second-${index}`} className="client-box">
+                  <div className="client-logo-container" style={{ 
+                    width: '220px',
+                    height: '220px',
+                    margin: '0 30px'
+                  }}>
+                    <img 
+                      src={client.image} 
+                      alt={client.name}
+                      className="client-logo-image"
+                      style={{
+                        maxWidth: '160px',
+                        maxHeight: '160px'
+                      }}
+                      onError={(e) => {
+                        const fallbackPaths = client.fallbackPaths;
+                        
+                        let attempted = false;
+                        for (const path of fallbackPaths) {
+                          if (!e.target.src.includes(path.replace('./', '').replace('/public', ''))) {
+                            e.target.src = path;
+                            attempted = true;
+                            break;
+                          }
+                        }
+                        
+                        if (!attempted) {
+                          e.target.style.display = 'none';
+                          e.target.parentElement.innerHTML = `
+                            <div class="logo-placeholder" style="height: 160px; width: 160px;">
+                              <div class="placeholder-text">${client.name}</div>
+                            </div>
+                          `;
+                        }
+                      }}
+                    />
+                  </div>
+                  <div 
+                    className="client-name"
+                    style={{
+                      fontSize: '1.1rem',
+                      fontWeight: '600',
+                      color: '#1e293b',
+                      textAlign: 'center',
+                      marginTop: '15px',
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    {client.name}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
