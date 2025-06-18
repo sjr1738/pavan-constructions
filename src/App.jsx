@@ -15,6 +15,8 @@ import Gallery from './components/Gallery';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Popup from './components/Popup';
+import Admin from './components/Admin';
+import AdminDashboard from './components/AdminDashboard';
 
 // Import new page components for navbar navigation
 import ServicesPage from './components/ServicesPage';
@@ -123,6 +125,19 @@ function App() {
             </>
           } />
 
+          {/* Admin Page */}
+          <Route path="/admin" element={<Admin />} />
+
+          {/* Admin Dashboard Page */}
+          <Route path="/admin-dashboard" element={
+            <>
+              <div style={{ paddingTop: '70px' }}>
+                <AdminDashboard />
+              </div>
+              <Footer />
+            </>
+          } />
+
           {/* Catch-all route - shows complete website for any unknown routes */}
           <Route path="*" element={
             <>
@@ -150,3 +165,5 @@ function App() {
 }
 
 export default App;
+
+
