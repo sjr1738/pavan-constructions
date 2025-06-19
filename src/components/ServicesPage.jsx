@@ -343,29 +343,23 @@ const ServicesPage = ({ openPopup }) => {
         </div>
       )}
 
-      {/* Workshop Statistics */}
-      <div className="workshop-stats">
-        <div className="container">
-          <div className="stats-header">
-            <h2>WORKSHOP PERFORMANCE METRICS</h2>
-            <div className="metrics-line"></div>
-          </div>
-          
-          <div className="stats-grid">
-            {workshopStats.map((stat, index) => (
-              <div key={index} className="stat-panel">
-                <div className="panel-frame">
-                  <div className="panel-header">
-                    <div className="panel-icon">{stat.icon}</div>
-                    {/* Removed the panel-id div with METRIC-XX */}
-                  </div>
-                  <div className="panel-value">{stat.value}</div>
-                  <div className="panel-label">{stat.label}</div>
-                  <div className="panel-detail">{stat.detail}</div>
-                </div>
-              </div>
-            ))}
-          </div>
+      {/* Workshop Performance Metrics */}
+      <div className="performance-metrics">
+        <div className="metric-card">
+          <div className="metric-value">98%</div>
+          <div className="metric-label">Project Completion Rate</div>
+        </div>
+        <div className="metric-card">
+          <div className="metric-value">250+</div>
+          <div className="metric-label">Projects Delivered</div>
+        </div>
+        <div className="metric-card">
+          <div className="metric-value">15+</div>
+          <div className="metric-label">Years Experience</div>
+        </div>
+        <div className="metric-card">
+          <div className="metric-value">92%</div>
+          <div className="metric-label">Client Satisfaction</div>
         </div>
       </div>
 
@@ -1085,91 +1079,111 @@ const ServicesPage = ({ openPopup }) => {
           background: #B79C5C;
         }
 
-        /* Workshop Statistics */
-        .workshop-stats {
-          padding: 80px 0;
-          background: #f8f9fa;
-        }
-
-        .stats-header {
-          text-align: center;
-          margin-bottom: 60px;
-        }
-
-        .stats-header h2 {
-          font-size: 2rem;
-          font-weight: 700;
-          color: #2D3748;
-          letter-spacing: 2px;
-          margin-bottom: 20px;
-        }
-
-        .metrics-line {
-          width: 100px;
-          height: 3px;
-          background: #B79C5C;
-          margin: 0 auto;
-        }
-
-        .stats-grid {
+        /* Workshop Performance Metrics */
+        .performance-metrics {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 30px;
+          gap: 20px;
+          margin-top: 40px;
+          margin-bottom: 40px;
         }
 
-        .stat-panel {
-          background: white;
-          border: 2px solid #2D3748;
-          padding: 30px;
+        .metric-card {
+          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+          border: 1px solid #dee2e6;
+          border-radius: 8px;
+          padding: 20px;
           text-align: center;
           transition: all 0.3s ease;
         }
 
-        .stat-panel:hover {
-          border-color: #B79C5C;
+        .metric-card:hover {
           transform: translateY(-5px);
+          box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
-        .panel-frame {
-          position: relative;
-        }
-
-        .panel-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 20px;
-        }
-
-        .panel-icon {
-          font-size: 2rem;
-        }
-
-        .panel-id {
-          font-size: 10px;
-          color: #B79C5C;
+        .metric-value {
+          font-size: 2.5rem;
           font-weight: 700;
-          letter-spacing: 1px;
-        }
-
-        .panel-value {
-          font-size: 3rem;
-          font-weight: 800;
-          color: #B79C5C;
+          color: #2D3748;
           margin-bottom: 10px;
         }
 
-        .panel-label {
-          font-size: 14px;
-          font-weight: 600;
-          color: #2D3748;
-          margin-bottom: 5px;
+        .metric-label {
+          font-size: 0.9rem;
+          color: #6c757d;
+          text-transform: uppercase;
+          letter-spacing: 1px;
         }
 
-        .panel-detail {
-          font-size: 11px;
-          color: #666;
-          letter-spacing: 1px;
+        /* Responsive adjustments for metrics */
+        @media (max-width: 992px) {
+          .performance-metrics {
+            grid-template-columns: repeat(2, 1fr);
+          }
+          
+          .metric-value {
+            font-size: 2.2rem;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .performance-metrics {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+          }
+          
+          .metric-card {
+            padding: 15px;
+          }
+          
+          .metric-value {
+            font-size: 2rem;
+          }
+          
+          .metric-label {
+            font-size: 0.8rem;
+          }
+        }
+
+        @media (max-width: 576px) {
+          .performance-metrics {
+            grid-template-columns: 1fr;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+          }
+          
+          .metric-card {
+            padding: 20px;
+          }
+          
+          .metric-value {
+            font-size: 2.2rem;
+          }
+          
+          .metric-label {
+            font-size: 0.85rem;
+          }
+        }
+
+        @media (max-width: 360px) {
+          .performance-metrics {
+            max-width: 260px;
+          }
+          
+          .metric-card {
+            padding: 15px 10px;
+          }
+          
+          .metric-value {
+            font-size: 1.8rem;
+          }
+          
+          .metric-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+          }
         }
 
         /* Quality Assurance */

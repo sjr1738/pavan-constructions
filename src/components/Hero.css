@@ -69,10 +69,10 @@
   transform-style: flat !important;
 }
 
-/* LEFT SECTION - Vibrant Yellow Background with Content - Moved upward */
+/* LEFT SECTION - Pure White Background with Content */
 .hero-left-section {
   position: relative;
-  background: #ffe23b; /* Vibrant yellow background */
+  background: #ffffff !important; /* Pure white with !important to override any other styles */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -80,9 +80,9 @@
   padding: 1.5rem 2rem 2rem 2rem;
   z-index: 20;
   min-height: 100vh;
-  border-right: 1px solid rgba(255, 235, 59, 0.5);
-  padding-top: 1.5rem; /* Reduced from 3rem to move content up */
-  box-shadow: inset -10px 0 30px rgba(255, 235, 59, 0.2);
+  border-right: 1px solid rgba(229, 231, 235, 0.5);
+  padding-top: 1.5rem;
+  box-shadow: inset -10px 0 30px rgba(229, 231, 235, 0.2);
   /* ABSOLUTE STATIC PROTECTION */
   transform: none !important;
   transition: transform 0s !important;
@@ -96,7 +96,13 @@
   transform-origin: initial !important;
 }
 
-/* Professional subtle pattern overlay with yellow tones */
+/* Remove any colored overlay that might affect the pure white background */
+.hero-left-section::before {
+  background-image: none !important;
+  background: transparent !important;
+}
+
+/* Professional subtle pattern overlay with white/gray tones */
 .hero-left-section::before {
   content: '';
   position: absolute;
@@ -105,8 +111,8 @@
   right: 0;
   bottom: 0;
   background-image: 
-    radial-gradient(circle at 25% 25%, rgba(255, 235, 59, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(255, 235, 59, 0.15) 0%, transparent 50%);
+    radial-gradient(circle at 25% 25%, rgba(229, 231, 235, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(229, 231, 235, 0.2) 0%, transparent 50%);
   pointer-events: none;
   z-index: 1;
 }
@@ -1163,9 +1169,10 @@
   }
   
   .hero-left-section {
+    background: #ffffff !important;
     min-height: auto; /* Natural height */
     border-right: none;
-    border-bottom: 1px solid rgba(253, 224, 71, 0.3);
+    border-bottom: 1px solid rgba(229, 231, 235, 0.3);
     padding: 3rem 2.5rem 2rem 2.5rem;
     padding-top: 2.5rem;
   }
@@ -1256,8 +1263,9 @@
   }
 
   .hero-left-section {
+    background: #ffffff !important;
     border-right: none;
-    border-bottom: 1px solid rgba(253, 224, 71, 0.3);
+    border-bottom: 1px solid rgba(229, 231, 235, 0.3);
     padding: 4rem 2rem 3rem 2rem;
     padding-top: 4.5rem;
   }
@@ -1312,9 +1320,10 @@
   }
   
   .hero-left-section {
+    background: #ffffff !important;
     min-height: auto; /* Remove fixed height */
     border-right: none;
-    border-bottom: 1px solid rgba(253, 224, 71, 0.3);
+    border-bottom: 1px solid rgba(229, 231, 235, 0.3);
     padding: 3rem 1.5rem 2rem 1.5rem;
     padding-top: 2rem; /* Reduced padding for compact layout */
   }
@@ -1407,6 +1416,7 @@
 /* Small Mobile - Further compressed single page layout */
 @media (max-width: 480px) {
   .hero-left-section {
+    background: #ffffff !important;
     padding: 2rem 1rem 1.5rem 1rem;
     padding-top: 1.5rem;
   }
@@ -1486,6 +1496,7 @@
 /* Very Small Mobile - Ultra compact single page layout */
 @media (max-width: 360px) {
   .hero-left-section {
+    background: #ffffff !important;
     padding: 1.5rem 0.8rem 1rem 0.8rem;
     padding-top: 1rem;
   }
@@ -1577,7 +1588,8 @@
   }
 
   .hero-left-section {
-    border-right: 1px solid rgba(253, 224, 71, 0.3);
+    background: #ffffff !important;
+    border-right: 1px solid rgba(229, 231, 235, 0.3);
     border-bottom: none;
     padding: 2rem 1rem 1rem 1rem;
     padding-top: 2rem;
@@ -1642,5 +1654,42 @@
     width: 60px;
     height: 60px;
     font-size: 0.7rem;
+  }
+}
+
+/* Mobile adjustments - shift content to the left */
+@media (max-width: 768px) {
+  .hero-left-section {
+    align-items: flex-start;
+    text-align: left;
+    padding-left: 1rem;
+  }
+  
+  .company-title, .tagline, .description, .hero-company-logo {
+    align-self: flex-start;
+    margin-left: 0;
+  }
+  
+  .company-title h1 {
+    text-align: left;
+  }
+  
+  .tagline p {
+    text-align: left;
+  }
+  
+  .description p {
+    text-align: left;
+  }
+  
+  .hero-cta {
+    align-self: flex-start;
+  }
+}
+
+/* Even smaller screens - maintain left alignment with adjusted spacing */
+@media (max-width: 480px) {
+  .hero-left-section {
+    padding-left: 0.8rem;
   }
 }

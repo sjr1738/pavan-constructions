@@ -666,10 +666,10 @@ Note: This is a temporary file. Please contact us directly for the complete broc
 
   return (
     <section className="hero" ref={heroRef}>
-      {/* LEFT SECTION - Light Yellow Professional Background with Content - Moved upward */}
+      {/* LEFT SECTION - Pure White Professional Background with Content */}
       <div className="hero-left-section" style={{ 
-        background: '#fffbeb',
-        paddingTop: '1.5rem' /* Reduced padding to move content up */
+        background: '#ffffff !important',
+        paddingTop: '1.5rem'
       }}>
         {/* Company Title - COMPLETELY STATIC with no animations */}
         <div className="company-title golden-blue-title static-title" style={{ marginTop: '-15px' }}>
