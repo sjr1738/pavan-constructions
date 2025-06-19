@@ -52,7 +52,7 @@ const ContactPage = () => {
     }));
   };
   
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     // Basic validation
     if (!formData.name || !formData.email || !formData.phone || !formData.package || !formData.message) {
       setFormStatus({
@@ -60,39 +60,49 @@ const ContactPage = () => {
         isError: true,
         isSubmitting: false
       });
+      
       // Clear error message after 3 seconds
       setTimeout(() => {
-        setFormStatus({ message: '', isError: false, isSubmitting: false });
+        setFormStatus({
+          message: '',
+          isError: false,
+          isSubmitting: false
+        });
       }, 3000);
       return;
     }
-    setFormStatus({ message: '', isError: false, isSubmitting: true });
-    try {
-      const res = await fetch('http://localhost:3001/api/data', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-      if (!res.ok) throw new Error('Failed to send data');
+
+    setFormStatus({
+      message: '',
+      isError: false,
+      isSubmitting: true
+    });
+    
+    // Simulate form submission with a timeout
+    setTimeout(() => {
       setFormStatus({
         message: 'Thank you! Your message has been sent successfully.',
         isError: false,
         isSubmitting: false
       });
-      setFormData({ name: '', email: '', phone: '', package: '', message: '' });
-      setTimeout(() => {
-        setFormStatus({ message: '', isError: false, isSubmitting: false });
-      }, 5000);
-    } catch (err) {
-      setFormStatus({
-        message: 'Failed to send message. Please try again later.',
-        isError: true,
-        isSubmitting: false
+      
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        package: '',
+        message: ''
       });
+      
+      // Clear success message after 5 seconds
       setTimeout(() => {
-        setFormStatus({ message: '', isError: false, isSubmitting: false });
+        setFormStatus({
+          message: '',
+          isError: false,
+          isSubmitting: false
+        });
       }, 5000);
-    }
+    }, 1500);
   };
 
   return (
