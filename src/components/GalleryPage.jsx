@@ -14,15 +14,6 @@ import g8 from '/src/assets/g8.jpeg';
 import g10 from '/src/assets/g10.jpeg';
 import g11 from '/src/assets/g11.jpg';
 import g12 from '/src/assets/g12.jpg';
-// Import new commercial images
-import commercial1 from '/src/assets/gettyimages-2196182262-612x612.jpg';
-import commercial2 from '/src/assets/gettyimages-1466540596-612x612.jpg';
-import commercial3 from '/src/assets/gettyimages-1194207037-612x612.jpg';
-import commercial4 from '/src/assets/gettyimages-1175826983-612x612.jpg';
-// Import new residential images
-import residential1 from '/src/assets/AdobeStock_513154782_Preview.jpeg';
-import residential2 from '/src/assets/house-for-sale-thrissur-kalathode.jpg';
-import residential3 from '/src/assets/19958_file_5c7a5ba545f89.jpg';
 
 const GalleryPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -106,48 +97,13 @@ const GalleryPage = () => {
       { src: g5, title: 'Urban Townhouse', type: 'Multi-Family', year: '2023', area: '1,800 sq ft', duration: '5 months' },
       { src: g6, title: 'Luxury Estate', type: 'High-End Residential', year: '2024', area: '6,500 sq ft', duration: '12 months' },
       // Added new residential images
-      { src: residential1, title: 'Contemporary Home', type: 'Single Family', year: '2024', area: '2,800 sq ft', duration: '7 months' },
-      { src: residential2, title: 'Traditional Villa', type: 'Custom Build', year: '2023', area: '3,500 sq ft', duration: '9 months' },
-      { src: residential3, title: 'Modern Bungalow', type: 'Residential', year: '2024', area: '2,200 sq ft', duration: '6 months' },
-      // Commercial projects in residential section
+            // Commercial projects in residential section
       { src: g8, title: 'Office Building', type: 'Corporate', year: '2023', area: '25,000 sq ft', duration: '24 months' },
       { src: g11, title: 'Retail Center', type: 'Commercial', year: '2024', area: '12,000 sq ft', duration: '10 months' },
       { src: g12, title: 'Industrial Facility', type: 'Manufacturing', year: '2023', area: '40,000 sq ft', duration: '15 months' }
     ],
     commercial: [
       // Commercial images
-      { 
-        src: commercial1, 
-        title: 'Modern Office Tower', 
-        type: 'Corporate Headquarters', 
-        year: '2024', 
-        area: '35,000 sq ft', 
-        duration: '24 months' 
-      },
-      { 
-        src: commercial2, 
-        title: 'Shopping Mall Complex', 
-        type: 'Retail Development', 
-        year: '2023', 
-        area: '50,000 sq ft', 
-        duration: '30 months' 
-      },
-      { 
-        src: commercial3, 
-        title: 'Business Park', 
-        type: 'Mixed-Use Commercial', 
-        year: '2024', 
-        area: '45,000 sq ft', 
-        duration: '28 months' 
-      },
-      { 
-        src: commercial4, 
-        title: 'Urban Office Space', 
-        type: 'Corporate Interior', 
-        year: '2023', 
-        area: '18,000 sq ft', 
-        duration: '14 months' 
-      }
     ],
     process: [
       { src: a1, title: 'Foundation Work', type: 'Process Documentation', year: '2024', area: 'Various', duration: 'Ongoing' },
