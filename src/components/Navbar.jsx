@@ -10,7 +10,8 @@ import {
   faEnvelope,
   faBars,
   faTimes,
-  faLock
+  faLock,
+  faProjectDiagram
 } from '@fortawesome/free-solid-svg-icons';
 
 // Make sure the component is defined as a const
@@ -735,7 +736,7 @@ const Navbar = ({ scrolled = false }) => {
                 </Link>
               </div>
               <div className={`nav-item ${location.pathname === '/admin' ? 'active' : ''}`}>
-                <Link to="/admin" onClick={closeMenu}>
+                <Link to="/admin" onClick={closeMenu} className={location.pathname.startsWith('/admin') ? 'active' : ''}>
                   <FontAwesomeIcon icon={faLock} /> Admin
                 </Link>
               </div>

@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-import { FaBuilding, FaChartLine, FaSignOutAlt, FaUser, FaLock, FaSave, FaTimes, FaUpload, FaEdit, FaTrash, FaPlus, FaImage, FaEnvelope, FaPhone, FaSearch } from 'react-icons/fa';
+import { Navigate, Link } from 'react-router-dom';
+import { FaBuilding, FaChartLine, FaSignOutAlt, FaUser, FaLock, FaSave, FaTimes, FaUpload, FaEdit, FaTrash, FaPlus, FaImage, FaEnvelope, FaPhone, FaSearch, FaProjectDiagram } from 'react-icons/fa';
+
+// Inline AdminProjects logic for Projects tab
+const ADMIN_USERNAME = 'admin';
+const ADMIN_PASSWORD = 'pavantechno2024';
 
 const AdminDashboard = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -13,11 +17,12 @@ const AdminDashboard = () => {
   const [projectList, setProjectList] = useState([]);
   const [contactList, setContactList] = useState([]);
   const [credentials, setCredentials] = useState({
-    username: 'admin',
+    username: '',
     currentPassword: '',
     newPassword: '',
     confirmPassword: ''
   });
+const [backendPassword, setBackendPassword] = useState(''); // For password check only (not shown in UI)
   const [profileMessage, setProfileMessage] = useState({ text: '', type: '' });
   const [projectMessage, setProjectMessage] = useState({ text: '', type: '' });
   const [newProject, setNewProject] = useState({
@@ -32,102 +37,52 @@ const AdminDashboard = () => {
   });
   const [activeFilter, setActiveFilter] = useState(null);
   
+  // Separate error states for projects and contacts
+  const [projectFetchError, setProjectFetchError] = useState(null);
+  const [contactFetchError, setContactFetchError] = useState(null);
   useEffect(() => {
     const adminToken = localStorage.getItem('adminToken');
     if (!adminToken) {
       setIsLoggedIn(false);
     }
-    
-    // Simulate loading data
     setLoading(true);
-    setTimeout(() => {
-      // Load sample projects
-      setProjectList([
-        {
-          id: 'P-2023-42',
-          title: 'Lakeside Villa',
-          type: 'residential',
-          description: 'Luxurious modern villa with panoramic views',
-          year: '2023',
-          location: 'Bengaluru',
-          image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-        },
-        {
-          id: 'P-2023-41',
-          title: 'Tech Park Office Space',
-          type: 'commercial',
-          description: 'State-of-the-art corporate headquarters',
-          year: '2023',
-          location: 'Hyderabad',
-          image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-        },
-        {
-          id: 'P-2023-40',
-          title: 'Luxury Apartment Complex',
-          type: 'residential',
-          description: 'Premium apartment complex with modern amenities',
-          year: '2023',
-          location: 'Chennai',
-          image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-        },
-        {
-          id: 'P-2023-39',
-          title: 'Retail Store Renovation',
-          type: 'interior',
-          description: 'Complete interior renovation of retail space',
-          year: '2023',
-          location: 'Mumbai',
-          image: 'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-        }
-      ]);
-      
-      // Load contact inquiries from ContactPage submissions
-      // In a real app, this would be fetched from a database
-      setContactList([
-        {
-          id: 'C-2023-01',
-          name: 'Rahul Sharma',
-          email: 'rahul.sharma@example.com',
-          phone: '+91 98765 43210',
-          package: 'Premium Package',
-          message: 'I am interested in building a new home in Bengaluru. Would like to discuss the project requirements and get a quote.',
-          date: '2023-12-15',
-          status: 'unread'
-        },
-        {
-          id: 'C-2023-02',
-          name: 'Priya Patel',
-          email: 'priya.patel@example.com',
-          phone: '+91 87654 32109',
-          package: 'Luxury Package',
-          message: 'We need to renovate our office space in Hyderabad. Please contact me to schedule a meeting.',
-          date: '2023-12-10',
-          status: 'read'
-        },
-        {
-          id: 'C-2023-03',
-          name: 'Amit Kumar',
-          email: 'amit.kumar@example.com',
-          phone: '+91 76543 21098',
-          package: 'Basic Package',
-          message: 'Looking for a contractor for our new retail space in Mumbai. Need to discuss the project scope and timeline.',
-          date: '2023-12-05',
-          status: 'replied'
-        },
-        {
-          id: 'C-2023-04',
-          name: 'Sneha Reddy',
-          email: 'sneha.reddy@example.com',
-          phone: '+91 65432 10987',
-          package: 'Custom Project',
-          message: 'I would like to inquire about your interior design services for my new apartment in Chennai.',
-          date: '2023-12-01',
-          status: 'read'
-        }
-      ]);
-      
-      setLoading(false);
-    }, 800);
+    setProjectFetchError(null);
+    setContactFetchError(null);
+    // Fetch admin username from backend
+    fetch('http://localhost:3001/api/admin-credentials')
+      .then(res => res.json())
+      .then(result => {
+        setCredentials(prev => ({ ...prev, username: result.username || '' }));
+        fetch('http://localhost:3001/adminCredentials.json')
+          .then(r => r.json())
+          .then(json => setBackendPassword(json.password));
+      });
+    // Fetch gallery projects from backend
+    fetch('http://localhost:3001/api/gallery')
+      .then(res => res.json())
+      .then(data => {
+        setProjectList(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        setProjectFetchError('Failed to fetch gallery data');
+        setLoading(false);
+      });
+    // Fetch contact inquiries from backend
+    fetch('http://localhost:3001/api/data')
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch contact data');
+        return res.json();
+      })
+      .then(result => {
+        setContactList(result.data || []);
+        setLoading(false);
+      })
+      .catch(err => {
+        setContactFetchError('Error loading contact data: ' + err.message);
+        setContactList([]);
+        setLoading(false);
+      });
   }, []);
 
   const handleLogout = () => {
@@ -143,51 +98,65 @@ const AdminDashboard = () => {
     }));
   };
 
-  const handleUsernameUpdate = (e) => {
+  const handleUsernameUpdate = async (e) => {
     e.preventDefault();
-    
     if (!credentials.username || credentials.username.length < 4) {
       setProfileMessage({ text: 'Username must be at least 4 characters', type: 'error' });
       return;
     }
-
-    // In a real app, you would make an API call to update the username
-    setProfileMessage({ text: 'Username updated successfully!', type: 'success' });
-    
-    // Clear message after 3 seconds
+    try {
+      const res = await fetch('http://localhost:3001/api/admin-credentials', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: credentials.username, password: backendPassword })
+      });
+      if (!res.ok) throw new Error('Failed to update username');
+      setProfileMessage({ text: 'Username updated successfully!', type: 'success' });
+    } catch (err) {
+      setProfileMessage({ text: 'Failed to update username: ' + err.message, type: 'error' });
+    }
     setTimeout(() => {
       setProfileMessage({ text: '', type: '' });
     }, 3000);
   };
 
-  const handlePasswordUpdate = (e) => {
+  const handlePasswordUpdate = async (e) => {
     e.preventDefault();
-    
     if (!credentials.currentPassword || !credentials.newPassword || !credentials.confirmPassword) {
       setProfileMessage({ text: 'Please fill in all password fields', type: 'error' });
       return;
     }
-
     if (credentials.newPassword.length < 8) {
       setProfileMessage({ text: 'New password must be at least 8 characters', type: 'error' });
       return;
     }
-
     if (credentials.newPassword !== credentials.confirmPassword) {
       setProfileMessage({ text: 'New passwords do not match', type: 'error' });
       return;
     }
-
-    // In a real app, you would verify the current password and make an API call
-    setProfileMessage({ text: 'Password updated successfully!', type: 'success' });
-    setCredentials(prev => ({
-      ...prev,
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: ''
-    }));
-    
-    // Clear message after 3 seconds
+    // Check current password matches backend (simulate)
+    if (credentials.currentPassword !== backendPassword) {
+      setProfileMessage({ text: 'Current password is incorrect', type: 'error' });
+      return;
+    }
+    try {
+      const res = await fetch('http://localhost:3001/api/admin-credentials', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: credentials.username, password: credentials.newPassword })
+      });
+      if (!res.ok) throw new Error('Failed to update password');
+      setProfileMessage({ text: 'Password updated successfully!', type: 'success' });
+      setBackendPassword(credentials.newPassword); // update locally
+      setCredentials(prev => ({
+        ...prev,
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      }));
+    } catch (err) {
+      setProfileMessage({ text: 'Failed to update password: ' + err.message, type: 'error' });
+    }
     setTimeout(() => {
       setProfileMessage({ text: '', type: '' });
     }, 3000);
@@ -243,55 +212,49 @@ const AdminDashboard = () => {
     setShowProjectModal(true);
   };
 
-  const handleProjectSubmit = (e) => {
+  // Proper async function for handling add/edit
+  const handleProjectSubmit = async (e) => {
     e.preventDefault();
-    
-    if (!newProject.title || !newProject.description || !newProject.location) {
+    if (!newProject.title || !newProject.description) {
       setProjectMessage({ text: 'Please fill in all required fields', type: 'error' });
       return;
     }
-
-    if (modalMode === 'add' && !newProject.image) {
-      setProjectMessage({ text: 'Please upload a project image', type: 'error' });
-      return;
-    }
-
-    if (modalMode === 'add') {
-      // Add new project
-      setProjectList(prev => [
-        {
-          ...newProject,
-          image: newProject.imagePreview // In a real app, you would upload to server and get URL
-        },
-        ...prev
-      ]);
-      setProjectMessage({ text: 'Project added successfully!', type: 'success' });
-    } else {
-      // Update existing project
-      setProjectList(prev => 
-        prev.map(p => 
-          p.id === selectedProject.id 
-            ? {
-                ...newProject,
-                image: newProject.imagePreview || newProject.image
-              } 
-            : p
-        )
-      );
-      setProjectMessage({ text: 'Project updated successfully!', type: 'success' });
-    }
-
-    // Clear message and close modal after 2 seconds
-    setTimeout(() => {
-      setProjectMessage({ text: '', type: '' });
+    try {
+      let res;
+      if (modalMode === 'add') {
+        // Upload new gallery image/project
+        const formData = new FormData();
+        formData.append('title', newProject.title);
+        formData.append('description', newProject.description);
+        if (newProject.image) formData.append('image', newProject.image);
+        res = await fetch('http://localhost:3001/api/gallery', {
+          method: 'POST',
+          body: formData
+        });
+        if (!res.ok) throw new Error('Failed to upload project');
+        setProjectMessage({ text: 'Project added successfully!', type: 'success' });
+      } else {
+        // Edit existing gallery image/project
+        res = await fetch(`http://localhost:3001/api/gallery/${selectedProject.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: newProject.title,
+            description: newProject.description
+          })
+        });
+        if (!res.ok) throw new Error('Failed to update project');
+        setProjectMessage({ text: 'Project updated successfully!', type: 'success' });
+      }
+      // Refresh gallery/project list
+      const galleryRes = await fetch('http://localhost:3001/api/gallery');
+      const galleryData = await galleryRes.json();
+      setProjectList(galleryData);
       setShowProjectModal(false);
-    }, 2000);
-  };
-
-  const handleDeleteProject = (projectId) => {
-    if (window.confirm('Are you sure you want to delete this project?')) {
-      setProjectList(prev => prev.filter(p => p.id !== projectId));
+    } catch (err) {
+      setProjectMessage({ text: err.message, type: 'error' });
     }
+    setTimeout(() => setProjectMessage({ text: '', type: '' }), 2000);
   };
 
   const handleContactStatusChange = (contactId, newStatus) => {
@@ -314,10 +277,39 @@ const AdminDashboard = () => {
     return <Navigate to="/admin" />;
   }
 
-  // Filter contacts based on active filter
-  const filteredContacts = activeFilter 
-    ? contactList.filter(contact => contact.status === activeFilter)
-    : contactList;
+  // Professional table cell styles for contact details
+const tableThStyle = {
+  padding: '12px 16px',
+  borderBottom: '2px solid #eee',
+  background: '#f5f7fa',
+  color: '#222',
+  fontWeight: 600,
+  textAlign: 'left',
+  fontSize: '1em'
+};
+const tableTdStyle = {
+  padding: '10px 14px',
+  fontSize: '0.98em',
+  color: '#333',
+  background: '#fff',
+  verticalAlign: 'top'
+};
+const actionBtnStyle = {
+  marginRight: 8,
+  padding: '4px 10px',
+  border: 'none',
+  borderRadius: '6px',
+  background: '#e9ecef',
+  color: '#23408e',
+  cursor: 'pointer',
+  fontSize: '0.97em',
+  fontWeight: 500
+};
+
+// Filter contacts based on active filter
+const filteredContacts = activeFilter 
+  ? contactList.filter(contact => contact.status === activeFilter)
+  : contactList;
 
   // Sample data for dashboard
   const dashboardData = {
@@ -530,187 +522,209 @@ const AdminDashboard = () => {
               )}
               
               {activeTab === 'projects' && (
-                <div className="projects-content">
-                  <div className="projects-header">
-                    <h2>Project Management</h2>
-                    <button className="btn btn-primary add-btn" onClick={openAddProjectModal}>
-                      <FaPlus /> Add New Project
-                    </button>
-                  </div>
-                  
-                  <div className="projects-grid">
-                    {projectList.map(project => (
-                      <div className="project-card" key={project.id}>
-                        <div className="project-image">
-                          <img src={project.image} alt={project.title} />
-                          <div className="project-actions">
-                            <button 
-                              className="project-action-btn edit-btn" 
-                              onClick={() => openEditProjectModal(project)}
-                              title="Edit Project"
-                            >
-                              <FaEdit />
-                            </button>
-                            <button 
-                              className="project-action-btn delete-btn" 
-                              onClick={() => handleDeleteProject(project.id)}
-                              title="Delete Project"
-                            >
-                              <FaTrash />
-                            </button>
-                          </div>
-                        </div>
-                        <div className="project-details">
-                          <h3>{project.title}</h3>
-                          <div className="project-meta">
-                            <span className="project-type">{project.type.charAt(0).toUpperCase() + project.type.slice(1)}</span>
-                            <span className="project-year">{project.year}</span>
-                          </div>
-                          <p className="project-location">{project.location}</p>
-                          <p className="project-description">{project.description}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+  <div className="projects-content">
+    {projectFetchError && (
+      <div className="error-message" style={{color: 'red', margin: '1rem 0'}}>
+        {projectFetchError}
+      </div>
+    )}
+    <div className="projects-header">
+      <h2>Project Management</h2>
+      <button className="btn btn-primary add-btn" onClick={openAddProjectModal}>
+        <FaPlus /> Add New Project
+      </button>
+    </div>
+    {showProjectModal && (
+      <div className="modal-overlay">
+        <div className="modal-card">
+          <h3>{modalMode === 'add' ? 'Add New Project' : 'Edit Project'}</h3>
+          <form onSubmit={handleProjectSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <input
+              name="title"
+              value={newProject.title}
+              onChange={e => setNewProject({ ...newProject, title: e.target.value })}
+              placeholder="Title"
+              required
+            />
+            <textarea
+              name="description"
+              value={newProject.description}
+              onChange={e => setNewProject({ ...newProject, description: e.target.value })}
+              placeholder="Description"
+              required
+            />
+            <input
+              name="type"
+              value={newProject.type}
+              onChange={e => setNewProject({ ...newProject, type: e.target.value })}
+              placeholder="Type (residential, commercial, etc.)"
+            />
+            <input
+              name="year"
+              value={newProject.year}
+              onChange={e => setNewProject({ ...newProject, year: e.target.value })}
+              placeholder="Year"
+            />
+            <input
+              name="location"
+              value={newProject.location}
+              onChange={e => setNewProject({ ...newProject, location: e.target.value })}
+              placeholder="Location"
+            />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+            {newProject.imagePreview && (
+              <img src={newProject.imagePreview} alt="Preview" style={{ width: 120, margin: '0 auto' }} />
+            )}
+            {projectMessage.text && (
+              <div style={{ color: projectMessage.type === 'error' ? 'red' : 'green', marginBottom: 8 }}>{projectMessage.text}</div>
+            )}
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+              <button type="button" onClick={() => setShowProjectModal(false)} style={{ background: '#eee', color: '#333' }}>Cancel</button>
+              <button type="submit" className="btn btn-primary">{modalMode === 'add' ? 'Add Project' : 'Save Changes'}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    )}
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '18px 0 12px 0' }}>
+      <h3 style={{ margin: 0 }}>Current Gallery Projects</h3>
+      <button className="btn btn-secondary" onClick={() => {
+        setLoading(true);
+        fetch('http://localhost:3001/api/gallery')
+          .then(res => res.json())
+          .then(data => {
+            setProjectList(data);
+            setLoading(false);
+          })
+          .catch(() => setLoading(false));
+      }} style={{ padding: '5px 14px', fontSize: 15 }}>
+        Refresh
+      </button>
+    </div>
+    <div className="projects-grid">
+      {projectList.map(project => (
+        <div className="project-card" key={project.id || project._id}>
+          <div className="project-image">
+            <img src={project.image} alt={project.title} />
+            <div className="project-actions">
+              <button
+                className="project-action-btn edit-btn"
+                onClick={() => openEditProjectModal(project)}
+                title="Edit Project"
+              >
+                <FaEdit />
+              </button>
+              <button
+                className="project-action-btn delete-btn"
+                onClick={() => handleDeleteProject(project.id || project._id)}
+                title="Delete Project"
+              >
+                <FaTrash />
+              </button>
+            </div>
+          </div>
+          <div className="project-details">
+            <h3>{project.title}</h3>
+            <div className="project-meta">
+              <span className="project-type">{project.type && project.type.charAt(0).toUpperCase() + project.type.slice(1)}</span>
+              <span className="project-year">{project.year}</span>
+            </div>
+            <p className="project-location">{project.location}</p>
+            <p className="project-description">{project.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
               
               {activeTab === 'contacts' && (
-                <div className="contacts-content">
-                  <div className="contacts-header">
-                    <div className="header-content">
-                      <h2>Contact Detail</h2>
-                      <p className="section-description">Manage client inquiries and project requests</p>
-                    </div>
-                    <div className="header-actions">
-                      <div className="search-container">
-                        <input 
-                          type="text" 
-                          className="search-input" 
-                          placeholder="Search contacts..." 
-                        />
-                        <button className="search-btn">
-                          <FaSearch />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="contacts-filters-container">
-                    <div className="filters-title">Filter by status:</div>
-                    <div className="contacts-filters">
-                      <button 
-                        className={`filter-btn ${!activeFilter ? 'active' : ''}`} 
-                        onClick={() => setActiveFilter(null)}
-                      >
-                        <span className="filter-icon all"></span>
-                        <span className="filter-label">All</span>
-                        <span className="count-badge">({contactList.length})</span>
-                      </button>
-                      <button 
-                        className={`filter-btn ${activeFilter === 'unread' ? 'active' : ''}`} 
-                        onClick={() => setActiveFilter('unread')}
-                      >
-                        <span className="filter-icon unread"></span>
-                        <span className="filter-label">Unread</span>
-                        <span className="count-badge">({contactList.filter(c => c.status === 'unread').length})</span>
-                      </button>
-                      <button 
-                        className={`filter-btn ${activeFilter === 'read' ? 'active' : ''}`} 
-                        onClick={() => setActiveFilter('read')}
-                      >
-                        <span className="filter-icon read"></span>
-                        <span className="filter-label">Read</span>
-                        <span className="count-badge">({contactList.filter(c => c.status === 'read').length})</span>
-                      </button>
-                      <button 
-                        className={`filter-btn ${activeFilter === 'replied' ? 'active' : ''}`} 
-                        onClick={() => setActiveFilter('replied')}
-                      >
-                        <span className="filter-icon replied"></span>
-                        <span className="filter-label">Replied</span>
-                        <span className="count-badge">({contactList.filter(c => c.status === 'replied').length})</span>
-                      </button>
-                    </div>
-                  </div>
-                  
-                  {filteredContacts.length === 0 ? (
-                    <div className="empty-state">
-                      <div className="empty-icon"><FaEnvelope /></div>
-                      <h3>No inquiries found</h3>
-                      <p>There are no contact inquiries matching your current filter.</p>
-                    </div>
-                  ) : (
-                    <div className="contact-list">
-                      {filteredContacts.map(contact => (
-                        <div className={`contact-item ${contact.status}`} key={contact.id}>
-                          <div className="contact-header">
-                            <div className="contact-name">
-                              <h3>{contact.name}</h3>
-                              <span className={`status-badge ${contact.status}`}>
-                                {contact.status.charAt(0).toUpperCase() + contact.status.slice(1)}
-                              </span>
-                            </div>
-                            <div className="contact-date">{contact.date}</div>
-                          </div>
-                          
-                          <div className="contact-body">
-                            <div className="contact-details">
-                              <div className="detail-row">
-                                <span className="detail-label">Email:</span>
-                                <span className="detail-value">{contact.email}</span>
-                              </div>
-                              <div className="detail-row">
-                                <span className="detail-label">Phone:</span>
-                                <span className="detail-value">{contact.phone}</span>
-                              </div>
-                              <div className="detail-row">
-                                <span className="detail-label">Package:</span>
-                                <span className="detail-value">{contact.package}</span>
-                              </div>
-                            </div>
-                            
-                            <div className="contact-message-container">
-                              <h4>Client Message</h4>
-                              <div className="message-content">
-                                {contact.message}
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div className="contact-actions">
-                            {contact.status === 'unread' && (
-                              <button 
-                                className="action-btn read-btn" 
-                                onClick={() => handleContactStatusChange(contact.id, 'read')}
-                                title="Mark as Read"
-                              >
-                                Mark as Read
-                              </button>
-                            )}
-                            {contact.status !== 'replied' && (
-                              <button 
-                                className="action-btn reply-btn" 
-                                onClick={() => handleContactStatusChange(contact.id, 'replied')}
-                                title="Mark as Replied"
-                              >
-                                Mark as Replied
-                              </button>
-                            )}
-                            <button 
-                              className="action-btn delete-btn" 
-                              onClick={() => handleDeleteContact(contact.id)}
-                              title="Delete Inquiry"
-                            >
-                              Delete
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
+  <div className="contacts-content">
+    {contactFetchError ? (
+      <div className="error-message" style={{color: 'red', margin: '1rem 0'}}>
+        {contactFetchError}
+      </div>
+    ) : (
+      <React.Fragment>
+        <div className="contacts-header">
+          <div className="header-content">
+            <h2>Contact Details</h2>
+            <p className="section-description">View and manage all user-submitted contact inquiries.</p>
+          </div>
+          <div className="header-actions">
+            {/* You can add search/filter functionality here if desired */}
+          </div>
+        </div>
+        <div className="contacts-table-container" style={{overflowX: 'auto', marginTop: '2rem'}}>
+          {loading ? (
+            <div style={{textAlign: 'center', padding: '2rem'}}>
+              <div className="spinner"></div>
+              <p>Loading contact data...</p>
+            </div>
+          ) : filteredContacts.length === 0 ? (
+            <div className="empty-state" style={{textAlign: 'center', margin: '2rem 0'}}>
+              <div className="empty-icon" style={{fontSize: '2rem', color: '#888'}}><FaEnvelope /></div>
+              <h3>No inquiries found</h3>
+              <p>There are no contact inquiries matching your current filter.</p>
+            </div>
+          ) : (
+            <table className="contacts-table" style={{width: '100%', borderCollapse: 'collapse', background: '#fff', borderRadius: '10px', overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.07)'}}>
+              <thead style={{background: '#f5f7fa'}}>
+                <tr>
+                  <th style={tableThStyle}>#</th>
+                  <th style={tableThStyle}>Name</th>
+                  <th style={tableThStyle}>Email</th>
+                  <th style={tableThStyle}>Phone</th>
+                  <th style={tableThStyle}>Package</th>
+                  <th style={tableThStyle}>Message</th>
+                  <th style={tableThStyle}>Date</th>
+                  <th style={tableThStyle}>Status</th>
+                  <th style={tableThStyle}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredContacts.map((contact, idx) => (
+                  <tr key={contact.id || idx} style={{borderBottom: '1px solid #eee'}}>
+                    <td style={tableTdStyle}>{idx + 1}</td>
+                    <td style={tableTdStyle}>{contact.name}</td>
+                    <td style={tableTdStyle}>{contact.email}</td>
+                    <td style={tableTdStyle}>{contact.phone}</td>
+                    <td style={tableTdStyle}>{contact.package}</td>
+                    <td style={{...tableTdStyle, maxWidth: 250, whiteSpace: 'pre-line', wordBreak: 'break-word'}}>{contact.message}</td>
+                    <td style={tableTdStyle}>{contact.date || '-'}</td>
+                    <td style={tableTdStyle}>
+                      <span className={`status-badge ${contact.status}`} style={{
+                        padding: '4px 10px',
+                        borderRadius: '12px',
+                        background: contact.status === 'unread' ? '#ffe3e3' : contact.status === 'replied' ? '#e3ffe8' : '#e3eaff',
+                        color: contact.status === 'unread' ? '#d7263d' : contact.status === 'replied' ? '#218838' : '#23408e',
+                        fontWeight: 500,
+                        fontSize: '0.95em'
+                      }}>{contact.status ? contact.status.charAt(0).toUpperCase() + contact.status.slice(1) : '-'}</span>
+                    </td>
+                    <td style={tableTdStyle}>
+                      {contact.status === 'unread' && (
+                        <button className="action-btn read-btn" style={actionBtnStyle} onClick={() => handleContactStatusChange(contact.id, 'read')} title="Mark as Read">Mark as Read</button>
+                      )}
+                      {contact.status !== 'replied' && (
+                        <button className="action-btn reply-btn" style={actionBtnStyle} onClick={() => handleContactStatusChange(contact.id, 'replied')} title="Mark as Replied">Mark as Replied</button>
+                      )}
+                      <button className="action-btn delete-btn" style={actionBtnStyle} onClick={() => handleDeleteContact(contact.id)} title="Delete Inquiry">Delete</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </React.Fragment>
+    )}
+  </div>
+)}
             </>
           )}
         </div>
@@ -748,6 +762,7 @@ const AdminDashboard = () => {
                       onChange={handleCredentialChange}
                       placeholder="Enter username"
                       required
+                      autoComplete="off"
                     />
                   </div>
                   <button type="submit" className="btn btn-primary">
@@ -1096,34 +1111,29 @@ const AdminDashboard = () => {
           color: white;
           font-size: 8px;
           font-weight: bold;
-        }
-        
-        .filter-label {
-          font-weight: 600;
-          letter-spacing: 0.3px;
-        }
-        
-        .count-badge {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          background: rgba(0,0,0,0.1);
-          padding: 0.2rem 0.6rem;
-          border-radius: 20px;
-          font-size: 0.8rem;
-          font-weight: 700;
-          min-width: 28px;
-          height: 22px;
-          margin-left: auto;
-          border: 1px solid rgba(0,0,0,0.1);
-        }
-        
-        .filter-btn.active .count-badge {
-          background: rgba(255,255,255,0.25);
-          color: white;
-          border-color: rgba(255,255,255,0.3);
-        }
 
+      {activeTab === 'projects' && (
+        <div>
+          <h2>Projects</h2>
+          <form onSubmit={handleProjectSubmit}>
+            <input type="text" value={projectName} onChange={(event) => setProjectName(event.target.value)} placeholder="Project Name" />
+            <textarea value={projectDescription} onChange={(event) => setProjectDescription(event.target.value)} placeholder="Project Description" />
+            <input type="file" onChange={handleImageChange} />
+            <button type="submit" disabled={loading}>Create Project</button>
+          </form>
+          <ul>
+            {projects.map((project) => (
+              <li key={project._id}>
+                <h3>{project.name}</h3>
+                <p>{project.description}</p>
+                <img src={project.image} alt={project.name} />
+                <button onClick={() => handleProjectDelete(project._id)}>Delete</button>
+                <button onClick={() => handleProjectEdit(project._id, projectName, projectDescription)}>Edit</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
         /* Pulse animation for unread count */
         .filter-btn[class*="unread"].active .count-badge {
           animation: pulse 2s infinite;

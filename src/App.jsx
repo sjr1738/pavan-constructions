@@ -23,8 +23,10 @@ import ServicesPage from './components/ServicesPage';
 import PricingPage from './components/PricingPage';
 import GalleryPage from './components/GalleryPage';
 import ContactPage from './components/ContactPage'; // NEW: Import the ContactPage component
+import AdminProjects from './components/AdminProjects';
 
 import './App.css';
+import DataList from './components/DataList.jsx';
 
 function App() {
   const [showPopup, setShowPopup] = useState(false);
@@ -118,6 +120,9 @@ function App() {
           } />
           
           {/* Contact Page - UPDATED: Now uses ContactPage component */}
+
+          {/* Data List Page - Shows all saved data */}
+          <Route path="/data-list" element={<DataList />} />
           <Route path="/contact" element={
             <>
               <ContactPage />
@@ -127,6 +132,9 @@ function App() {
 
           {/* Admin Page */}
           <Route path="/admin" element={<Admin />} />
+
+          {/* Admin Project Management (full CRUD, image/data) */}
+          <Route path="/admin/projects" element={<AdminProjects />} />
 
           {/* Admin Dashboard Page */}
           <Route path="/admin-dashboard" element={

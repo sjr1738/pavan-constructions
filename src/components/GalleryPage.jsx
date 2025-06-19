@@ -72,45 +72,37 @@ const GalleryPage = () => {
     };
   }, [isDragging]);
 
-  // Project data with detailed information
-  const projectSections = {
-    featured: [
-      { 
-        src: after2, 
-        title: 'Residential Transformation', 
-        type: 'Renovation',
-        year: '2024',
-        area: '2,500 sq ft',
-        duration: '6 months'
-      },
-      { 
-        src: g10, 
-        title: 'Commercial Complex', 
-        type: 'New Construction',
-        year: '2024',
-        area: '15,000 sq ft',
-        duration: '18 months'
-      }
-    ],
-    residential: [
-      { src: g4, title: 'Modern Villa', type: 'Custom Home', year: '2024', area: '3,200 sq ft', duration: '8 months' },
-      { src: g5, title: 'Urban Townhouse', type: 'Multi-Family', year: '2023', area: '1,800 sq ft', duration: '5 months' },
-      { src: g6, title: 'Luxury Estate', type: 'High-End Residential', year: '2024', area: '6,500 sq ft', duration: '12 months' },
-      // Added commercial projects to residential section
-      { src: g8, title: 'Office Building', type: 'Corporate', year: '2023', area: '25,000 sq ft', duration: '24 months' },
-      { src: g11, title: 'Retail Center', type: 'Commercial', year: '2024', area: '12,000 sq ft', duration: '10 months' },
-      { src: g12, title: 'Industrial Facility', type: 'Manufacturing', year: '2023', area: '40,000 sq ft', duration: '15 months' }
-    ],
-    commercial: [
-      // Removed all items from commercial section
-    ],
-    process: [
-      { src: a1, title: 'Foundation Work', type: 'Process Documentation', year: '2024', area: 'Various', duration: 'Ongoing' },
-      { src: a2, title: 'Structural Development', type: 'Process Documentation', year: '2024', area: 'Various', duration: 'Ongoing' },
-      { src: a3, title: 'Interior Finishing', type: 'Process Documentation', year: '2024', area: 'Various', duration: 'Ongoing' },
-      { src: a4, title: 'Final Installation', type: 'Process Documentation', year: '2024', area: 'Various', duration: 'Ongoing' }
-    ]
-  };
+  // Dynamic gallery projects from backend
+  const [galleryProjects, setGalleryProjects] = useState([]);
+  const [galleryLoading, setGalleryLoading] = useState(true);
+  const [galleryError, setGalleryError] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/api/gallery')
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch gallery projects');
+        return res.json();
+      })
+      .then(data => {
+        setGalleryProjects(data);
+        setGalleryLoading(false);
+      })
+      .catch(err => {
+        setGalleryError(err.message);
+        setGalleryLoading(false);
+      });
+  }, []);
+
+  // Process section remains static (not in backend)
+  const processSection = [
+    { src: a1, title: 'Foundation Work', type: 'Process Documentation', year: '2024', area: 'Various', duration: 'Ongoing' },
+    { src: a2, title: 'Structural Development', type: 'Process Documentation', year: '2024', area: 'Various', duration: 'Ongoing' },
+    { src: a3, title: 'Interior Finishing', type: 'Process Documentation', year: '2024', area: 'Various', duration: 'Ongoing' },
+    { src: a4, title: 'Final Installation', type: 'Process Documentation', year: '2024', area: 'Various', duration: 'Ongoing' }
+  ];
+
+
+
 
   const openModal = (imageSrc) => {
     setModalImageSrc(imageSrc);
@@ -247,41 +239,35 @@ const GalleryPage = () => {
       <div className="gallery-section">
         <div className="container">
           
-          {/* Blueprint View */}
+          {/* Blueprint & Timeline Views (wrapped to fix adjacent JSX error) */}
+          <>
           {viewMode === 'blueprint' && (
             <div className="blueprint-layout">
-              {Object.entries(projectSections).map(([sectionKey, projects]) => (
-                <div key={sectionKey} className="project-section">
-                  <div 
-                    className="section-header"
-                    onClick={() => toggleSection(sectionKey)}
-                  >
-                    <div className="section-title">
-                      <span className="section-symbol">■</span>
-                      {sectionKey.toUpperCase().replace('_', ' ')}
-                      <span className="project-count">({projects.length})</span>
-                    </div>
-                    <div className="section-toggle">
-                      <span className={`toggle-symbol ${expandedSection === sectionKey ? 'expanded' : ''}`}>+</span>
-                    </div>
+              <div className="project-section">
+                <div className="section-header">
+                  <div className="section-title">
+                    <span className="section-symbol">■</span>
+                    PROJECTS
+                    <span className="project-count">({galleryProjects.length})</span>
                   </div>
-                  
-                  <div className={`section-content ${expandedSection === sectionKey ? 'expanded' : ''}`}>
+                </div>
+                <div className="section-content expanded">
+                  {galleryLoading ? (
+                    <div style={{ padding: 24 }}>Loading projects...</div>
+                  ) : (
                     <div className="blueprint-grid">
-                      {projects.map((project, index) => (
-                        <div 
-                          key={index}
+                      {galleryProjects.map((project, index) => (
+                        <div
+                          key={project._id || index}
                           className="blueprint-card"
-                          onClick={() => openModal(project.src)}
+                          onClick={() => openModal(project.image)}
                         >
                           <div className="card-frame">
                             <div className="frame-corner tl"></div>
                             <div className="frame-corner tr"></div>
                             <div className="frame-corner bl"></div>
                             <div className="frame-corner br"></div>
-                            
-                            <img src={project.src} alt={project.title} />
-                            
+                            <img src={project.image} alt={project.title} />
                             <div className="card-overlay">
                               <div className="project-details">
                                 <div className="detail-line">
@@ -297,8 +283,12 @@ const GalleryPage = () => {
                                   <span className="detail-value">{project.year}</span>
                                 </div>
                                 <div className="detail-line">
-                                  <span className="detail-label">AREA:</span>
-                                  <span className="detail-value">{project.area}</span>
+                                  <span className="detail-label">LOCATION:</span>
+                                  <span className="detail-value">{project.location}</span>
+                                </div>
+                                <div className="detail-line">
+                                  <span className="detail-label">DESCRIPTION:</span>
+                                  <span className="detail-value">{project.description}</span>
                                 </div>
                               </div>
                             </div>
@@ -306,46 +296,93 @@ const GalleryPage = () => {
                         </div>
                       ))}
                     </div>
+                  )}
+                </div>
+              </div>
+              {/* Process Section (static) */}
+              <div className="project-section">
+                <div className="section-header">
+                  <div className="section-title">
+                    <span className="section-symbol">■</span>
+                    PROCESS
+                    <span className="project-count">({processSection.length})</span>
                   </div>
                 </div>
-              ))}
+                <div className="section-content expanded">
+                  <div className="blueprint-grid">
+                    {processSection.map((project, index) => (
+                      <div
+                        key={index}
+                        className="blueprint-card"
+                        onClick={() => openModal(project.src)}
+                      >
+                        <div className="card-frame">
+                          <div className="frame-corner tl"></div>
+                          <div className="frame-corner tr"></div>
+                          <div className="frame-corner bl"></div>
+                          <div className="frame-corner br"></div>
+                          <img src={project.src} alt={project.title} />
+                          <div className="card-overlay">
+                            <div className="project-details">
+                              <div className="detail-line">
+                                <span className="detail-label">TITLE:</span>
+                                <span className="detail-value">{project.title}</span>
+                              </div>
+                              <div className="detail-line">
+                                <span className="detail-label">TYPE:</span>
+                                <span className="detail-value">{project.type}</span>
+                              </div>
+                              <div className="detail-line">
+                                <span className="detail-label">YEAR:</span>
+                                <span className="detail-value">{project.year}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
           {/* Timeline View */}
           {viewMode === 'timeline' && (
             <div className="timeline-layout">
-              <div className="timeline-axis">
-                <div className="axis-line"></div>
-                {Object.values(projectSections).flat().map((project, index) => (
-                  <div 
-                    key={index}
-                    className={`timeline-item ${index % 2 === 0 ? 'left' : 'right'}`}
-                    onClick={() => openModal(project.src)}
-                  >
-                    <div className="timeline-marker">
-                      <div className="marker-dot"></div>
-                      <div className="marker-line"></div>
-                    </div>
-                    <div className="timeline-card">
-                      <div className="card-header">
-                        <span className="card-year">{project.year}</span>
-                        <span className="card-type">{project.type}</span>
+                <div className="timeline-axis">
+                  <div className="axis-line"></div>
+                  {galleryProjects.map((project, index) => (
+                    <div 
+                      key={project._id || index}
+                      className={`timeline-item ${index % 2 === 0 ? 'left' : 'right'}`}
+                      onClick={() => openModal(project.image)}
+                    >
+                      <div className="timeline-marker">
+                        <div className="marker-dot"></div>
+                        <div className="marker-line"></div>
                       </div>
-                      <img src={project.src} alt={project.title} />
-                      <div className="card-info">
-                        <h3>{project.title}</h3>
-                        <div className="card-specs">
-                          <span>{project.area}</span>
-                          <span>{project.duration}</span>
+                      <div className="timeline-card">
+                        <div className="card-header">
+                          <span className="card-year">{project.year}</span>
+                          <span className="card-type">{project.type}</span>
+                        </div>
+                        <img src={project.image} alt={project.title} />
+                        <div className="card-info">
+                          <h3>{project.title}</h3>
+                          <div className="card-specs">
+                            <span>{project.location}</span>
+                            <span>{project.description}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
           )}
+          </>
+
 
         </div>
       </div>
